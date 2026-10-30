@@ -52,7 +52,7 @@ Electronics,Pi 5 22-pin to 15-pin CSI cable,2,Bought 200 mm + 300 mm; needs a 15
 Electronics,15-pin 1 mm FFC coupler / extension board,2,NOT ORDERED; joins Arducam tail to the Pi 5 cable,
 Electronics,Micro-USB to USB-A cable (right-angle) for display power,2,From the Pi 5 USB-A ports; needs usb_max_current_enable=1,
 Electronics,Capsule slip ring 22 mm body (<=30 mm) 44 mm flange 3 holes PCD 35,1,Assumed size; neck base floor,
-Electronics,40-pin GPIO extension ribbon female-to-male 20 cm,1,Male IDC plug seats in the crown insert (assumed 56 x 8.9 x 7.6 body),
+Electronics,UCTRONICS U6033 40-pin GPIO ribbon female-to-male 20 cm (B07D991KMR),1,Bought; shrouded male IDC plug 61.1 x 8.4 x 13.0 clicks into the crown insert from below,
 Electronics,Speaker 28 mm 8 ohm 1-2 W <=5 mm deep,2,Assumed size,
 Electronics,MAX98357A I2S amp breakout,1,Mono; both speakers in parallel; centred on the shelf between the speakers,
 Flashlight (optional),2x20 female header 2.54 mm 8.5 mm body,1,Upside down in the saddle onto the crown pins,

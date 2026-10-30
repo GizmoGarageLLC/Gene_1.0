@@ -16,7 +16,7 @@
 | 10 | eye display retainer | **2** | `10_eye_display_retainer_x2.stl` | 4 |  |
 | 11 | camera bezel | **2** | `11_camera_bezel_x2.stl` | 4 | BLACK. **Updated 2026-10-04 (v3):** sized for the Arducam mini camera: pocket 12.4 mm long (was 8.6) for the crystal behind the lens, 6.8 mm cable lane level with the camera board (was a 3.6 mm tunnel), spoke 11.5 wide. Plate 4 was printed before this - reprint the two bezels from `11_camera_bezel_x2.stl` |
 | 12 | pupil ring | **2** | `12_pupil_ring_x2.stl` | 4 | BLACK |
-| 13 | crown insert | **1** | `13_crown_insert_x1.stl` | 5 | support the lower step |
+| 13 | crown insert | **1** | `13_crown_insert_x1.stl` | 5 | support the lower step and the two hook fingers under it |
 | 14 | neck | **1** | `14_neck_x1.stl` | 6 | yoke down, no supports |
 | 15 | neck base | **1** | `15_neck_base_x1.stl` | 6 | no supports |
 | 16 | neck collar | **1** | `16_neck_collar_x1.stl` | 6 | no supports |

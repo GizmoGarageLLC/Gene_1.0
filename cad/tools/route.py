@@ -28,9 +28,10 @@ def mark_box(grid, x0, x1, y0, y1, z0, z1):
 
 
 NEW = {}   # TTL interface, I2S amp and GPIO splitter are now mock STLs in parts.py
-# GPIO ribbon, already routed and checked (start lowered 13.35 with the shelf, 2026-10-16)
+# GPIO ribbon, already routed and checked (start lowered 13.35 with the shelf, 2026-10-16). Last leg (2026-10-30): on edge up the
+# +X side of the crown's shrouded plug, then into its side ~3 mm above its bottom (crown_idc_snap.py)
 RIB = [(-15.4, 35.4, -60.9, -49.0, -15.05, -13.75), (-25.5, 25.5, -60.9, -59.6, -15.05, 58.0),        # leaves the IDC on top of the splitter
-       (-25.5, 25.5, -60.9, -46.5, 58.0, 59.3), (0.6, 1.9, -74.5, -18.5, 59.3, 70.9)]
+       (-25.5, 25.5, -60.9, -46.5, 58.0, 59.3), (5.75, 7.05, -72.9, -22.1, 59.3, 75.2)]
 for b in RIB: mark_box(OCC, *b)
 
 # ---- the cables: name, from, to, diameter (mm), kind ----

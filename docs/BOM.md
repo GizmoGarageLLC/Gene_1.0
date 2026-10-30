@@ -21,10 +21,10 @@ not a part.
 | Pi 5 shelf v6 (4 mm standoffs, speaker cradles, 4 cubes on the wings; sits flush with the skull's bottom rim, speaker cradles poking out below) | 1 | `03_pi_shelf_x1.stl` | 48.8 cm3 | 3 |
 | Battery tray | 1 | `04_battery_tray_x1.stl` | 23.4 cm3 | 3 |
 | Electronics deck | 1 | `05_battery_deck_x1.stl` | 17.1 cm3 | 3 |
-| Crown insert (fills the top slot, GPIO riser well) | 1 | `13_crown_insert_x1.stl` | 21.5 cm3 | 5 |
+| Crown insert (fills the top slot; the GPIO ribbon's plug clicks into it from below) | 1 | `13_crown_insert_x1.stl` | 18.7 cm3 | 5 |
 | Bridge handle - **optional** | 1 | `17_bridge_handle_OPTIONAL_x1.stl` | 57.7 cm3 | 5 |
-| GPIO flashlight - **optional**, instead of the handle (saddle + strap + forehead lamp pod) | 1 | `18_gpio_flashlight_OPTIONAL_x1.stl` | 28.8 cm3 | 7 |
-| GPIO cover - **optional**, closes the crown's GPIO well when nothing is plugged in | 1 | `19_gpio_cover_OPTIONAL_x1.stl` | 2.0 cm3 | 7 |
+| GPIO flashlight - **optional**, instead of the handle (saddle + strap + forehead lamp pod) | 1 | `18_gpio_flashlight_OPTIONAL_x1.stl` | 29.1 cm3 | 7 |
+| GPIO cover - **optional**, closes the crown's GPIO well when nothing is plugged in | 1 | `19_gpio_cover_OPTIONAL_x1.stl` | 2.6 cm3 | 7 |
 | Eye X insert - **optional**, Halloween cap with a raised X for an eye barrel (either eye) | 1 | `20_eye_x_insert_OPTIONAL_x1.stl` | 25.2 cm3 | - |
 | Neck (yoke + tube, turns with the head) | 1 | `14_neck_x1.stl` | 99.5 cm3 | 6 |
 | Neck base (bearing housing, bolts to the body) | 1 | `15_neck_base_x1.stl` | 96.7 cm3 | 6 |
@@ -124,7 +124,7 @@ before final assembly.
 | Arducam B0066 mini camera, OV5647 5 MP (Amazon B012QRGUCQ) | 2 | Bought. 8.5 mm square head, ~12 mm long with the crystal behind it; 300 mm, 6 mm wide flex ending in a rigid 16 x 30 mm 15-pin (1 mm pitch) tail |
 | Pi 5 CSI cable, 22-pin to 15-pin | 2 | Bought: Wonrabai 200 mm and Waveshare 300 mm. The Arducam's own 300 mm flex passes through the 26.5 x 7.5 mm slot in each barrel. **Both the Arducam end and these cables' 15-pin end are bare flex tails, so joining them needs a 15-pin 1 mm FFC coupler (extension board) per camera - not on the order** |
 | Capsule slip ring, 22 mm body, max 30 mm tall, 44 mm flange with 3 holes on 35 mm PCD (e.g. 12-circuit, 2 A) | 1 | **(assumed)** Bolts to the neck base floor; rotating wires run up the 26 mm tube bore into the head, fixed wires leave through the base |
-| 40-pin GPIO extension ribbon, female-to-male, 20 cm | 1 | Female end on the Pi header, male IDC plug seats in the crown insert. **(assumed)** plug body 56 x 8.9 x 7.6 mm with 6 mm pins |
+| 40-pin GPIO extension ribbon, female-to-male, 20 cm: UCTRONICS U6033 (Amazon B07D991KMR) | 1 | Bought. Female end on the Pi header. The male end is a standard shrouded 2.54 mm male IDC plug, 61.1 x 8.4 x 13.0 mm (Wurth WR-BHD 612 040 258 21 outline; shroud cavity 56.1 x 6.3), the ribbon leaving one long side near the bottom. It clicks into the crown insert from below, no glue |
 | Speaker, 28 mm round, 8 ohm, 1-2 W, 5 mm deep max | 2 | **(assumed)** |
 | I2S amplifier, MAX98357A breakout | 1 | Mono: drives both speakers wired in parallel (4 ohm load). The Pi 5 has no analog audio. Flat on the shelf, centred between the speakers, foam tape. Leave SD open on an Adafruit board; on a clone with no SD pull-up add 1 Mohm SD to Vin |
 

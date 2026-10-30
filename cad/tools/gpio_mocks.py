@@ -35,10 +35,11 @@ bx(-9.0, 9.0, -87.0, -69.0, -36.9 - SHELF_DROP, -33.9 - SHELF_DROP).export(os.pa
 pi.export(os.path.join(OUT, "mocks/pi5.stl"))
 print(f"Pi mock: GPIO header X {hx0:.1f}..{hx1:.1f} at Y {-57 + 3.5:.1f}; ribbon IDC top Z {PZ + 1.6 + 2.5 + 9.2:.1f}")
 
-# Male IDC plug of the ribbon, seated in the crown insert
+# Shrouded male IDC plug of the ribbon (crown_idc_snap.py), clicked into the crown insert: BODY_TOP is the cavity floor
 m = json.load(open("crown_meta.json"))
-L_, W_, H_, P_ = m["IDC"]; CX, GYC = m["CX"], m["GYC"]
-plug = bx(CX - W_ / 2, CX + W_ / 2, GYC - L_ / 2, GYC + L_ / 2, m["BODY_BOT"], m["BODY_TOP"])
-pins = bx(CX - 2.54, CX + 2.54, GYC - 25.4, GYC + 25.4, m["BODY_TOP"], m["BODY_TOP"] + P_)   # pin field as a block
+L_, W_, H_, P_ = m["IDC"]; CL, CW, CD = m["CAVITY"]; CX, GYC = m["CX"], m["GYC"]
+plug = bx(CX - W_ / 2, CX + W_ / 2, GYC - L_ / 2, GYC + L_ / 2, m["BODY_BOT"], m["PLUG_TOP"])
+plug = trimesh.boolean.difference([plug, bx(CX - CW / 2, CX + CW / 2, GYC - CL / 2, GYC + CL / 2, m["BODY_TOP"], m["PLUG_TOP"] + 1)], engine='manifold')
+pins = bx(CX - 1.59, CX + 1.59, GYC - 24.45, GYC + 24.45, m["BODY_TOP"] - 0.1, m["BODY_TOP"] + P_)   # pin field as a block
 U([plug, pins]).export(os.path.join(OUT, "mocks/gpio_plug.stl"))
-print(f"GPIO plug mock: body Z {m['BODY_BOT']:.1f}..{m['BODY_TOP']:.1f}, pins to {m['BODY_TOP'] + P_:.1f}")
+print(f"GPIO plug mock: Z {m['BODY_BOT']:.1f}..{m['PLUG_TOP']:.1f}, cavity floor {m['BODY_TOP']:.1f}, pins to {m['BODY_TOP'] + P_:.1f}")

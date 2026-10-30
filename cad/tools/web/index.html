@@ -473,7 +473,7 @@
         <div>
           <h3>Crown feature bay, with the Pi's GPIO brought to the top</h3>
           <p><span class="mono">crown_insert.stl</span> fills the top slot flush with the dome. Its top follows the measured rim heights on both sides of the slot, not a fitted sphere. It drops in from above onto a 4&nbsp;mm ledge the skull now has round the underside of the slot (added in v5, kept in <span class="mono">skull.stl</span>), and 4 &times; M3&times;12 countersunk screws go down into bosses under that ledge. Nothing needs reaching from inside.</p>
-          <p>In the flattest middle of the crown, the male plug of a 40-pin GPIO extension ribbon seats in a pocket from below. Its 2&times;20 pins sit in a recessed well 1&nbsp;mm below the surface, so add-ons plug in from the top. The ribbon runs from the Pi's header up in front of the battery tray and twists under the crown into the plug, with at least 1.1&nbsp;mm clear all the way. A 20&nbsp;cm cable leaves slack. The Pi now sits with its GPIO header along the front edge, facing the eyes, and USB/Ethernet at the &minus;X end.</p>
+          <p>In the flattest middle of the crown, the male plug of a 40-pin GPIO extension ribbon clicks into a pocket from below: two flexible fingers hook under its ends, and a lip over its shroud stops it at the top. The shroud's top sits at least 1.2&nbsp;mm below the surface, so add-ons plug in from the top. The ribbon runs from the Pi's header up in front of the battery tray, twists on edge under the crown and turns into the side of the plug, with at least 1.1&nbsp;mm clear all the way. A 20&nbsp;cm cable leaves slack. The Pi now sits with its GPIO header along the front edge, facing the eyes, and USB/Ethernet at the &minus;X end.</p>
           <p>The handle is optional. <span class="mono">bridge_handle.stl</span> bolts onto the insert with the same 4 screw positions (M3&times;16 socket heads through bores in its posts). The grip arches 25&nbsp;mm over the GPIO well, so add-ons stay usable with the handle on. Without it, the countersunk screws sit flush. The old twist-lock handle is retired, since the slot is now filled.</p>
         </div>
       </div>
@@ -1988,14 +1988,14 @@
      hw:[]},
     {t:"Crown insert", parts:["gpio","insert"], view:[-240,-260,330],
      seq:[{ids:["gpio"],to:"insert"},{ids:["gpio","insert"]}],
-     txt:["Push the ribbon's male plug up into the pocket under the crown insert. Its pins end up in the well, 1&nbsp;mm below the surface.",
+     txt:["Push the ribbon's male plug up into the pocket under the crown insert until both end hooks click. Either way round works; the ribbon leaves the side. To get it out, push the two fingers outward from below with a small screwdriver.",
           "Drop the insert into the top slot, onto the ledge, and screw it down into the bosses under the ledge, 4 &times; M3&times;12 countersunk.",
           {tip:"Fitting the bridge handle? It goes on over the insert with longer screws instead (next step), so leave these out."}],
      hw:["4 &times; M3&times;12 countersunk, self-tapping"]},
     {t:"On the crown (optional)", parts:["gcover","flashlight","handle"], options:true, view:[-260,-330,260], frame:["insert","gcover","flashlight","handle"],
      seq:[{ids:["gcover","flashlight","handle"]}],
      txt:["Fit one of these, or nothing. Pick one below to see it.",
-          "<b>GPIO cover:</b> press it into the well, notch to the rear. Four crush ribs hold it. Lift it out at the notch.",
+          "<b>GPIO cover:</b> press it into the opening, notch to the rear. Four crush ribs hold it. Lift it out at the notch.",
           "<b>GPIO flashlight:</b> find 5&nbsp;V and ground on the crown pins with a meter first (it depends on how the ribbon folded). Solder the 3 wires to the female header's tails, push the header onto the pins, put a bead of glue on top, lay the wires in the strap's channel, and lower the saddle on. Front pair: 2 &times; M3&times;20 socket heads. Let the glue cure in place.",
           "<b>Bridge handle:</b> bolts on over the insert with 4 &times; M3&times;16 socket heads instead of the countersunk screws. It shares the front screws with the flashlight, so it's one or the other."],
      hw:["cover: none","flashlight: 2 &times; M3&times;20 socket head","handle: 4 &times; M3&times;16 socket head"]},

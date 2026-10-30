@@ -53,12 +53,12 @@ Retired, do not print: `GeneTop_v6_neck` (v7 is v6 + clearances), `GeneTop_v3_*`
 | Talking mouth opening, head on its jaw | **28 %** (~6 deg on "ah", 7 max), same criterion. Yelled -> ~11 deg at 95 % of available torque |
 
 Weight and servo load (estimate, `tools/mass.py` -> `tools/web/mass.json`, 2026-10-30):
-about 1316 g / 2.9 lb as the sim shows it (flashlight, no handle, no neck); skull side
-1035 g, jaw + hubs + pins 281 g. Skull CoM 40 mm in front of the pivot and 9 mm above it; jaw
+about 1315 g / 2.9 lb as the sim shows it (flashlight, no handle, no neck); skull side
+1034 g, jaw + hubs + pins 281 g. Skull CoM 40 mm in front of the pivot and 9 mm above it; jaw
 CoM 77 mm in front and 72 mm below. Holding torque against the pair's 1.04 N.m stall:
 on the neck 0.21 N.m (20 %) with the jaw shut; standing on the jaw, 0.40 N.m (39 %) just
 off closed, easing to 0.19 N.m at 50 deg. The power bank setup (`GENE_POWER=powerbank python
-mass.py` -> `tools/mass_pb.json`) comes to about 1263 g, with the same torques to within 0.01 N.m. Printed parts are estimated from volume + area at
+mass.py` -> `tools/mass_pb.json`) comes to about 1262 g, with the same torques to within 0.01 N.m. Printed parts are estimated from volume + area at
 the BOM settings and bought parts from typical weights, so expect +/-15 %: weigh the real head
 and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from ~261 to ~162 g.
 
@@ -81,10 +81,10 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
 5. Pi: GPIO ribbon's female end onto the header, Pi onto the v6 shelf with the
    header along the front edge (4 x M2.5x12 + nuts). Route the ribbon up in front
    of the battery tray. Drop an M2 nut into the slot in each of the shelf's 4 cubes, push the shelf up into the skull with the cubes in the divots until they stop, then 4 x M2x12 hex bolts in from outside the skull.
-6. Crown: push the ribbon's male plug up into the crown insert's pocket, drop the
-   insert into the slot, 4 x M2x12 hex bolts. With the handle: bridge handle on
+6. Crown: push the ribbon's male plug up into the crown insert's pocket from below
+   until both end hooks click (ribbon off to either side), drop the insert into the slot, 4 x M2x12 hex bolts. With the handle: bridge handle on
    top, 4 x M3x16 socket heads instead.
-   Optional, after the crown: either press the GPIO cover into the well (notch to the
+   Optional, after the crown: either press the GPIO cover into the opening (notch to the
    rear), or fit the GPIO flashlight (see *GPIO flashlight and GPIO cover* below).
 7. Jaw: slide the bare jaw up from below so the arm bores line up with the skull
    sockets (no flexing the arms). Push each pin (printed in PETG or tougher) in from outside, D-shaft first,
@@ -102,7 +102,7 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
 - Wiring for the power switch once its hole exists.
 - A drive for the neck rotation, and the body/stand the neck base bolts to.
 - Assumed sizes to check against real parts: 2.1" round LCDs, eye cameras,
-  speakers, the GPIO ribbon's male plug, the slip ring.
+  speakers, the slip ring.
 
 ## Verified (last full check)
 
@@ -535,8 +535,9 @@ rather than moving the pupil off the lens.
 
 # GPIO flashlight and GPIO cover (optional)
 
-Built by `tools/gpio_flashlight.py` (run with cwd = tools). Both use the crown insert's
-GPIO well (pins in a 52.2 x 6.4 well centred X 1.25, Y -46.5; pin tips Z 85.5).
+Built by `tools/gpio_flashlight.py` (run with cwd = tools). Both use the opening over the
+ribbon plug's shroud (6.45 x 56.2 centred X 1.25, Y -47.5; shroud floor Z 78.4, pin tips
+Z 84.4; see *GPIO plug snap fit* below).
 
 | File | What | Print |
 |---|---|---|
@@ -545,7 +546,7 @@ GPIO well (pins in a 52.2 x 6.4 well centred X 1.25, Y -46.5; pin tips Z 85.5).
 | `mocks/gpio_header.stl` | The flashlight's 2x20 female header, fit check only | - |
 
 **Flashlight mount.** A standard 2x20 female header (8.5 mm body) goes upside down onto
-the crown pins and sits on the ribbon plug's body (Z 79.5..88.0). The crown bulges up to
+the crown pins, inside the plug's shroud, and sits on its floor (Z 78.4..86.9). The crown bulges up to
 3 mm above the header in the middle of the well, so the saddle has a tongue (6.0 wide in
 the 6.4 well) that reaches down to the header's top with a 0.3 mm glue gap. The header's
 solder tails point up into a 4 mm cavity in the tongue. A 4 x 2.5 mm channel under the
@@ -574,10 +575,10 @@ against about 2 lux from both eye screens at full white. Dim it with PWM, e.g.
 `gpiozero.PWMLED(12)`. **Which crown pin is which depends on how the ribbon was folded
 under the crown**, so find 5 V and GND with a meter on the powered head before soldering.
 
-**Cover.** 6.2 x 51.9 mm, top trimmed flush to the crown. Its skirts (1.1-1.4 mm) go down
-either side of the pins, clearing the real pin field (rows at +/-1.27, 0.64 square) by
-0.35 mm, and stop 0.6 mm above the ribbon plug. Four 1 mm crush ribs give 0.1 mm
-interference per side. The notch at the rear end (Y -20.5) takes a fingernail or a small
+**Cover.** 6.2 x 55.9 mm, top trimmed flush to the crown. Its skirts (1.1-1.4 mm) go down
+into the plug's shroud either side of the pins, clearing the real pin field (rows at +/-1.27,
+0.64 square) by 0.35 mm, and stop 0.6 mm above the shroud floor. Four 1 mm crush ribs give
+0.15 mm interference per side in the shroud (6.30) and 0.08 in the crown opening. The notch at the rear end (Y -20.5) takes a fingernail or a small
 flat screwdriver.
 
 Verified: the flashlight clears the skull by 0.20 mm, the insert by 0.20, the ribbon plug
@@ -603,9 +604,9 @@ Screw positions (X,Y): (-10.26,-90) (12.76,-90) (-10.26,-6) (12.76,-6). Insert o
 ledge 5.9 mm; 8.2 mm of thread engagement in ledge + boss.
 
 **GPIO riser:** 40-pin female-to-male extension ribbon (20 cm). Female end on the Pi
-header; the male IDC plug (assumed body 56 x 8.9 x 7.6, pins 6 mm) pushes up into a
-pocket in the insert, centred Y -46.5, pins in a 52.2 x 6.4 well with tips 1 mm below
-the lowest surface over the well. Add-ons plug in from the top with a 2x20 female header.
+header; the male IDC plug clicks up into a pocket in the insert (see *GPIO plug snap fit*
+below; until 2026-10-30 an assumed 56 x 8.9 x 7.6 bare-pin plug sat in a plain pocket and
+needed glue). Add-ons plug in from the top with a 2x20 female header.
 The Pi is now mounted with its GPIO along the FRONT edge (USB/Ethernet at -X). Ribbon
 route: forward off the header, straight up in front of the battery tray (X +/-25.5,
 Y -61..-59.6; 1.1 mm to the tray, 1.2 mm to the eye barrels), twisted on edge under the
@@ -615,6 +616,37 @@ Verified: insert and handle clear everything (seating contacts only, 13 um and 5
 all new parts single watertight bodies.
 
 The old `GeneHead_top_handle.stl` (twist-lock) is retired.
+
+## GPIO plug snap fit (2026-10-30)
+
+`tools/crown_idc_snap.py` (run with cwd = tools; reads `tools/retired/crown_insert_before_idc_snap.stl`,
+writes `crown_insert.stl`, `crown_meta.json`, `print/parts/13` and Plate 5; then rerun `gpio_mocks.py` and
+`gpio_flashlight.py`). The ribbon bought is the UCTRONICS U6033 (Amazon B07D991KMR). Its male end is a standard
+shrouded 2.54 mm male IDC plug. The listing gives no sizes, so the outline is Wurth's drawing of the same part
+(WR-BHD 612 040 258 21), which matches a retailer's 61.1 x 8.3 x 13 for the generic plug: **61.10 long over
+the cover's end arms, 8.40 wide, 13.0 tall assembled, shroud cavity 56.10 x 6.30, 6.30 deep**. The ribbon is
+clamped across the underside and leaves one long side horizontally, about 3 mm above the bottom.
+
+- Old sleeve and pocket gone. New pocket 61.5 x 8.8 (0.2 a side), centred X 1.25, **Y -47.5** (1 mm
+  forward, so the crown is still 1.35-1.47 mm thick over the longer plug's ends). The plug sits at Z 71.7..84.7.
+- Top stop: the pocket's roof is a lip over the shroud walls (1.2 mm a side, 2.5 at the ends), with a
+  6.45 x 56.2 opening over the cavity. Pulling an add-on off pushes the plug into this lip.
+- Side walls 1.6 thick hug the shroud down to Z 77.2 only, so the ribbon can leave either side
+  (at least 1.5 mm clear above it). The plug fits either way round.
+- Snap: a finger at each end, 7.2 wide x 1.6 thick, rooted at Z 83.5 in a slot (1.4 behind, 1.0 each
+  side, roofed by 1.3-1.5 mm of crown), free length 12.2. Its hook reaches 0.8 under the plug's end,
+  past the ribbon's edges (4 mm clear), catch face flat at Z 71.6 (0.1 mm play), with a 1.4 tall lead-in
+  below. Bending strain at full deflection 1.3 %, fine for PLA or PETG. Pressing a header onto the pins
+  loads the hooks; the catch is square, so they don't pop.
+- Fitting: clip the plug in on the bench, then drop the insert into the slot with the plug and fingers
+  hanging through the ledge (they clear it). To release, push both fingers outward from below with a
+  small screwdriver.
+- Checks: insert one watertight solid (18.69 cm3, was 21.46). It touches the plug only at the lip;
+  nothing else in the head comes within 3 mm of the fingers. The GPIO ribbon's last leg in `route.py` now
+  rises on edge beside the plug's +X side to Z 75.2 and turns in: 2.0 mm from the insert, clear of
+  everything else. All 14 cable runs still route. The flashlight's header now sits on the shroud floor,
+  1.1 mm lower than before; the flashlight, cover and header mock were regenerated (`print/parts/18`,
+  `19`, Plate 7).
 
 ---
 

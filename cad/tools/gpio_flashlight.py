@@ -123,7 +123,7 @@ mount = U([sad, strap, taper, pod, fair])
 
 # ---- tongue into the well: the crown bulges ~3 mm above the header's top in the middle, so the saddle reaches down to it ----
 HDR_L, HDR_W, HDR_H, TAIL_H = 50.8, 5.08, 8.5, 3.0                    # standard 2x20 female header, 2.54 pitch, fitted upside down
-HDR_TOP = BODY_TOP + HDR_H                                            # sits on the ribbon plug's body, fully on the pins
+HDR_TOP = BODY_TOP + HDR_H                                            # sits on the floor of the plug's shroud, fully on the pins
 tongue = bx(CX - 3.0, CX + 3.0, GYC - 26.0, GYC + 26.0, HDR_TOP + 0.3, HDR_TOP + 4.0)
 mount = U([mount, tongue])
 
@@ -158,13 +158,13 @@ mount = max(mount.split(only_watertight=False), key=lambda b: b.volume)
 print(f"flashlight mount: watertight={mount.is_watertight} bodies={mount.body_count} vol={mount.volume / 1000:.2f} cm3 bounds {np.round(mount.bounds, 1).tolist()}")
 
 # ---- GPIO cover: flush plug with side skirts either side of the pins, crush ribs, pry notch at the rear end ----
-WL, WW = 52.2, 6.4                                                    # well in the insert
+WL, WW = meta["OPENING"]                                              # opening over the ribbon plug's shroud (crown_idc_snap.py)
 PIN_TIP = BODY_TOP + 6.0
-cov = bx(CX - 3.1, CX + 3.1, GYC - 25.95, GYC + 25.95, BODY_TOP + 0.6, 100.0)
+cov = bx(CX - 3.1, CX + 3.1, GYC - WL / 2 + 0.15, GYC + WL / 2 - 0.15, BODY_TOP + 0.6, 100.0)   # down into the shroud (6.30 wide)
 for sx in (-1, 1):                                                    # 0.3 mm crush ribs, two per long side
     for yy in (GYC - 14, GYC + 14):
         cov = U([cov, bx(min(CX + sx * 2.9, CX + sx * 3.3), max(CX + sx * 2.9, CX + sx * 3.3), yy - 0.5, yy + 0.5, BODY_TOP + 1.5, 86.0)])
-ys_top = np.linspace(GYC - 27, GYC + 27, 109)
+ys_top = np.linspace(GYC - WL / 2, GYC + WL / 2, 113)
 def ins_top(y):
     s1 = insert.section(plane_origin=[CX - 4.2, 0, 0], plane_normal=[1, 0, 0]).vertices
     s2 = insert.section(plane_origin=[CX + 4.2, 0, 0], plane_normal=[1, 0, 0]).vertices
@@ -179,7 +179,7 @@ for i in range(len(ys_top) - 1):
 cov = D(cov, U(above))
 cov = D(cov, bx(CX - 2.0, CX + 2.0, GYC - 24.8, GYC + 24.8, 0, PIN_TIP + 0.5))        # pocket over the pins (rows at +/-1.27, 0.64 square: +/-1.59)
 notch = trimesh.convex.convex_hull(np.array(
-    [[x, y, z] for x in (CX - 1.8, CX + 1.8) for y, z in ((GYC + 26.5, ZT[-1] + 1.0), (GYC + 26.5, ZT[-1] - 2.0), (GYC + 22.5, ZT[-1] + 1.0))]))
+    [[x, y, z] for x in (CX - 1.8, CX + 1.8) for y, z in ((GYC + WL / 2, ZT[-1] + 1.0), (GYC + WL / 2, ZT[-1] - 2.0), (GYC + WL / 2 - 4.0, ZT[-1] + 1.0))]))
 cov = D(cov, notch)                                                   # pry notch at the rear end: fingernail or small screwdriver
 cov = max(cov.split(only_watertight=False), key=lambda b: b.volume)
 print(f"gpio cover: watertight={cov.is_watertight} bodies={cov.body_count} vol={cov.volume / 1000:.3f} cm3 bounds {np.round(cov.bounds, 1).tolist()}")
