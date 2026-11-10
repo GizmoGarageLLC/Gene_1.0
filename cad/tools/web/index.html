@@ -205,6 +205,8 @@
     .stepcard{max-height:calc(100% - 44px); font-size:12px}
     .steps > li{grid-template-columns:1fr; gap:6px}
   }
+  /* setup switch: content for one setup only carries v-pack / v-pb (battery) or v-lcd / v-am (eye screens) */
+  html:not(.pb) .v-pb, html.pb .v-pack, html:not(.am) .v-am, html.am .v-lcd{display:none!important}
 </style>
 
 <header>
@@ -239,6 +241,21 @@
   </div>
   <aside>
     <div class="grp">
+      <span class="lbl">Setup</span>
+      <div class="row" role="group" aria-label="Battery">
+        <button type="button" id="sPack" aria-pressed="true">2S2P pack</button>
+        <button type="button" id="sBank" aria-pressed="false">Power bank</button>
+      </div>
+      <div class="row" role="group" aria-label="Eye screens">
+        <button type="button" id="sLcd" aria-pressed="true">2.1&Prime; LCD</button>
+        <button type="button" id="sAmoled" aria-pressed="false">1.75&Prime; AMOLED</button>
+      </div>
+      <div class="readout"><span class="v-pack">2S2P 18650 pack in a strapped tray, with BMS and charger.</span><span class="v-pb">INIU P50 power bank clamped in its tray, with a 15&nbsp;V PD trigger.</span>
+        <span class="v-lcd">2.1&Prime; LCDs with separate driver boards in carriers and cradles, on HDMI.</span><span class="v-am">1.75&Prime; AMOLED ESP32-S3 boards, one printed harness and one USB-C lead per eye.</span>
+        Parts, cable routes, clearances, weights and build steps follow the setup.</div>
+    </div>
+
+    <div class="grp">
       <span class="lbl">Exploded view and build</span>
       <label class="lbl" for="explode" style="text-transform:none;letter-spacing:0;font-size:11px">Explode: <b id="explodeV" class="mono">0&nbsp;%</b></label>
       <input type="range" id="explode" min="0" max="100" step="1" value="0" aria-label="How far the parts are pulled apart, percent">
@@ -253,8 +270,8 @@
     <div class="grp">
       <span class="lbl">Mounting</span>
       <div class="row" role="group" aria-label="How the head is held">
-        <button type="button" id="mNeck" aria-pressed="true">On the neck</button>
-        <button type="button" id="mTable" aria-pressed="false">Jaw on a table</button>
+        <button type="button" id="mNeck" aria-pressed="false">On the neck</button>
+        <button type="button" id="mTable" aria-pressed="true">Jaw on a table</button>
       </div>
       <div class="readout" id="mountNote">The skull is held by the neck and the jaw swings down.</div>
     </div>
@@ -350,8 +367,8 @@
     <div class="grp">
       <span class="lbl">Eye cameras</span>
       <div class="row">
-        <button type="button" id="povbtn" aria-pressed="true">Camera POV</button>
-        <button type="button" id="cones" aria-pressed="true">FOV cones</button>
+        <button type="button" id="povbtn" aria-pressed="false">Camera POV</button>
+        <button type="button" id="cones" aria-pressed="false">FOV cones</button>
       </div>
       <div class="readout">Live views from both lenses. They turn with the head, so try Spin.</div>
     </div>
@@ -381,8 +398,8 @@
 
 <main class="report">
   <div class="summary">
-    <div class="stat"><b>41</b><span>parts placed</span></div>
-    <div class="stat"><b>129</b><span>neighbouring pairs measured</span></div>
+    <div class="stat"><b id="nParts">41</b><span>parts placed</span></div>
+    <div class="stat"><b id="nPairs">129</b><span>neighbouring pairs measured</span></div>
     <div class="stat"><b style="color:var(--ok)">0</b><span>clashes in the 0&ndash;30&deg; speaking range</span></div>
     <div class="stat"><b>35.5&deg;</b><span>first jaw contact, at the neck base (skull alone: 53&deg;)</span></div>
   </div>
@@ -570,16 +587,17 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 (function(){
+  var EYE_DY=-15;                                 // eyes 15 mm forward in their barrels (skull_v7_eyes_forward.py, EYE_DY in parts.py)
   var PARTS=[
     {id:"skull",   name:"Skull + eye barrels", col:"--skull",   note:"v7",       clip:true},
     {id:"jaw",     name:"Jaw, twin D-shaft",   col:"--jaw",     note:"moving",   clip:true},
     {id:"hub",     name:"Drive couplers",          col:"--hub",     note:"moving",   clip:false},
     {id:"bracket", name:"Servo brackets",      col:"--bracket", note:"L + R",    clip:false},
     {id:"servo",   name:"XL330 servos",        col:"--servo",   note:"2 tandem", clip:false},
-    {id:"cradle",  name:"Eye board cradles",   col:"--retainer",note:"new",      clip:false},
+    {id:"cradle",  name:"Eye board cradles",   col:"--retainer",note:"new",      clip:false, only:"lcd"},
     {id:"carrier", name:"Display carriers",    col:"--carrier", note:"top slot", clip:false},
     {id:"display", name:"2.1″ round LCDs",col:"--display", note:"mock",     clip:false},
-    {id:"dboard",  name:"LCD driver boards + HDMI/USB plugs",col:"--dboard", note:"mock", clip:false},
+    {id:"dboard",  name:"LCD driver boards + HDMI/USB plugs",col:"--dboard", note:"mock", clip:false, only:"lcd"},
     {id:"bezel",   name:"Camera bezels",       col:"--bezel",   note:"v3 black", clip:false},
     {id:"pupil",   name:"Pupil rings",         col:"--pupil",   note:"black",    clip:false},
     {id:"camera",  name:"Arducam mini cameras",col:"--camera",  note:"mock",     clip:false},
@@ -590,8 +608,8 @@
     {id:"gpio",    name:"GPIO riser plug",     col:"--gpio",    note:"mock",     clip:false},
     {id:"ribbon",  name:"GPIO ribbon route",   col:"--ribbon",  note:"40-pin",   clip:false},
     {id:"handle",  name:"Bridge handle",       col:"--handle",  note:"optional", clip:false, off:true},
-    {id:"flashlight",name:"GPIO flashlight",   col:"--flash",   note:"optional", clip:false},
-    {id:"gcover",  name:"GPIO cover",          col:"--gcover",  note:"optional", clip:false, off:true},
+    {id:"flashlight",name:"GPIO flashlight",   col:"--flash",   note:"optional", clip:false, off:true},
+    {id:"gcover",  name:"GPIO cover",          col:"--gcover",  note:"optional", clip:false},
     {id:"neck",    name:"Neck (turns with head)",col:"--neck",   note:"new",      clip:true},
     {id:"collar",  name:"Neck clamp collar",   col:"--neck",    note:"new",      clip:false},
     {id:"neckbase",name:"Neck base (to body)", col:"--neckbase",note:"new",      clip:true},
@@ -684,9 +702,9 @@
   var moving=new THREE.Group(); head.add(moving);
 
   // ---------- eye-camera POV: the two lenses are the pupils, so their views come from there ----------
-  // IMX219-class module: 62.2 x 48.8 deg. Each lens sits 31.5 mm back inside its barrel (bore dia 59),
-  // so anything wider than ~86 deg horizontal would start to see the barrel wall.
-  var POV_VFOV=48.8, POV_ASPECT=4/3, LENS_Y=-106.3, LENS_Z=-0.32;
+  // IMX219-class module: 62.2 x 48.8 deg. Each lens sits 16.5 mm back inside its barrel (bore dia 59),
+  // so anything wider than ~120 deg horizontal would start to see the barrel wall.
+  var POV_VFOV=48.8, POV_ASPECT=4/3, LENS_Y=-106.3+EYE_DY, LENS_Z=-0.32;
   var povCams=[-60.96,60.95].map(function(x){
     var c=new THREE.PerspectiveCamera(POV_VFOV,POV_ASPECT,5,6000);
     c.up.set(0,0,1); c.position.set(x,LENS_Y,LENS_Z); c.lookAt(x,LENS_Y-100,LENS_Z);
@@ -694,7 +712,7 @@
     head.add(c); return c;
   });
   // FOV cones for the main view, 300 mm long
-  var fovCones=new THREE.Group(); head.add(fovCones);
+  var fovCones=new THREE.Group(); fovCones.visible=false; head.add(fovCones);   // extra, off by default
   (function(){
     var L=300, hh=Math.tan(POV_VFOV/2*Math.PI/180)*L, hw=hh*POV_ASPECT;
     povCams.forEach(function(c){
@@ -745,6 +763,7 @@
     m.position.set((b[0]+b[1])/2,(b[2]+b[3])/2,(b[4]+b[5])/2); cableGroup.add(m); return m;
   }
   function loadCables(c){
+    while(cableGroup.children.length){ var o=cableGroup.children[0]; cableGroup.remove(o); o.geometry.dispose(); o.material.dispose(); }
     c.cables.forEach(function(k){
       if(!k.ok || !k.pts || k.pts.length<2) return;
       var pts=k.pts.map(function(p){ return new THREE.Vector3(p[0],p[1],p[2]); });
@@ -770,7 +789,7 @@
     cableGroup.visible=!cableGroup.visible; e.currentTarget.setAttribute("aria-pressed",String(cableGroup.visible)); draw();
   });
 
-  var povOn=true;
+  var povOn=false;                                  // extra, off by default
   var povBox=document.getElementById("pov");
   function povRect(){
     var w=stage.clientWidth,h=stage.clientHeight;
@@ -888,7 +907,7 @@
     this.p=JSON.parse(JSON.stringify(EMOTES.neutral));
     var m=new THREE.Mesh(new THREE.CircleGeometry(26.67,96), new THREE.MeshBasicMaterial({map:this.tex, transparent:true}));
     m.rotation.x=Math.PI/2;                   // face -Y, texture up = +Z
-    m.position.set(x,-94.18,-0.32);
+    m.position.set(x,-94.18+EYE_DY,-0.32);
     m.renderOrder=2;
     head.add(m); this.mesh=m;
   }
@@ -907,7 +926,7 @@
     // Nothing moves off-centre; gaze turns the focus ring and nudges the lids instead.
     var g=this.g, S=this.c.width, R=S/2, p=this.p, s=this.inner;
     var col=function(l,a){ return "hsla("+p.hue.toFixed(0)+","+p.sat.toFixed(0)+"%,"+Math.max(0,Math.min(100,l)).toFixed(0)+"%,"+a+")"; };
-    var HUB=0.34;
+    var HUB=EYE_HUB;                                  // 0.34 on the 2.1" LCD, 0.41 on the 1.75" AMOLED (same camera, smaller screen)
     var P=Math.max(HUB+0.02, p.pupil-0.07*pulse);      // aperture opening (dark depth round the lens)
     var I=p.iris;                                     // outer edge of the blades
     var loading=(eyeState.emote==="loading"), motion=reduceMotion?0:1;
@@ -1060,7 +1079,7 @@
   // A spotlight per eye (lights what the cameras see) plus a soft frustum for the main view that starts
   // at the screen's full 53.34 mm diameter. The spotlight sits on the screen face (not behind it, where it
   // would light the skull from inside); at room distances the 53 mm emitter reads the same as a point.
-  var BEAM_L=700, BEAM_HALF=14*Math.PI/180, SCR_R=26.67, SCR_Y=-94.18;
+  var BEAM_L=700, BEAM_HALF=14*Math.PI/180, SCR_R=26.67, SCR_Y=-94.18+EYE_DY;
   var beamMat=new THREE.ShaderMaterial({
     uniforms:{k:{value:0}, col:{value:new THREE.Color(0xfff1c8)}},
     vertexShader:"varying float d; void main(){ d=("+(BEAM_L/2).toFixed(1)+"-position.y)/"+BEAM_L.toFixed(1)+"; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
@@ -1100,6 +1119,7 @@
   }
 
   // left eye sits at -X: its inboard side is +X, which is canvas right when seen from the front
+  var EYE_HUB=0.34;
   var eyeL=new EyeScreen(-60.96,+1), eyeR=new EyeScreen(60.95,-1);
   var pulse=0, nextBlink=performance.now()+2500, blinkStart=-1, gaze={x:0,y:0,tx:0,ty:0,next:0}, lastEye=0;
   function eyesTick(now){
@@ -1270,7 +1290,7 @@
   document.getElementById("limit").addEventListener("click",function(){ stop(); var L=onTable?50:33; ang.value=L; setAngle(L); });
 
   // ---------- mounting: on the neck, or the head standing on its jaw on a table ----------
-  var onTable=false, NECK_PARTS=["neck","collar","neckbase","bearings","slipring"];
+  var onTable=true, NECK_PARTS=["neck","collar","neckbase","bearings","slipring"];
   var TABLE_Z=-106.6;                          // flat underside of the jaw (jaw), at rest
   var table=new THREE.Mesh(new THREE.BoxGeometry(900,700,18),new THREE.MeshLambertMaterial({color:0x8a6d4e}));
   table.position.set(0,-120,TABLE_Z-9-0.05); table.layers.enable(1); table.visible=false; scene.add(table);
@@ -1343,7 +1363,7 @@
       tr.innerHTML="<td>"+(NAME[p[0]]||p[0])+"</td><td>"+(p[2]==="jaw"?"jaw":(p[2]?"skull":""))+"</td><td class=\"num\">"+Math.round(p[1])+"</td><td class=\"num\">"+(p[1]/28.35).toFixed(1)+"</td>";
       tb.appendChild(tr);
     });
-    document.getElementById("massIntro").innerHTML="An estimate, not a weighing: about <strong>"+Math.round(m.total_g)+"&nbsp;g ("+lb(m.total_g)+")</strong> for the head as the sim shows it (flashlight on, no handle, no neck). "+
+    document.getElementById("massIntro").innerHTML="An estimate, not a weighing: about <strong>"+Math.round(m.total_g)+"&nbsp;g ("+lb(m.total_g)+")</strong> for the head as the sim shows it (GPIO cover on; no flashlight, handle or neck). "+
       "Printed parts come from each model's volume and surface area at the BOM's settings, bought parts from typical catalogue weights, and cables from their routed lengths. Expect &plusmn;15&nbsp;%. Weigh the finished head to confirm.";
     var sn=m.speech_check.neck, st=m.speech_check.table;
     document.getElementById("massspecs").innerHTML=
@@ -1907,7 +1927,7 @@
 
   var list=document.getElementById("parts");
   PARTS.forEach(function(p){
-    var row=document.createElement("label"); row.className="part";
+    var row=document.createElement("label"); row.className="part"+(p.only?" v-"+p.only:"");
     row.innerHTML='<input type="checkbox" id="chk-'+p.id+'"'+(p.off?'':' checked')+'><span class="sw" style="background:var('+p.col+')"></span><span>'+p.name+'</span><small>'+p.note+'</small>';
     row.querySelector("input").addEventListener("change",function(e){
       if(meshes[p.id]) meshes[p.id].visible=e.target.checked && !(onTable && NECK_PARTS.indexOf(p.id)>=0);
@@ -1934,6 +1954,22 @@
     hub:[0,-50,-40,0], jaw:[0,-110,-140,0],
     neck:[0,160,-20,0], bearings:[0,160,-100,0], collar:[0,160,-140,0], slipring:[0,160,-170,0], neckbase:[0,160,-220,0]
   };
+  var EYE_STEP={lcd:{t:"Eye screens", parts:["carrier","display","cradle","dboard"], view:[-260,300,230],
+     seq:[{ids:["carrier"]},{ids:["dboard"],to:"cradle"},{ids:["display"]},{ids:["cradle","dboard"]}],
+     txt:["From inside the skull, push a display carrier into each eye barrel, slots at the top and bottom. It's a slip fit (about 0.1&nbsp;mm clear), so glue it with CA. The ridge in the barrel takes the forward load.",
+          "On the bench, press the round driver board into the back of its cradle (they're handed: one dimple under the tie plate is the left eye's, Gene's right; two is the right), parts facing back, FPC connector at the top by the open window and the mini-HDMI and micro-USB at the bottom. The two side fingers click over the board's back face. Plug both flat leads in: use the <b>UP-angled</b> mini-HDMI end so both ribbons run back into the head, never forward at the LCD. The plug ends' little boards rest just above the tie plate, which stops them dropping out; zip-tie both ribbons to it through the two pairs of slots.",
+          "Plug the LCD's flex into the board's connector and close the latch, then drop the LCD into the carrier from behind, screen forward, flex at the top.",
+          "Lift the cradle and board up through the open bottom of the head to just behind the eye, about 10&nbsp;mm toward the nose with the front turned about 11&deg; toward the nose. Slide it forward into the barrel, ease it out onto the eye's centre line, straighten it about 8&nbsp;mm short, then push straight home (the front ring's lead-in finds the carrier seat over the last 7.5&nbsp;mm). The LCD's flex folds down through the window at the top of the cradle. Stop when the shoulder sits on the carrier's back face: that leaves 0.2&nbsp;mm behind the glass, so it doesn't press the panel. Glue the cradle's front ring to the carrier's two side walls with CA. Fit both eyes before the Pi shelf.",
+          {tip:"The board is no longer hung on the flex: LCD, cradle and board are one rigid unit glued into the carrier, and the zip ties take any pull on the flat leads. Never crease the FPC ribbons: bend them round, not folded. On the left eye (Gene's right) the ribbons lift over the DYNAMIXEL TTL board just behind the plate. Print the cradles in PETG with 4 walls so the snap fingers don't crack."}],
+     hw:["CA glue","4 small zip ties (2.5 mm)","2 mini-HDMI UP-angled FPC ends"]},
+    am:{t:"Eye screens", parts:["carrier","display"], view:[-260,300,230],
+     seq:[{ids:["display"],to:"carrier"},{ids:["carrier","display"]}],
+     txt:["Check the AMOLED board against the harness first. It is assumed &Oslash;48.96 &times; 10.4&nbsp;mm deep with the USB-C on its back. If yours differs, change the numbers at the top of <span class=\"mono\">eye_amoled.py</span> and reprint.",
+          "On the bench, press the board into the back of its harness, glass forward, until the two side fingers click over its back edge. The glass rests on the lip, so only the lit area shows through the &Oslash;45.2 aperture. Both eyes use the same harness.",
+          "Plug the 90&deg; USB-C lead into the board, pointing down. Lay the lead back over the tongue under the harness and zip-tie it through one pair of slots, so a pull stops at the harness and not at the board's socket.",
+          "From inside the skull, push each harness straight into its eye barrel until its front face sits on the ridge. That's 19.5&nbsp;mm of straight run, no turning. The outside is the old carrier's 60.5&nbsp;mm, a slip fit, so glue it with CA.",
+          {tip:"No LCD flex, no driver board, no HDMI. The eye is drawn on the board's own ESP32-S3, so the Pi only sends the expression, lids, gaze and tilt over USB. Print the harnesses in black PETG, 4 walls, lip down, no supports."}],
+     hw:["CA glue","2 small zip ties (2.5 mm)","2 &times; USB-C to USB-A lead, 90&deg; C end"]}};
   // seq: what moves, in order; "to" parks a part on another part's exploded spot (bench sub-assembly)
   // before the whole group goes home. view: direction the camera looks from.
   var STEPS=[
@@ -1942,14 +1978,7 @@
           "The eye barrels, thrust pads, camera slots, crown ledge and neck screw pilots are all part of it. Everything else screws or glues into this one part.",
           "Almost everything goes in through the open bottom, so work with the head upside down or on its back."],
      hw:[]},
-    {t:"Eye screens", parts:["carrier","display","cradle","dboard"], view:[-260,300,230],
-     seq:[{ids:["carrier"]},{ids:["dboard"],to:"cradle"},{ids:["display"]},{ids:["cradle","dboard"]}],
-     txt:["From inside the skull, push a display carrier into each eye barrel, slots at the top and bottom. It's a slip fit (about 0.1&nbsp;mm clear), so glue it with CA. The ridge in the barrel takes the forward load.",
-          "On the bench, press the round driver board into the back of its cradle (they're handed: one dimple under the tie plate is the left eye's, Gene's right; two is the right), parts facing back, FPC connector at the top by the open window and the mini-HDMI and micro-USB at the bottom. The two side fingers click over the board's back face. Plug both flat leads in: use the <b>UP-angled</b> mini-HDMI end so both ribbons run back into the head, never forward at the LCD. The plug ends' little boards rest just above the tie plate, which stops them dropping out; zip-tie both ribbons to it through the two pairs of slots.",
-          "Plug the LCD's flex into the board's connector and close the latch, then drop the LCD into the carrier from behind, screen forward, flex at the top.",
-          "Lift the cradle and board up through the open bottom of the head to just behind the eye, about 10&nbsp;mm toward the nose with the front turned about 11&deg; toward the nose. Slide it forward into the barrel, ease it out onto the eye's centre line, straighten it about 8&nbsp;mm short, then push straight home (the front ring's lead-in finds the carrier seat over the last 7.5&nbsp;mm). The LCD's flex folds down through the window at the top of the cradle. Stop when the shoulder sits on the carrier's back face: that leaves 0.2&nbsp;mm behind the glass, so it doesn't press the panel. Glue the cradle's front ring to the carrier's two side walls with CA. Fit both eyes before the Pi shelf.",
-          {tip:"The board is no longer hung on the flex: LCD, cradle and board are one rigid unit glued into the carrier, and the zip ties take any pull on the flat leads. Never crease the FPC ribbons: bend them round, not folded. On the left eye (Gene's right) the ribbons lift over the DYNAMIXEL TTL board just behind the plate. Print the cradles in PETG with 4 walls so the snap fingers don't crack."}],
-     hw:["CA glue","4 small zip ties (2.5 mm)","2 mini-HDMI UP-angled FPC ends"]},
+    {t:"Eye screens", eyes:true},
     {t:"Eye cameras and pupils", parts:["camera","bezel","pupil"], view:[-140,-400,120],
      seq:[{ids:["camera"],to:"bezel"},{ids:["camera","bezel"]},{ids:["pupil"]}],
      txt:["Fit each Arducam into its black v3 bezel, crystal end towards the spoke (the pocket is 12.4&nbsp;mm long for it).",
@@ -2031,6 +2060,7 @@
           {tip:"Not designed yet: the charge port and power switch holes, their wiring, a motor for the neck, and the body the base bolts to."}],
      hw:[]}
   ];
+  var eyeStep=STEPS.filter(function(s){ return s.eyes; })[0]; Object.assign(eyeStep,EYE_STEP.lcd);
   var stepOf={}; STEPS.forEach(function(s,i){ s.parts.forEach(function(id){ stepOf[id]=i; }); });
   var bmode=null, explodeK=0, exAnim=null, cur=0, stepT0=0, stepAnim=false, STEP_MS=900, STEP_WAIT=350, camTween=null, saved=null;
   var card=document.getElementById("stepcard"), exSlider=document.getElementById("explode"), exV=document.getElementById("explodeV");
@@ -2058,7 +2088,7 @@
     var m=meshes[id]; if(!m) return;
     var l=f(m.userData.right?-1:0); m.position.set(l[0],l[1],l[2]);
     if(m.userData.right){ var r=f(1); m.userData.right.position.set(r[0]-l[0],r[1]-l[1],r[2]-l[2]); }
-    if(id==="display"){ var a=f(-1), b=f(1); eyeL.mesh.position.set(-60.96+a[0],-94.18+a[1],-0.32+a[2]); eyeR.mesh.position.set(60.95+b[0],-94.18+b[1],-0.32+b[2]); }
+    if(id==="display"){ var a=f(-1), b=f(1); eyeL.mesh.position.set(-60.96+a[0],SCR_Y+a[1],-0.32+a[2]); eyeR.mesh.position.set(60.95+b[0],SCR_Y+b[1],-0.32+b[2]); }
   }
   function chkOn(id){ var c=document.getElementById("chk-"+id); return !c || c.checked; }
   function ghost(m,on){
@@ -2146,9 +2176,9 @@
   function enterBuild(mode){
     if(!bmode){
       finishTalk(false); stop(); stopSpin(); stopScare(false);
-      if(onTable) setMount(false);
+      var wasTable=onTable; if(onTable) setMount(false);
       ang.value=0; setAngle(0); setTurn(0);
-      saved={pov:povOn, cables:cableGroup.visible, cones:fovCones.visible};
+      saved={pov:povOn, cables:cableGroup.visible, cones:fovCones.visible, table:wasTable};
       povOn=false; layoutPov(); fovCones.visible=false;
       if(handleContact) handleContact.visible=false;
     }
@@ -2163,7 +2193,8 @@
     card.hidden=true; bStart.setAttribute("aria-pressed","false"); exBtn.setAttribute("aria-pressed","false");
     exSlider.value=0; exV.innerHTML="0&nbsp;%";
     if(saved){ cableGroup.visible=saved.cables; fovCones.visible=saved.cones; povOn=saved.pov; layoutPov(); }
-    applyBuild(); saved=null;
+    var backToTable=saved&&saved.table; applyBuild(); saved=null;
+    if(backToTable) setMount(true);
     if(handleContact) handleContact.visible=showContacts;
     draw();
   }
@@ -2251,8 +2282,8 @@
   });
 
   // the same steps as a list in the report
-  (function(){
-    var ol=document.getElementById("stepList");
+  function renderStepList(){
+    var ol=document.getElementById("stepList"); ol.innerHTML="";
     STEPS.forEach(function(s,i){
       var li=document.createElement("li");
       li.innerHTML='<span class="n">'+(i+1)+'</span><div><h3>'+s.t+' <button type="button">Show</button></h3><ol class="steptxt">'+txtHTML(s.txt)+'</ol>'+
@@ -2262,7 +2293,8 @@
       });
       ol.appendChild(li);
     });
-  })();
+  }
+  renderStepList();
 
   // ---------- pair table ----------
   var rows=[], filter="attn";
@@ -2291,12 +2323,14 @@
 
   // ---------- load ----------
   function getJSON(f){ return fetch(f).then(function(r){ if(!r.ok) throw new Error(f+" "+r.status); return r.json(); }); }
-  getJSON("static.json").then(function(s){
+  function loadStatic(s){
+    document.getElementById("nPairs").textContent=s.length;
     rows=s.map(function(r){ r.cls=classify(r); return r; });
     var rank={bad:0,warn:1,info:2,ok:3};
     rows.sort(function(x,y){ return (rank[x.cls[0]]-rank[y.cls[0]]) || (y.overlap-x.overlap) || (x.gap-y.gap); });
     renderTable();
-  }).catch(function(e){ console.error(e); });
+  }
+  getJSON("static.json").then(loadStatic).catch(function(e){ console.error(e); });
 
   getJSON("sweep.json").then(function(s){
     curve=s.curve;
@@ -2322,6 +2356,55 @@
     });
   });
 
+  // ---------- setup: battery (2S2P pack / power bank) and eye screens (2.1" LCD / 1.75" AMOLED), swapped in place ----------
+  // Parts that differ load from <id>_pb.json / <id>_am.json; each setup has its own static, cables and mass file
+  // (check.py, route.py and mass.py run with GENE_POWER / GENE_EYES set; export.py copies them in).
+  var SETUP={power:"pack",eyes:"lcd"}, VARIANT={tray:"power",deck:"power",battery:"power",boards:"power",carrier:"eyes",display:"eyes"};
+  function suf(){ return (SETUP.power==="pb"?"_pb":"")+(SETUP.eyes==="am"?"_am":""); }
+  function meshFile(id){ var v=VARIANT[id]; return id+(v==="power"&&SETUP.power==="pb"?"_pb":v==="eyes"&&SETUP.eyes==="am"?"_am":""); }
+  function swapGeo(p){
+    return getJSON(meshFile(p.id)+".json").then(function(j){
+      var m=meshes[p.id]; if(!m) return;
+      if(m.userData.right){ var h=splitX(geo(j.b64)); m.geometry.dispose(); m.geometry=h[0]; m.userData.right.geometry.dispose(); m.userData.right.geometry=h[1]; }
+      else { m.geometry.dispose(); m.geometry=geo(j.b64); }
+      gapCache={}; draw();
+    });
+  }
+  var setupBtns={sPack:["power","pack"],sBank:["power","pb"],sLcd:["eyes","lcd"],sAmoled:["eyes","am"]};
+  function applySetup(changed){
+    var R=document.documentElement; R.classList.toggle("pb",SETUP.power==="pb"); R.classList.toggle("am",SETUP.eyes==="am");
+    Object.keys(setupBtns).forEach(function(id){ var b=setupBtns[id]; document.getElementById(id).setAttribute("aria-pressed",String(SETUP[b[0]]===b[1])); });
+    try{ localStorage.setItem("gene-setup",JSON.stringify(SETUP)); }catch(e){}
+    if(bmode) leaveBuild();
+    PARTS.forEach(function(p){ if(VARIANT[p.id] && (!changed || VARIANT[p.id]===changed)) swapGeo(p).catch(function(e){ console.error(e); }); });
+    var am=SETUP.eyes==="am";
+    ["cradle","dboard"].forEach(function(id){ var c=document.getElementById("chk-"+id); if(c && c.checked===am){ c.checked=!am; c.dispatchEvent(new Event("change")); } });
+    var k=am?22.22/26.67:1;                                      // lit area 44.45 mm on the AMOLED, 53.34 on the LCD
+    [eyeL,eyeR].forEach(function(e){ e.mesh.scale.set(k,k,1); });
+    beams.forEach(function(b){ b.cone.scale.set(k,1,k); });
+    EYE_HUB=am?0.408:0.34;
+    document.getElementById("nParts").textContent=am?37:41;     // the AMOLED eyes have no cradles or driver boards
+    Object.keys(eyeStep).forEach(function(key){ if(key!=="eyes") delete eyeStep[key]; }); Object.assign(eyeStep,EYE_STEP[SETUP.eyes]);
+    renderStepList();
+    getJSON("cables"+suf()+".json").then(loadCables).catch(function(e){ console.error(e); });
+    getJSON("static"+suf()+".json").then(loadStatic).catch(function(e){ console.error(e); });
+    getJSON("mass"+suf()+".json").then(function(m){ MASS=m; massReport(m); updTorque(+ang.value); }).catch(function(e){ console.error(e); });
+    draw();
+  }
+  Object.keys(setupBtns).forEach(function(id){
+    document.getElementById(id).addEventListener("click",function(){
+      var b=setupBtns[id]; if(SETUP[b[0]]===b[1]) return;
+      SETUP[b[0]]=b[1]; applySetup(b[0]);
+    });
+  });
+  (function(){                                                    // reopen on the last setup viewed, once the default parts are in
+    var saved=null; try{ saved=JSON.parse(localStorage.getItem("gene-setup")||"null"); }catch(e){}
+    if(!saved || (saved.power!=="pb" && saved.eyes!=="am")) return;
+    SETUP.power=saved.power==="pb"?"pb":"pack"; SETUP.eyes=saved.eyes==="am"?"am":"lcd";
+    var t=setInterval(function(){ if(left>0) return; clearInterval(t); applySetup(); },100);
+  })();
+
+  setMount(true);                                                 // default: Gene on a desk, no neck
   window.addEventListener("resize",function(){ resize(); draw(); });
   if(window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){
     PARTS.forEach(function(p){ if(meshes[p.id]) meshes[p.id].material.color.set(cssVar(p.col)||"#888"); });

@@ -30,5 +30,5 @@ print(f"\nSTATIC, jaw at 0 deg  ({len(rows)} neighbouring pairs of {len(names)*(
 for r in rows:
     s=f"OVERLAP {r['overlap']:9.3f} mm3  ~{r['depth']:.3f} mm thick  at {r['where']}" if r["overlap"] else f"gap {r['gap']:.3f}"+(" (>=3)" if r['gap']>=SEARCH else "")
     print(f"  {r['a']:11s} x {r['b']:11s} {s}")
-json.dump(rows,open("static.json","w"),indent=1)
+json.dump(rows,open(f"static{SUF}.json","w"),indent=1)   # one per setup: "", _pb, _am, _pb_am
 print(f"{time.time()-t0:.0f}s")

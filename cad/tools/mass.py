@@ -9,10 +9,10 @@
 # the two XL330s must hold together.
 #   neck mode : skull held, the servos hold the jaw (+ hubs) up against gravity
 #   table mode: jaw held flat on the table, the servos hold the whole rest of the head up
-# Writes web/mass.json for the sim. With GENE_POWER=powerbank it weighs that setup (bank, its boards, cables_pb.json)
-# and writes mass_pb.json instead, for that sim's copy of web/.
+# Writes mass<suffix>.json for the setup picked by GENE_POWER / GENE_EYES (mass.json, mass_pb.json, mass_am.json,
+# mass_pb_am.json), weighing that setup's parts and its cables<suffix>.json routes. export.py copies them into web/.
 import json, os, numpy as np
-from parts import load_all, MOVING, POWER
+from parts import load_all, MOVING, POWER, EYES, SUF
 
 G = 9.81
 STALL = 2 * 0.52          # N.m, two XL330-M288-T in tandem at 5 V (ROBOTIS e-manual)
@@ -53,12 +53,16 @@ if POWER == "powerbank":
         "boards": 2 * 7.0 + 3.0,                   # ~ two 5 V 5 A bucks + 15 V PD trigger board
         "usbc_port": 5.0,                          # ~ female end + flange only: the lead is a routed run in cables_pb.json
     })
+if EYES == "amoled":
+    BOUGHT.pop("dboard_L"); BOUGHT.pop("dboard_R")
+    BOUGHT.update({"display_L": 25.0, "display_R": 25.0})   # ~ Waveshare ESP32-S3-Touch-AMOLED-1.75 board + glass + its USB-C plug
+    PRINT.update({"carrier_L": (1.7, 0.22, PETG), "carrier_R": (1.7, 0.22, PETG)})   # the AMOLED harness, black PETG 4 walls
 HARDWARE = 25.0            # ~ screws, straps, glue; placed at the skull's centroid
 CABLE_GPM = {"power": 30.0, "video": 35.0, "data": 10.0, "ribbon": 4.0, "audio": 6.0}   # g/m, incl. plugs
 CABLE_PLUGS = {"power": 6.0, "video": 8.0, "data": 2.0, "ribbon": 1.0, "audio": 1.0}      # g per run
 
-# the sim's default build: flashlight fitted, handle and GPIO cover off
-LEFT_OFF = {"handle", "gpio_cover"}
+# the sim's default build: GPIO cover fitted; flashlight (and its header), handle and neck off
+LEFT_OFF = {"handle", "flashlight", "gpio_header"}
 NECK = {"neck", "neck_collar", "neck_base", "bearings", "slip_ring"}
 
 
@@ -89,7 +93,7 @@ def main():
     skull_c = next(i[2] for i in items if i[0] == "shell")
     items.append(("hardware", HARDWARE, skull_c, "head", "bought", 0.0))
     here = os.path.dirname(__file__)
-    cab = json.load(open(os.path.join(here, "cables_pb.json") if POWER == "powerbank" else os.path.join(here, "web", "cables.json")))
+    cab = json.load(open(os.path.join(here, f"cables{SUF}.json")))
     for k in cab["cables"]:
         if not k.get("ok") or not k.get("pts"):
             continue
@@ -160,7 +164,7 @@ def main():
         "neck_Nm": [round(v, 4) for v in nk],         # on the neck: servos hold the jaw
         "parts": sorted([[i[0], round(i[1], 1), i[3], i[4]] for i in items], key=lambda x: -x[1]),
     }
-    json.dump(out, open(os.path.join(here, "mass_pb.json") if POWER == "powerbank" else os.path.join(here, "web", "mass.json"), "w"), indent=1)
+    json.dump(out, open(os.path.join(here, f"mass{SUF}.json"), "w"), indent=1)   # export.py copies every setup's file into web/
 
     print(f"total {mt:.0f} g  (head {mh:.0f} g, jaw+hubs+pins {mj:.0f} g)   printed {out['printed_g']:.0f} g, bought+cables {out['bought_g']:.0f} g")
     print("head CoM", np.round(ch, 1), " jaw CoM", np.round(cj, 1))

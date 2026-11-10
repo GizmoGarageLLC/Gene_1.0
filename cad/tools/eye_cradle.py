@@ -49,11 +49,14 @@ def wedge(centre_deg,half_deg,y0,y1,R=60):
     return at_y(mf.CrossSection([pts]).extrude(y1-y0),y0)
 def box(x0,x1,y0,y1,z0,z1): return mf.Manifold.cube([x1-x0,y1-y0,z1-z0]).translate([x0,y0,z0])
 
-def skull_keepout(side,clear=1.0):
+def skull_keepout(side,clear=1.05):   # 1.05: the bore the cradle now sits in is 60.70 (skull_v7_eyes_forward.py), so the cage is
+                                     # still trimmed to r 29.30 as it was in the 60.60 bore
     # the skull round one eye in the cradle's frame, grown by `clear` (union of shifted copies). The cradles are handed: the
     # plug ends need the tie-plate webs at |u| 16.5-18, where the barrel's lower outboard wall is, so each cradle is cut against
     # its own eye only. The inboard web (towards the nose) stays whole and carries the plate; the outboard one is trimmed
-    sk=trimesh.load(os.path.join(OUT,"skull.stl")); sk.apply_translation([-64.8,-61.4,-35.0])
+    # the cradle is built in the old eye frame; parts.py moves the whole eye EYE_DY forward, so the skull goes back by it here
+    from parts import EYE_DY
+    sk=trimesh.load(os.path.join(OUT,"skull.stl")); sk.apply_translation([-64.8,-61.4-EYE_DY,-35.0])
     S=mf.Manifold(mf.Mesh(vert_properties=np.asarray(sk.vertices,np.float32),tri_verts=np.asarray(sk.faces,np.uint32)))
     win=box(-45,45,-92,-55,-50,40)
     eyes=[S.translate([-(AXR if side=='R' else AXL),0,-ZC])^win]
@@ -111,7 +114,19 @@ def cradle(side):
         print(f"  dropped a {k.volume():.2f} mm3 sliver the skull clearance cut off")
         assert k.volume()<5
     assert comps[0].volume()>9000
-    return to_tm(comps[0])
+    # the skull clearance is a union of shifted copies, whose seams can touch the cradle at a single point (a pinch: two
+    # coincident vertices). Nick each one out with a 0.15 mm sphere so the mesh stays watertight on export
+    from scipy.spatial import cKDTree
+    m=comps[0]
+    for _ in range(5):
+        V=m.to_mesh().vert_properties[:,:3]; pr=list(cKDTree(V).query_pairs(1e-5))
+        if not pr: break
+        print(f"  nicked {len(pr)} pinch points out of the skull-clearance cut")
+        for i,_j in pr: m-=mf.Manifold.sphere(0.15,12).translate(V[i].tolist())
+        m=sorted(m.decompose(),key=lambda k:-k.volume())[0]
+    t=to_tm(m)
+    assert t.is_watertight, "cradle not watertight"
+    return t
 
 def display_mock():
     # TTC021XRS-02 outline: R28.09 circle + ledge 31.40 wide to 31.62 from the centre (corners eased 1.5), ledge at +Z

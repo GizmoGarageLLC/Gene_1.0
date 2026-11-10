@@ -11,7 +11,7 @@ The print-ready copies in `../print/` are the same parts, reoriented flat side d
 | Skull | `skull.stl` (v7). Its build scripts start from the v6 skull, `GeneTop_v6_neck.stl`, which is no longer in the folder (see below) |
 | Jaw | `jaw.stl`, `jaw_pin.stl` (the two screw-in pivot pins; the right one is the same part turned 180° about Z) |
 | Jaw drive | `servo_bracket_L.stl`, `servo_bracket_R.stl`, `jaw_drive_hub.stl` |
-| Eyes | `eye_display_carrier.stl`, `eye_display_cradle_L.stl` / `_R.stl` (`tools/eye_cradle.py`; handed, replace `eye_display_retainer.stl`), `camera_bezel.stl`, `pupil_ring.stl`; optional `eye_x_insert.stl` (`tools/eye_x_insert.py`) |
+| Eyes | `eye_display_carrier.stl`, `eye_display_cradle_L.stl` / `_R.stl` (`tools/eye_cradle.py`; handed, replace `eye_display_retainer.stl`), `camera_bezel.stl`, `pupil_ring.stl`; optional `eye_x_insert.stl` (`tools/eye_x_insert.py`). For the 1.75" AMOLED eyes, `eye_amoled_harness.stl` (`tools/eye_amoled.py`) replaces the carrier and cradle |
 | Interior | `pi_shelf.stl`, `battery_tray.stl`, `battery_deck.stl`; for the power bank setup, `battery_tray_pb.stl` and `battery_deck_pb.stl` instead of the last two |
 | Crown | `crown_insert.stl`, `bridge_handle.stl`, `gpio_flashlight.stl`, `gpio_cover.stl` |
 | Neck | `neck.stl`, `neck_base.stl`, `neck_collar.stl` |
@@ -41,8 +41,10 @@ python check.py
 | `occ_all.py`, `route.py` | Occupancy grid of the assembly, then a cable routing check for every run in `cables.json` |
 | `printprep.py` → `plates.py` | Orients every part for printing (writes `printparts.pkl` and `cad/print/`), then lays out the `.3mf` plates |
 | `support_plates.py` | Optional copies of `../print/plates/*.3mf` in `../print/plates/tree_supports/`, with per-object Creality Print (Orca) support settings: organic trees on the parts that need them, tuned to break away easily; off on the rest |
-| `battery_powerbank.py` | Secondary power setup: tray, deck and mocks for a bought power bank (INIU P50) instead of the 2S2P pack. Run `check.py`, `occ_all.py` and `route.py` with `GENE_POWER=powerbank` set to check that setup (results go to `occ_all_pb.npz` and `cables_pb.json`). Writes its two print files straight to `print/parts/` |
-| `export.py` → `build_local_sim.py` | Exports meshes and the jaw sweep to `web/`, then inlines `web/` into one self-contained `head_sim.html` |
+| `battery_powerbank.py` | Secondary power setup: tray, deck and mocks for a bought power bank (INIU P50) instead of the 2S2P pack. Writes its two print files straight to `print/parts/` |
+| `eye_amoled.py` | Alternative eyes: the harness for a Waveshare ESP32-S3-Touch-AMOLED-1.75 board (`eye_amoled_harness.stl`, same part both eyes) and its mock with the USB-C plug (`mocks/display_amoled175.stl`). Board size and USB-C position are assumed; they are parameters at the top |
+| Setups | `GENE_POWER=powerbank` and/or `GENE_EYES=amoled` pick a setup for `check.py`, `occ_all.py`, `route.py` and `mass.py`. Results carry the setup's suffix: `static.json` / `_pb` / `_am` / `_pb_am`, likewise `occ_all*.npz`, `cables*.json`, `mass*.json`. Run all four setups before `export.py` |
+| `export.py` → `build_local_sim.py` | Exports meshes (plus the parts that differ per setup, as `<id>_pb.json` / `<id>_am.json`), the jaw sweep and every setup's checks, cables and weights to `web/`, then inlines `web/` into one self-contained `sim/head_sim.html` with a Setup switch. Run `export.py` with no `GENE_*` set |
 
 The skull is built in eight steps. Run them in this order:
 

@@ -1,5 +1,6 @@
 import numpy as np, json, base64, os
 from parts import *
+assert POWER=="pack" and EYES=="lcd", "export the default setup (unset GENE_POWER / GENE_EYES); the others are added as variants"
 P=load_all()
 def b64(m, dec=None):
     tri=np.asarray(m.vertices,np.float32)[m.faces].reshape(-1)
@@ -17,10 +18,23 @@ groups={
  "tray":[P["tray"]], "deck":[P["deck"]], "battery":[P["battery"]], "boards":[P["boards"]],
  "neck":[P["neck"]], "neckbase":[P["neck_base"]], "collar":[P["neck_collar"]], "bearings":[P["bearings"]], "slipring":[P["slip_ring"]],
  "splitter":[P["splitter"]], "ttl":[P["ttl"]], "amps":[P["amps"]]}
+# the sim switches between setups in place: the parts that differ go in as <id><suffix>.json next to the default ones
+# (power bank: tray, deck, battery, boards; AMOLED eyes: carrier = the harness, display = the board + USB-C plug)
+PB=load_all(power="pack" if POWER=="powerbank" else "powerbank")
+AMO=load_all(eyes="lcd" if EYES=="amoled" else "amoled")
+for k in ("tray","deck","battery","boards"): groups[k+"_pb"]=[PB[k]]
+for k in ("carrier","display"): groups[k+"_am"]=[AMO[k+"_L"],AMO[k+"_R"]]
 for k,ms in groups.items():
     m=trimesh.util.concatenate(ms)
     json.dump({"b64":b64(m)},open(f"web/{k}.json","w"))
     print(f"{k:9s} {len(m.faces):7d} tris")
+# each setup's checks, cable routes and weights (check.py, route.py, mass.py with GENE_POWER / GENE_EYES), as the sim names them
+import shutil
+for suf in ("","_pb","_am","_pb_am"):
+    for f in ("static","cables","mass"):
+        src=f"{f}{suf}.json"
+        if os.path.exists(src): shutil.copyfile(src,f"web/{src}")
+        else: print("  missing", src, "- run that setup's scripts first")
 # interference vs angle: overlap volume and the deepest blob (2V/A thickness), per side; blobs under 0.01 mm3 are facet noise
 M={k:to_mf(v) for k,v in P.items()}
 angles=sorted(set(np.round(np.r_[np.arange(0,60.5,0.5),np.arange(52,58,0.25)],2)))

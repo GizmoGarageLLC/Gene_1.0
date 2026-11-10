@@ -6,10 +6,11 @@ import numpy as np, json, trimesh
 from scipy import ndimage, sparse
 from scipy.sparse.csgraph import dijkstra
 from trimesh.creation import box
-from parts import OUT, POWER
+from parts import OUT, POWER, EYES, SUF, EYE_DY
 PB = POWER == "powerbank"   # secondary power setup: run occ_all.py and this with GENE_POWER=powerbank
+AM = EYES == "amoled"       # 1.75" AMOLED eyes: run occ_all.py and this with GENE_EYES=amoled (either power setup)
 
-d = np.load("occ_all_pb.npz" if PB else "occ_all.npz")
+d = np.load(f"occ_all{SUF}.npz")
 OCC, INSIDE, xs, ys, zs, st = d["occ"].copy(), d["inside"], d["xs"], d["ys"], d["zs"], float(d["step"])
 shape = OCC.shape
 
@@ -43,13 +44,14 @@ CABLES = [
     ("USB: Pi 5 -> TTL interface", (-47, -40, -37.35), (-60, -8, -43.35), 4.0, "data"),
     ("DYNAMIXEL: interface -> servo L", (-60, -6, -41.35), (-18, -8, 0), 3.0, "data"),
     ("DYNAMIXEL: servo L -> servo R", (-18, -9, -4), (18, -9, -4), 3.0, "data"),
-    ("Camera L ribbon -> CAM/DISP 0", (-20, -103.6, 0), (-2.5, 3.0, -41.35), 4.0, "ribbon"),
-    ("Camera R ribbon -> CAM/DISP 1", (20, -103.6, 0), (-15.5, 3.0, -41.35), 4.0, "ribbon"),
+    ("Camera L ribbon -> CAM/DISP 0", (-20, -103.6 + EYE_DY, 0), (-2.5, 3.0, -41.35), 4.0, "ribbon"),
+    ("Camera R ribbon -> CAM/DISP 1", (20, -103.6 + EYE_DY, 0), (-15.5, 3.0, -41.35), 4.0, "ribbon"),
+    # eye starts are in the old eye frame, shifted with the eyes by EYE_DY (skull_v7_eyes_forward.py)
     # eye leads: chenyang FPC ribbons off the flat plug ends, both running back over the cradle's tie plate (eye_cradle.py)
-    ("Display L -> micro-HDMI 1", (-55.06, -59.5, -29.5), (3.3, 3.0, -42.35), 4.0, "video"),
-    ("Display R -> micro-HDMI 0", (66.85, -59.5, -29.5), (16.7, 3.0, -42.35), 4.0, "video"),
-    ("Display L power -> Pi USB-A", (-69.86, -61.5, -29.5), (-47, -36, -37.35), 4.0, "power"),
-    ("Display R power -> Pi USB-A", (52.05, -61.5, -29.5), (-47, -28, -37.35), 4.0, "power"),
+    ("Display L -> micro-HDMI 1", (-55.06, -59.5 + EYE_DY, -29.5), (3.3, 3.0, -42.35), 4.0, "video"),
+    ("Display R -> micro-HDMI 0", (66.85, -59.5 + EYE_DY, -29.5), (16.7, 3.0, -42.35), 4.0, "video"),
+    ("Display L power -> Pi USB-A", (-69.86, -61.5 + EYE_DY, -29.5), (-47, -36, -37.35), 4.0, "power"),
+    ("Display R power -> Pi USB-A", (52.05, -61.5 + EYE_DY, -29.5), (-47, -28, -37.35), 4.0, "power"),
     ("Speaker L -> amp", (-26, -88, -48.35), (-5, -82, -45.35), 2.5, "audio"),
     ("Speaker R -> amp", (26, -88, -48.35), (5, -82, -45.35), 2.5, "audio"),
     ("Amp (I2S) -> GPIO splitter", (0, -72, -45.35), (-12, -60, -29.35), 3.0, "audio"),
@@ -63,6 +65,14 @@ if PB:   # no pack leads; bucks sit on the bank deck; the charge-port lead and t
         ("Slip-ring bundle to deck", (0, 20, -50), (0, 4, 52), 6.0, "power"),
         ("Pi buck -> Pi 5 USB-C", (-14.5, -20, 58), (31.3, 3.0, -42.35), 4.0, "power"),
         ("Servo buck -> servo R", (14.5, -20, 58), (18, -4, -2), 3.0, "power"),
+    ]
+
+if AM:   # one USB-C lead per eye (power + data) from the plug on the board's back, tied over the harness tongue, to a Pi USB-A
+    CABLES = [c for c in CABLES if not c[0].startswith("Display ")]
+    i = next(k for k, c in enumerate(CABLES) if c[0].startswith("Speaker"))
+    CABLES[i:i] = [
+        ("Eye L USB-C -> Pi USB-A", (-60.96, -71.0 + EYE_DY, -26.3), (-47, -36, -37.35), 4.0, "data"),
+        ("Eye R USB-C -> Pi USB-A", (60.95, -71.0 + EYE_DY, -26.3), (-47, -28, -37.35), 4.0, "data"),
     ]
 
 OFFS = np.array([(a, b, c) for a in (-1, 0, 1) for b in (-1, 0, 1) for c in (-1, 0, 1) if (a, b, c) != (0, 0, 0)])
@@ -211,5 +221,5 @@ for r_ in results:
         if v > 0.01: worst.append((n2, round(v, 1)))
     r_["exact_gap"] = round(float(gap), 2); r_["hits"] = worst
     print(f"  {r_['name']:34s} gap {gap:5.2f} mm  " + ("OVERLAPS " + str(worst) if worst else "clear"))
-json.dump({"cables": results, "new_parts": NEW, "ribbon": RIB}, open("cables_pb.json" if PB else "cables.json", "w"), indent=1)
+json.dump({"cables": results, "new_parts": NEW, "ribbon": RIB}, open(f"cables{SUF}.json", "w"), indent=1)
 print(f"\n{sum(r['ok'] for r in results)}/{len(results)} cables routed")

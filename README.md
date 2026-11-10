@@ -14,7 +14,7 @@ Every printed part was fit-checked against every other part and the bought elect
 
 ## Features
 
-- **Eyes:** 2 × 2.1" round 480×480 LCDs (mini-HDMI driver boards), in glued-in carriers behind the eye barrels
+- **Eyes:** 2 × 2.1" round 480×480 LCDs (mini-HDMI driver boards), in glued-in carriers behind the eye barrels. Alternative: 2 × 1.75" round 466×466 AMOLED ESP32-S3 boards, one printed harness and one USB-C lead per eye
 - **Pupils:** an Arducam mini OV5647 camera at the centre of each eye, in a black bezel, for stereo vision (121.9 mm baseline)
 - **Jaw:** twin ROBOTIS XL330-M288-T servos run in tandem on a D-shaft jaw (speaking range 0–30°)
 - **Brain:** Raspberry Pi 5 on a shelf under the eyes, with an I2S amp and two 28 mm speakers
@@ -65,6 +65,8 @@ Gene 1.0/
 ## Simulator
 
 Open [`sim/head_sim.html`](sim/head_sim.html) in a browser. You don't need a server or an install. It shows every part in place. You can sweep the jaw, turn the head, run the eye expressions, preview the two camera views, and cut a section to look inside.
+
+The **Setup** panel switches the battery (2S2P pack or INIU P50 power bank) and the eye screens (2.1" LCD with driver boards, or the 1.75" AMOLED alternative) independently. The parts, cable routes, clearance table, weights and build steps change to match.
 
 ## Status
 

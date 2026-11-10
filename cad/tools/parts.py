@@ -5,8 +5,15 @@ import manifold3d as mf
 OUT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 L=lambda n: trimesh.load(os.path.join(OUT,n))
 AXL,AXR,ZC = -60.96,60.95,-0.32
-DISP_Y, RIDGE_FRONT = -94.10, -99.60
+EYE_DY = -15.0          # 2026-11-10: everything in the eye barrels 15 mm forward (skull_v7_eyes_forward.py). The eye STLs and
+                        # mocks stay in their old eye frame; this shift places them
+DISP_Y, RIDGE_FRONT = -94.10+EYE_DY, -99.60+EYE_DY
 POWER=os.environ.get("GENE_POWER","pack")   # "pack" (2S2P, default) or "powerbank"
+EYES=os.environ.get("GENE_EYES","lcd")      # "lcd" (2.1" LCD + driver board, default) or "amoled" (1.75" AMOLED board, eye_amoled.py)
+def suffix(power=None,eyes=None):
+    # file-name suffix of a setup's results: "" (pack + LCD), "_pb", "_am", "_pb_am"
+    return ("_pb" if (power or POWER)=="powerbank" else "")+("_am" if (eyes or EYES)=="amoled" else "")
+SUF=suffix()
 
 def zcyl(d,z0,z1,sec=96):
     c=cylinder(radius=d/2,height=z1-z0,sections=sec); c.apply_translation([0,0,(z0+z1)/2]); return c
@@ -21,7 +28,8 @@ MR=np.eye(4); MR[:3,:3]=[[0,0,1],[0,1,0],[-1,0,0]]; MR[:3,3]=[39.5,0,0]
 RY180=trimesh.transformations.rotation_matrix(np.pi,[0,1,0])
 RZ180=trimesh.transformations.rotation_matrix(np.pi,[0,0,1])
 
-def load_all():
+def load_all(power=None,eyes=None):
+    power=power or POWER; eyes=eyes or EYES
     P={}   # name -> (mesh, group, moves_with_jaw)
     top=L("skull.stl"); top.apply_translation([-64.8,-61.4,-35.0])
     for b in top.split(only_watertight=False):
@@ -39,15 +47,22 @@ def load_all():
     a=env.copy(); a.apply_transform(ML); P["servo_L"]=a
     b=env.copy(); b.apply_transform(MR); P["servo_R"]=b
     P["bracket_L"]=L("servo_bracket_L.stl"); P["bracket_R"]=L("servo_bracket_R.stl")
-    car=L("eye_display_carrier.stl")   # the handed cradles (eye_cradle.py) replace the retainer ring
-    db=L("mocks/display_driver_board.stl")
-    dsp=L("mocks/display.stl"); bez=L("camera_bezel.stl"); cam=L("mocks/camera.stl")
+    am=eyes=="amoled"
+    if am:   # one harness per eye holds the whole 1.75" AMOLED board (eye_amoled.py); no cradle, no driver board
+        car=L("eye_amoled_harness.stl"); dsp=L("mocks/display_amoled175.stl"); disp_y=EYE_DY
+    else:
+        car=L("eye_display_carrier.stl")   # the handed cradles (eye_cradle.py) replace the retainer ring
+        db=L("mocks/display_driver_board.stl")
+        dsp=L("mocks/display.stl"); disp_y=DISP_Y
+    bez=L("camera_bezel.stl"); cam=L("mocks/camera.stl")
     pup=L("pupil_ring.stl")
     for s,ax in (("L",AXL),("R",AXR)):
-        c=car.copy(); c.apply_translation([ax,0,ZC]); P["carrier_"+s]=c
-        d=dsp.copy(); d.apply_translation([ax,DISP_Y,ZC]); P["display_"+s]=d
-        r=L(f"eye_display_cradle_{s}.stl"); r.apply_translation([ax,0,ZC]); P["cradle_"+s]=r   # behind the LCD, board snapped into its back
-        P["dboard_"+s]=trimesh.util.concatenate([k for k in db.split(only_watertight=False) if (k.bounds.mean(0)[0]<0)==(s=="L")])
+        c=car.copy(); c.apply_translation([ax,EYE_DY,ZC]); P["carrier_"+s]=c
+        d=dsp.copy(); d.apply_translation([ax,disp_y,ZC]); P["display_"+s]=d
+        if not am:
+            r=L(f"eye_display_cradle_{s}.stl"); r.apply_translation([ax,EYE_DY,ZC]); P["cradle_"+s]=r   # behind the LCD, board snapped into its back
+            b=trimesh.util.concatenate([k for k in db.split(only_watertight=False) if (k.bounds.mean(0)[0]<0)==(s=="L")])
+            b.apply_translation([0,EYE_DY,0]); P["dboard_"+s]=b
         for nm,m in (("bezel_",bez),("camera_",cam),("pupil_",pup)):
             k=m.copy()
             if s=="R": k.apply_transform(RY180)          # same part turned 180 deg about the barrel axis
@@ -57,7 +72,7 @@ def load_all():
     P["neck"]=L("neck.stl"); P["neck_base"]=L("neck_base.stl"); P["neck_collar"]=L("neck_collar.stl")
     P["bearings"]=L("mocks/neck_bearings.stl"); P["slip_ring"]=L("mocks/slip_ring.stl")
     P["splitter"]=L("mocks/gpio_splitter.stl"); P["ttl"]=L("mocks/ttl_interface.stl"); P["amps"]=L("mocks/i2s_amp.stl")
-    if POWER=="powerbank":   # secondary setup, battery_powerbank.py
+    if power=="powerbank":   # secondary setup, battery_powerbank.py
         P["tray"]=L("battery_tray_pb.stl"); P["deck"]=L("battery_deck_pb.stl")
         P["battery"]=L("mocks/powerbank_P50.stl"); P["boards"]=L("mocks/power_boards_pb.stl")
     else:

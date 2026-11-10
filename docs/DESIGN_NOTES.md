@@ -52,7 +52,7 @@ Retired, do not print: `GeneTop_v6_neck` (v7 is v6 + clearances), `GeneTop_v3_*`
 | Talking mouth opening, on the neck | **53 %** of full visemes (~12 deg on "ah", 14 max): servos never max out, 20 % reserve. Yelled ("!") x1.6 -> ~20 deg, brief strain OK |
 | Talking mouth opening, head on its jaw | **28 %** (~6 deg on "ah", 7 max), same criterion. Yelled -> ~11 deg at 95 % of available torque |
 
-Weight and servo load (estimate, `tools/mass.py` -> `tools/web/mass.json`, 2026-10-30):
+Weight and servo load (estimate, `tools/mass.py` -> `tools/mass.json`, 2026-10-30):
 about 1315 g / 2.9 lb as the sim shows it (flashlight, no handle, no neck); skull side
 1034 g, jaw + hubs + pins 281 g. Skull CoM 40 mm in front of the pivot and 9 mm above it; jaw
 CoM 77 mm in front and 72 mm below. Holding torque against the pair's 1.04 N.m stall:
@@ -353,6 +353,58 @@ eye power ribbons: HDMI 111 / 123 mm, USB 58 / 136 mm, all within the 0.5 m lead
 Every other run unchanged. Mass: cradles ~2 x 11 g PETG; head total 1353 g (the two power leads are now counted).
 
 ---
+
+## Alternative eyes: 1.75" AMOLED boards (2026-11-10)
+
+`tools/eye_amoled.py` -> `eye_amoled_harness.stl`, `mocks/display_amoled175.stl`. A proposal, not yet printed or bought.
+
+**Why:** an all-in-one round screen (panel, controller and USB on one board) removes the LCD flex that kept breaking, the
+driver boards and all four flat HDMI/USB ribbons. The barrel limits the size: 59.00 front tube, 56.80 ridge, 60.60 rear bore, so
+a unit must be round and under about 60 mm. Integrated 2.1" boards (Waveshare ESP32-S3-Touch-LCD-2.1 at 75 mm, the 2.1" USB
+monitor at 73 mm) don't fit. The Waveshare **ESP32-S3-Touch-AMOLED-1.75** (466 x 466 AMOLED, touch, one USB-C) is 48.96 dia x
+10.40 deep (Core Electronics listing). The 1.85C (58 x 17) would fit with 1.3 mm a side; the 1.28 is too small for the pupil.
+
+**Harness** (same part both eyes, replaces the carrier and cradle): the old carrier's outside (OD 60.50, front face on the
+ridge at Y -96.10, slip fit, CA), stepping to 59.80 behind Y -84.10 like the cradle cage. Front lip with a 45.20 aperture over the
+44.45 active area; the glass sits where the LCD's does (Y -94.10 in the eye frame, -109.10 in the head since the eyes came 15 mm forward), so the camera, bezel and pupil don't move. Seat bore 49.40 (0.22 a
+side) on 6 ribs, two snap fingers at +/-X over the board's back edge, bottom open for the USB-C lead and a 16 x 11 tongue behind
+with two pairs of zip-tie slots. 8.85 cm3 (carrier + cradle were 12.5). Black PETG, 4 walls, lip down, no supports.
+
+**Checks** (`check.py` with `GENE_EYES=amoled`, both power setups): 0 overlap with every part; harness to skull 0.05 mm (the
+slip fit), board to skull >= 3.0 mm; slides straight in (about 34.5 mm since the eyes came forward and the old ridge went; the cradle needed a turn). `route.py`: one 4 mm
+USB-C lead per eye to a Pi USB-A, left 68 mm (buy 150), right 147 mm (buy 200), >= 1.2 mm from every part apart from the last
+few mm into the Pi mock (a solid block, as with the LCD power leads). Mass (default sim build: GPIO cover, no flashlight or neck): 1272 g with the pack, 1224 g with the power bank
+(53 g less than the LCD eyes; boards assumed ~25 g each).
+
+**Assumed, check before printing:** board dia and depth, USB-C centred on the back with a 90 deg plug pointing down (mock
+plug 12 x 6.5, reaching 22 mm below the axis). All are parameters at the top of `eye_amoled.py`.
+
+**Software:** these are not HDMI monitors. Full frames over the ESP32-S3's 12 Mbit/s USB would be ~2-3 fps at 466 x 466, so
+the eye drawing in `gene_eyes.py` has to be ported to the board; the Pi then sends the expression, lids, gaze and tilt over USB
+serial, and pokes come back from the board's touch on the same lead. The lit area is 44.45 mm instead of 53.34, so the camera
+hub covers r < 0.41 of the screen instead of 0.34.
+
+**Sim:** `sim/head_sim.html` now switches battery and eye screens in its Setup panel (replacing `head_sim_powerbank.html`).
+It opens with Gene on a desk (jaw on the table, no neck), the GPIO riser plug and cover fitted, and no flashlight, camera POV or FOV
+cones; those are a click away. `mass.py` weighs that same default build.
+
+## Eyes 15 mm forward in their barrels (2026-11-10)
+
+`tools/skull_v7_eyes_forward.py` (run after `skull_v7_ledge_relief.py`), `EYE_DY = -15` in `parts.py`. In front of the pupil rings
+the barrel was empty for 30 mm; the whole eye stack (camera, bezel, pupil, display, carrier and cradle, or the AMOLED harness) moves
+forward half of that. The ridge moves to Y -114.60..-111.10, the bore behind it opens to the rear bore's 60.60, the flex-ledge
+relief and the inboard camera-ribbon slot run 15 mm further forward. The outside is unchanged (depth maps from 13 directions). Skull
+573.98 -> 567.42 cm3, one watertight solid. The eye STLs stay in their old eye frame; `parts.py`, `route.py` (eye cable start
+points) and the sim page (screen, lens and beam positions) shift them by `EYE_DY`. Old skull kept as
+`tools/retired/GeneTop_v7_before_eyes_forward.stl`.
+
+**Decision: this skull is for the 1.75" AMOLED eyes only.** The 2.1" LCD eyes don't fit it: moved forward, the cradle's and driver boards' bottoms (plugs, r > 30 at
+Z -30) run into the bottom of the barrel wall: cradle R 203 mm3, driver boards 52 / 31 mm3 (all were 0.6-1.8 mm clear before), and
+the LCD flex ledge at the top of the glass overlaps 21.5 mm3 a side (10.7 before). The 1.75" AMOLED setups are clean. For LCD eyes,
+print `tools/retired/GeneTop_v7_before_eyes_forward.stl` instead (eyes in the old place). The sim keeps the LCD setup for comparison.
+
+Cables (both eye setups): LCD power lead L now 67 mm (buy 150, was 100); camera ribbons 144 / 163 mm, same buy lengths.
+Mass, default sim build: pack + LCD 1326 g, power bank + LCD 1277 g, pack + AMOLED 1272 g, power bank + AMOLED 1224 g.
 
 # Pi 5, speakers, and eye cameras
 
