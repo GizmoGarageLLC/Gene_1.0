@@ -51,7 +51,7 @@ tray=D(tray,U(cuts))
 DX0, DX1 = TX0, BX1+GAP                     # stops at the port end, so the plug zone stays open above
 deck=U([bx(DX0,DX1,TY0,TY1,DECK_Z,DECK_Z+DECK_T)]+[zcyl(7.0,DECK_Z,DECK_Z+DECK_T,x,y) for x,y in POSTS]
        +[bx(x-2.0,x+2.0,min(y,TY0) if y<0 else TY1,max(y,TY0) if y<0 else y,DECK_Z,DECK_Z+DECK_T) for x,y in POSTS])
-bays={"buck_pi":(-14.5,-38.0),"buck_servo":(14.5,-38.0),"trigger":(0.0,-12.0)}
+bays={"buck_pi":(-21.2,-38.0),"buck_servo":(14.2,-38.0),"trigger":(0.0,-12.0)}   # bucks 35.4 apart so they share the middle zip-tie slot (X -3.5)
 BAY={"buck_pi":(26.4,26.4),"buck_servo":(26.4,26.4),"trigger":(33.0,15.0)}   # trigger bay fits boards up to 32 x 14
 rims=[]
 for k,(x,y) in bays.items():
