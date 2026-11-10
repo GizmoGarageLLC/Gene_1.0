@@ -45,8 +45,11 @@ CABLES = [
     ("DYNAMIXEL: servo L -> servo R", (-18, -9, -4), (18, -9, -4), 3.0, "data"),
     ("Camera L ribbon -> CAM/DISP 0", (-20, -103.6, 0), (-2.5, 3.0, -41.35), 4.0, "ribbon"),
     ("Camera R ribbon -> CAM/DISP 1", (20, -103.6, 0), (-15.5, 3.0, -41.35), 4.0, "ribbon"),
-    ("Display L -> micro-HDMI 1", (-61, -79, -20), (3.3, 3.0, -42.35), 6.0, "video"),
-    ("Display R -> micro-HDMI 0", (61, -79, -20), (16.7, 3.0, -42.35), 6.0, "video"),
+    # eye leads: chenyang FPC ribbons off the flat plug ends, both running back over the cradle's tie plate (eye_cradle.py)
+    ("Display L -> micro-HDMI 1", (-55.06, -59.5, -29.5), (3.3, 3.0, -42.35), 4.0, "video"),
+    ("Display R -> micro-HDMI 0", (66.85, -59.5, -29.5), (16.7, 3.0, -42.35), 4.0, "video"),
+    ("Display L power -> Pi USB-A", (-69.86, -61.5, -29.5), (-47, -36, -37.35), 4.0, "power"),
+    ("Display R power -> Pi USB-A", (52.05, -61.5, -29.5), (-47, -28, -37.35), 4.0, "power"),
     ("Speaker L -> amp", (-26, -88, -48.35), (-5, -82, -45.35), 2.5, "audio"),
     ("Speaker R -> amp", (26, -88, -48.35), (5, -82, -45.35), 2.5, "audio"),
     ("Amp (I2S) -> GPIO splitter", (0, -72, -45.35), (-12, -60, -29.35), 3.0, "audio"),

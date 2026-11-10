@@ -28,7 +28,7 @@ PRINT = {"shell": DEFAULT, "brow": DEFAULT, "barrel_L": DEFAULT, "barrel_R": DEF
          "bracket_L": (1.7, 0.22, PETG), "bracket_R": (1.7, 0.22, PETG),
          "tray": (0.9, 0.15, PETG), "deck": (0.9, 0.15, PETG), "flashlight": (0.9, 0.15, PETG),
          "shelf": DEFAULT, "insert": DEFAULT, "gpio_cover": DEFAULT,
-         "carrier_L": DEFAULT, "carrier_R": DEFAULT, "retainer_L": DEFAULT, "retainer_R": DEFAULT,
+         "carrier_L": DEFAULT, "carrier_R": DEFAULT, "cradle_L": (1.7, 0.22, PETG), "cradle_R": (1.7, 0.22, PETG),
          "bezel_L": DEFAULT, "bezel_R": DEFAULT, "pupil_L": DEFAULT, "pupil_R": DEFAULT,
          "neck": DEFAULT, "neck_collar": DEFAULT, "neck_base": DEFAULT}
 
@@ -36,7 +36,8 @@ PRINT = {"shell": DEFAULT, "brow": DEFAULT, "barrel_L": DEFAULT, "barrel_R": DEF
 BOUGHT = {
     "servo_L": 18.0, "servo_R": 18.0,             # XL330-M288-T datasheet
     "pi5": 46.0 + 21.0 + 2.0,                     # board, Active Cooler (~), microSD
-    "display_L": 25.0, "display_R": 25.0,          # ~ 2.1" round LCD with driver board
+    "display_L": 12.0, "display_R": 12.0,          # ~ 2.1" round LCD (glass + backlight)
+    "dboard_L": 13.0, "dboard_R": 13.0,            # ~ its driver board + the two plugs (was counted with the LCD)
     "camera_L": 3.0, "camera_R": 3.0,              # ~ micro camera module
     "speakers": 2 * 8.0,                           # ~ 28 mm speakers
     "battery": 4 * 47.0 + 15.0,                    # 4 x 18650 (30Q 45-48 g) + BMS, nickel, wrap

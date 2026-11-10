@@ -39,13 +39,15 @@ def load_all():
     a=env.copy(); a.apply_transform(ML); P["servo_L"]=a
     b=env.copy(); b.apply_transform(MR); P["servo_R"]=b
     P["bracket_L"]=L("servo_bracket_L.stl"); P["bracket_R"]=L("servo_bracket_R.stl")
-    car=L("eye_display_carrier.stl"); ret=L("eye_display_retainer.stl")
+    car=L("eye_display_carrier.stl")   # the handed cradles (eye_cradle.py) replace the retainer ring
+    db=L("mocks/display_driver_board.stl")
     dsp=L("mocks/display.stl"); bez=L("camera_bezel.stl"); cam=L("mocks/camera.stl")
     pup=L("pupil_ring.stl")
     for s,ax in (("L",AXL),("R",AXR)):
         c=car.copy(); c.apply_translation([ax,0,ZC]); P["carrier_"+s]=c
         d=dsp.copy(); d.apply_translation([ax,DISP_Y,ZC]); P["display_"+s]=d
-        r=ret.copy(); r.apply_translation([ax,DISP_Y+5.2,ZC]); P["retainer_"+s]=r   # directly behind the module
+        r=L(f"eye_display_cradle_{s}.stl"); r.apply_translation([ax,0,ZC]); P["cradle_"+s]=r   # behind the LCD, board snapped into its back
+        P["dboard_"+s]=trimesh.util.concatenate([k for k in db.split(only_watertight=False) if (k.bounds.mean(0)[0]<0)==(s=="L")])
         for nm,m in (("bezel_",bez),("camera_",cam),("pupil_",pup)):
             k=m.copy()
             if s=="R": k.apply_transform(RY180)          # same part turned 180 deg about the barrel axis

@@ -65,7 +65,7 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
 ## Assembly order
 
 1. Eyes: glue the display carriers into the barrels from inside (they are a slip
-   fit), fit the displays, glue the retainers behind them (rest each retainer on the LCD, don't press it, or the screen shows pressure marks).
+   fit), fit the displays with their driver boards snapped into the eye board cradles, and glue each cradle into its carrier (see *Eye board cradle*; it replaces the retainer).
 2. Cameras: fit each camera into its black bezel, press the ribbon into the
    slit on the back of the bezel's spoke (no threading - the camera stays on
    its cable) and through the barrel's inboard slot, push the bezel onto the ridge,
@@ -273,7 +273,8 @@ of the 56.80 ridge, so the ridge frames the screen.
 | File | What | Print |
 |---|---|---|
 | `eye_display_carrier.stl` | Cup, OD 60.50 x 12 long. Aperture 53.80, pocket 56.00 x 10.0 (**56.60 since 2026-10-30**), cable slot at the bottom | 2 |
-| `eye_display_retainer.stl` | Ring OD 55.80 ID 46.0 x 3.0, traps the module in the cup | 2 |
+| `eye_display_retainer.stl` | Ring OD 55.80 ID 46.0 x 3.0, traps the module in the cup. **Superseded 2026-11-10 by the eye board cradles `eye_display_cradle_L.stl` / `_R.stl`** | - |
+| `eye_display_cradle_L.stl`, `_R.stl` | Eye board cradles (handed, lead-in chamfers): LCD stop ring + cage + snap seat for the 57 mm driver board + lead tie plate (see below) | 1 + 1 |
 | `mocks/display.stl` | The module itself, for fit checking only - do not print | - |
 
 Verified: carrier and module clear both barrels and the skull, 0 of 6000
@@ -288,6 +289,65 @@ for your part are the pocket diameter (56.00) and pocket depth (10.0) in
 The carrier is a slip fit, not an interference fit: 0.106-0.109 mm radial
 clearance to the bore at its tightest (full-assembly check). Glue it with CA;
 the ridge takes the forward load. Glue the retainer too - nothing holds it axially.
+
+## Eye board cradle (2026-11-10)
+
+`tools/eye_cradle.py` -> `eye_display_cradle_L.stl` / `_R.stl`, `print/parts/24_eye_display_cradle_L_x1.stl` / `_R_x1.stl`, `print/plates/Plate11_eye_cradles.3mf`.
+
+**Why:** the LCD flex kept breaking. Nothing held the driver board: it hung on the LCD's 40-pin flex and on the
+HDMI/USB leads, so every tug on a lead and every head turn worked the flex. The cradle makes LCD + board one rigid unit,
+so the flex is bent once at assembly and never moves again, and the leads are tied to the cradle, not the board.
+
+It replaces the retainer ring. Eye axis along Y:
+
+| Zone | Size | Job |
+|---|---|---|
+| Front ring | r 23.0-28.1, Y -91.6 to -84.1 | In the carrier's 56.60 seat, 0.2 mm behind the glass (the real LCD is 2.3 thick, back at Y -91.8): stops it falling back without pressing it. Glued to the carrier's two side walls |
+| Shoulder | r 28.1-29.1 at Y -84.1 | Sits on the carrier's back face, so pushing the cradle home sets that 0.2 mm gap |
+| Cage | r 27.0-29.9, Y -84.1 to -76.0 | Open +/-42 deg at the top, so the flex can fold down to the board's connector |
+| Board seat | 57.4 bore, Y -76.0 to -72.4 | PCB front face on the cage end at Y -76.0 (3 mm further forward than the old -73 target, so the flex has more slack, not less). Two snap fingers at +/-X (9 wide, 1.2 thick, 9 mm long, 0.55 barb) click over its back face. Open +/-40 deg at the bottom for the plugs, and at the top for the FPC connector |
+| Tie plate | 35.6 x 13.5 x 2, 0.5 mm under the flat plug-end boards | On two side webs. The plug ends can't drop out of the board, and 2 pairs of zip-tie slots take the two flat ribbons, so a pull on a lead stops at the plate |
+
+The board's 4 x M2.5 holes aren't used, so their positions don't matter (they're only known from the seller's sketch).
+**Handed (L / R):** the leads' flat plug ends are 12-16 mm wide, so the plate's webs sit 16.5-18 mm either side of the eye axis, which is where the
+barrel's lower outboard wall is. Each cradle is cut back 1 mm from its own eye's skull only: the inboard web (towards the nose) stays whole and
+carries the plate, the outboard one is trimmed. One dimple under the plate = L (the -X eye, Gene's right), two = R.
+
+**Leads (2026-11-10):** the eye leads bought are chenyang flat FPC cables (micro-HDMI to mini-HDMI, and USB-A to micro-USB). Each board
+end is a 90 deg plug on a small flat PCB (ZIF latch for the 0.1 mm ribbon) lying under the board's edge connector, the ribbon leaving
+along the eye axis. The micro-USB end is UP-angled and the HDMI end was DOWN-angled, so the two ribbons left in opposite directions and the
+HDMI one doubled back towards the LCD, a sharp fold in a thin flat cable. Both now run back into the head: a mini-HDMI UP-angled
+end (NGFF CN-017-UP, 5-pack, bought 2026-11-10) replaces the HDMI one on the same ribbon. `mocks/display_driver_board.stl` models
+the ends (HDMI 16 x 15.5 x 4, USB 12 x 13.5 x 3.5, from the listing photos, rounded up) and both ribbons to Y -59.5; `route.py` carries them
+to the Pi (micro-HDMI 0/1, and two USB-A ports for power). Bench-build each eye: snap the board into the cradle, plug in the leads and tie them
+to the plate, plug the LCD flex into the board, drop the LCD into the carrier from behind (flex up), push the cradle in after it until
+the shoulder seats, and glue the front ring to the carrier's side walls with CA. Print in PETG, 4 walls, front ring down, no supports.
+Plug both leads in on the bench before the board goes in, both ribbons running back, and zip-tie them to the plate.
+
+**Lead-ins (2026-11-10):** 0.8 x 45 deg on the front ring's outer edge (finds the carrier seat), 1.0 x 45 deg on the cage's front outer edge
+(the shoulder still bears on the carrier at r 28.3-28.9) and 0.6 x 45 deg inside the board seat's mouth. Push-in check (cradle + board + plug
+ends, against the skull, carrier, LCD, bezel and camera, i.e. what is in the head when the eyes go in): it slides straight along the eye axis
+for the last **11 mm** on both eyes, never closer than 0.2 mm (front ring in the carrier seat); further back, its outboard side meets the
+barrel's closed back end at Y -61.5. The front ring needs the last 7.5 mm, so bring the unit up through the open bottom, square it to the eye
+and push straight home. Fit the eyes before the Pi shelf: with the TTL interface in, the left eye only has 4.5 mm of straight run. 10.69 cm3 each.
+**Way in** (`tools/eye_cradle_path.py`; found by a search over turn and offsets, then checked at 0.25 mm / 0.25 deg on both eyes, 0 contacts):
+lift the cradle + board up through the open bottom to just behind the eye, about 10 mm toward the nose with its front turned about 11 deg toward
+the nose (the rise from 90 mm below is clear); slide it forward into the barrel, ease it out onto the eye's axis, straighten it about 8 mm short and push
+straight home. It can't go straight up and in: the space under each eye is narrower than the 60 mm unit, and the barrel's outboard back end is closed.
+
+Mocks: `mocks/display.stl` is now the real panel (R28.09 circle + the flex ledge at the top, 2.3 thick; old 55.4 x 5.2 disc kept as
+`tools/retired/display_mock_before_cradle.stl`). `mocks/display_driver_board.stl` is now turned 180 deg (plugs down, as built)
+with the PCB front face at Y -76, and is in the assembly (`dboard_L/R` in `parts.py`); the old flex-down copy is
+`tools/retired/display_driver_board_flexdown.stl`. Display cable routes in `route.py` now start at the HDMI plug.
+
+Checks (`check.py`, both power setups): cradle to skull 0.65 mm, board with plug ends and ribbons to skull 1.80, cradle to LCD 0.20, cradle to TTL interface 2.0,
+left-eye ribbons to the TTL interface 1.50 (they lift over it just behind the plate); cradle seated on the carrier and board seated in the cradle (0 gap, 0 overlap). No other pair changed.
+All round each eye (30 deg sectors, cradle + board + plug ends + ribbons to every other part): outboard 0.75-0.94, top 1.17-4.87, nose side 0.65-0.94,
+bottom 0.96-4.83 (1.50 to the TTL board on the left eye), outboard low 0.78-0.94 mm; the tightest are the cage in the barrel bore, a slip fit. The display mock's ledge overlaps the
+ledge relief by 10.7 mm3 per eye, the same figure the boxy ledge outline gave in *Skull v7 ledge relief* (the real ledge is rounder). Jaw
+sweep unchanged (cradles and boards >= 9 mm from the jaw at every angle). `route.py`: 16/16 cables routed (17/17 with the power bank), now with the two
+eye power ribbons: HDMI 111 / 123 mm, USB 58 / 136 mm, all within the 0.5 m leads bought; the USB runs' last few mm show as an overlap with the Pi because its mock is a solid block, ports included.
+Every other run unchanged. Mass: cradles ~2 x 11 g PETG; head total 1353 g (the two power leads are now counted).
 
 ---
 

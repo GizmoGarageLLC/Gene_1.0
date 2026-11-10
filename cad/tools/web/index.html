@@ -576,7 +576,7 @@
     {id:"hub",     name:"Drive hubs",          col:"--hub",     note:"moving",   clip:false},
     {id:"bracket", name:"Servo brackets",      col:"--bracket", note:"L + R",    clip:false},
     {id:"servo",   name:"XL330 servos",        col:"--servo",   note:"2 tandem", clip:false},
-    {id:"retainer",name:"Display retainers",   col:"--retainer",note:"",         clip:false},
+    {id:"cradle",  name:"Eye board cradles",   col:"--retainer",note:"new",      clip:false},
     {id:"carrier", name:"Display carriers",    col:"--carrier", note:"top slot", clip:false},
     {id:"display", name:"2.1″ round LCDs",col:"--display", note:"mock",     clip:false},
     {id:"dboard",  name:"LCD driver boards + HDMI/USB plugs",col:"--dboard", note:"mock", clip:false},
@@ -607,8 +607,8 @@
   ];
   var LABEL={shell:"Skull",brow:"Skull brow",barrel_L:"Eye barrel L",barrel_R:"Eye barrel R",jaw:"Jaw",
     hub_L:"Hub L",hub_R:"Hub R",servo_L:"Servo L",servo_R:"Servo R",bracket_L:"Bracket L",bracket_R:"Bracket R",
-    carrier_L:"Carrier L",carrier_R:"Carrier R",display_L:"Display L",display_R:"Display R",retainer_L:"Retainer L",
-    retainer_R:"Retainer R",bezel_L:"Bezel L",bezel_R:"Bezel R",camera_L:"Camera L",camera_R:"Camera R",pupil_L:"Pupil ring L",pupil_R:"Pupil ring R",
+    carrier_L:"Carrier L",carrier_R:"Carrier R",display_L:"Display L",display_R:"Display R",cradle_L:"Cradle L",
+    cradle_R:"Cradle R",dboard_L:"Driver board L",dboard_R:"Driver board R",bezel_L:"Bezel L",bezel_R:"Bezel R",camera_L:"Camera L",camera_R:"Camera R",pupil_L:"Pupil ring L",pupil_R:"Pupil ring R",
     shelf:"Pi shelf",pi5:"Pi 5",speakers:"Speakers",handle:"Bridge handle",neck:"Neck",neck_base:"Neck base",neck_collar:"Clamp collar",splitter:"GPIO splitter",ttl:"TTL interface",amps:"I2S amps",bearings:"Bearings",slip_ring:"Slip ring",insert:"Crown insert",gpio_plug:"GPIO plug",flashlight:"GPIO flashlight",gpio_header:"Flashlight header",gpio_cover:"GPIO cover",tray:"Battery tray",deck:"Deck",battery:"Battery pack",boards:"Power boards"};
 
   function strip(n){ return n.replace(/_[LR]$/,""); }
@@ -640,7 +640,9 @@
     if(k==="jaw|servo") return ["info","Flush","D-shaft end on the horn face; they turn together"];
     if(k==="hub|servo") return ["ok","Bolted","Hub on the horn, 4 × M2"];
     if(k==="bracket|servo") return ["ok","Bolted","Servo on the bracket, 4 × M2"];
-    if(k==="display|retainer") return ["ok","Seated","Retainer behind the module"];
+    if(k==="cradle|display") return ["ok","Clear","Cradle ring 0.2 mm behind the glass: stops it falling back without pressing"];
+    if(k==="cradle|dboard") return ["ok","Snapped in","Board on the cage end, two snap fingers over its back"];
+    if(k==="display|shell") return ["info","Ledge relief","LCD flex ledge in the barrel's ledge relief; the mock's ledge is boxier than the real one"];
     if(k==="pi5|shelf") return ["ok","Seated","Board on 6 mm standoffs"];
     if(k==="shelf|speakers") return ["ok","Seated","Speakers in the cradles"];
     if(k==="bezel|camera") return ["ok","Slip fit","Camera in the fixed pocket"];
@@ -648,7 +650,7 @@
     if(k==="camera|pupil") return ["ok","Clear","Lens clears the cone bore; 153 deg unvignetted"];
     if(k==="barrel|bezel") return ["ok","Slip fit","Bezel in the 59.00 front bore"];
     if(k==="barrel|carrier") return ["warn","Slip fit","Notes say interference; glue it"];
-    if(k==="carrier|retainer") return ["warn","Slip fit","Nothing holds it axially; glue it"];
+    if(k==="carrier|cradle") return ["ok","Seated","Shoulder on the carrier's back face; glue the front ring to the side walls"];
     if(k==="hub|jaw") return ["ok","Slip fit","D-bore on the D-shaft, grub screw"];
     if(k==="carrier|display") return ["ok","Clear","Aperture margin round the active area"];
     if(k==="bracket|pi5") return ["ok","Clear","16 mm port block, 4 mm standoffs"];
@@ -816,7 +818,7 @@
   var contactMat=new THREE.MeshBasicMaterial({color:new THREE.Color(cssVar("--contact")),side:THREE.DoubleSide,depthTest:false});
   // left/right pairs come in one file; split them by side so the exploded view can pull the halves apart.
   // The -X half stays the part's mesh, the +X half hangs off it as a child sharing its material.
-  var PAIRED={hub:1,bracket:1,servo:1,carrier:1,retainer:1,display:1,dboard:1,bezel:1,pupil:1,camera:1,speaker:1,amps:1};
+  var PAIRED={hub:1,bracket:1,servo:1,carrier:1,cradle:1,display:1,dboard:1,bezel:1,pupil:1,camera:1,speaker:1,amps:1};
   function splitX(g){
     var a=g.attributes.position.array, nL=0, i, k;
     for(i=0;i<a.length;i+=9) if(a[i]+a[i+3]+a[i+6]<0) nL+=9;
@@ -1923,7 +1925,7 @@
   // part that fits first sits nearest its seat, so the exploded view reads in fitting order.
   var EXPLODE={
     skull:[0,0,0,0],
-    carrier:[0,25,0,0], display:[0,50,0,0], retainer:[0,75,0,0], dboard:[0,100,0,0],               // in from inside the skull
+    carrier:[0,25,0,0], display:[0,50,0,0], cradle:[0,80,0,0], dboard:[0,110,0,0],               // in from inside the skull
     bezel:[0,-50,0,0], camera:[0,-85,0,0], pupil:[0,-115,0,0],                 // on from the front
     boards:[0,0,-90,0], deck:[0,0,-110,0], battery:[0,0,-140,0], tray:[0,0,-170,0],
     servo:[0,0,-70,30], bracket:[0,0,-70,70],
@@ -1940,14 +1942,14 @@
           "The eye barrels, thrust pads, camera slots, crown ledge and neck screw pilots are all part of it. Everything else screws or glues into this one part.",
           "Almost everything goes in through the open bottom, so work with the head upside down or on its back."],
      hw:[]},
-    {t:"Eye screens", parts:["carrier","display","retainer","dboard"], view:[-260,300,230],
-     seq:[{ids:["carrier"]},{ids:["display"]},{ids:["retainer"]},{ids:["dboard"]}],
+    {t:"Eye screens", parts:["carrier","display","cradle","dboard"], view:[-260,300,230],
+     seq:[{ids:["carrier"]},{ids:["dboard"],to:"cradle"},{ids:["display"]},{ids:["cradle","dboard"]}],
      txt:["From inside the skull, push a display carrier into each eye barrel, slots at the top and bottom. It's a slip fit (about 0.1&nbsp;mm clear), so glue it with CA. The ridge in the barrel takes the forward load.",
-          "Drop a 2.1&Prime; round LCD into each carrier, screen facing forward, flex down through the bottom slot.",
-          "Glue a retainer ring in behind each display. Nothing else holds it in.",
-          "Run the LCD flex straight back along the bottom of the barrel and plug it into the round driver board, about 19&nbsp;mm behind the LCD. The board's mini-HDMI and micro-USB then stand at the top, in the window and pocket skull v7 has above each eye.",
-          {tip:"TekGroAml LCD: 56.18&nbsp;mm across, 2.3&nbsp;mm thick, against the carrier's 56.00 pocket. Test-fit before gluing. Mount the boards no further forward than shown, or the outboard plug touches the barrel wall."}],
-     hw:["CA glue"]},
+          "On the bench, press the round driver board into the back of its cradle (they're handed: one dimple under the tie plate is the left eye's, Gene's right; two is the right), parts facing back, FPC connector at the top by the open window and the mini-HDMI and micro-USB at the bottom. The two side fingers click over the board's back face. Plug both flat leads in: use the <b>UP-angled</b> mini-HDMI end so both ribbons run back into the head, never forward at the LCD. The plug ends' little boards rest just above the tie plate, which stops them dropping out; zip-tie both ribbons to it through the two pairs of slots.",
+          "Plug the LCD's flex into the board's connector and close the latch, then drop the LCD into the carrier from behind, screen forward, flex at the top.",
+          "Lift the cradle and board up through the open bottom of the head to just behind the eye, about 10&nbsp;mm toward the nose with the front turned about 11&deg; toward the nose. Slide it forward into the barrel, ease it out onto the eye's centre line, straighten it about 8&nbsp;mm short, then push straight home (the front ring's lead-in finds the carrier seat over the last 7.5&nbsp;mm). The LCD's flex folds down through the window at the top of the cradle. Stop when the shoulder sits on the carrier's back face: that leaves 0.2&nbsp;mm behind the glass, so it doesn't press the panel. Glue the cradle's front ring to the carrier's two side walls with CA. Fit both eyes before the Pi shelf.",
+          {tip:"The board is no longer hung on the flex: LCD, cradle and board are one rigid unit glued into the carrier, and the zip ties take any pull on the flat leads. Never crease the FPC ribbons: bend them round, not folded. On the left eye (Gene's right) the ribbons lift over the DYNAMIXEL TTL board just behind the plate. Print the cradles in PETG with 4 walls so the snap fingers don't crack."}],
+     hw:["CA glue","4 small zip ties (2.5 mm)","2 mini-HDMI UP-angled FPC ends"]},
     {t:"Eye cameras and pupils", parts:["camera","bezel","pupil"], view:[-140,-400,120],
      seq:[{ids:["camera"],to:"bezel"},{ids:["camera","bezel"]},{ids:["pupil"]}],
      txt:["Fit each Arducam into its black v3 bezel, crystal end towards the spoke (the pocket is 12.4&nbsp;mm long for it).",

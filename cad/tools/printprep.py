@@ -18,7 +18,8 @@ PARTS=[
  ("bracket_L",    Lraw("servo_bracket_L.stl"),  1, []),                      # upright, as installed
  ("bracket_R",    Lraw("servo_bracket_R.stl"),1, []),
  ("carrier",      Lraw("eye_display_carrier.stl"),2,[(90,X)]),                # front lip down
- ("retainer",     Lraw("eye_display_retainer.stl"),2,[(90,X)]),
+ ("cradle_L",     Lraw("eye_display_cradle_L.stl"),1,[(90,X)]),               # front ring down; replaces the retainer
+ ("cradle_R",     Lraw("eye_display_cradle_R.stl"),1,[(90,X)]),
  ("bezel",        Lraw("camera_bezel.stl"),  2, [(90,X)]),                # front face down
  ("pupil_ring",   Lraw("pupil_ring.stl"),        2, [(-90,X)]),               # glue face down, cone opens up
  ("pi_shelf",     Lraw("pi_shelf.stl"),       1, []),

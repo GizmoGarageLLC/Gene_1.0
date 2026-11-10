@@ -12,7 +12,8 @@ PLATES={
  "Plate5_crown_insert_handle":[["crown_insert"],["bridge_handle"]],
  "Plate6_neck":[["neck"],["neck_base","neck_collar"]],
  "Plate7_gpio_flashlight_cover":[["gpio_flashlight","gpio_cover"]],
- "Plate4_small_parts":[["carrier","carrier","bezel"],["bezel","retainer","retainer"],["bracket_L","bracket_R","hub","hub","pupil_ring","pupil_ring"]],
+ "Plate11_eye_cradles":[["cradle_L","cradle_R"]],
+ "Plate4_small_parts":[["carrier","carrier","bezel"],["bezel"],["bracket_L","bracket_R","hub","hub","pupil_ring","pupil_ring"]],
 }
 # individual oriented STLs (one copy each; qty in the file name)
 for k,m in M.items():

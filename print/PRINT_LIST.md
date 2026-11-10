@@ -13,7 +13,7 @@
 | 7 | servo bracket R | **1** | `07_servo_bracket_R_x1.stl` | 4 | PETG; 4 walls, 20-25% infill |
 | 8 | jaw drive hub | **2** | `08_jaw_drive_hub_x2.stl` | 4 | 4 walls, 20-25% infill |
 | 9 | eye display carrier | **2** | `09_eye_display_carrier_x2.stl` | 4 | **Updated 2026-10-06 (v3):** top and bottom slots widened to +/-74.25 deg, so behind the front lip only a 31.5 deg wall is left on each side. **Updated 2026-10-30:** display seat 56.60 (was 56.00), and the top/bottom slots run up to the lip so the glass's flex ledge isn't pushed on: the screen isn't squeezed. Plate 4 was printed before this - reprint the two carriers from `09_eye_display_carrier_x2.stl`, or Plate 10 (just the two carriers, lip down, no supports) |
-| 10 | eye display retainer | **2** | `10_eye_display_retainer_x2.stl` | 4 |  |
+| 10 | eye display retainer | **2** | `10_eye_display_retainer_x2.stl` | 4 | **Superseded 2026-11-10 by the eye board cradle (24)** - skip it |
 | 11 | camera bezel | **2** | `11_camera_bezel_x2.stl` | 4 | BLACK. **Updated 2026-10-04 (v3):** sized for the Arducam mini camera: pocket 12.4 mm long (was 8.6) for the crystal behind the lens, 6.8 mm cable lane level with the camera board (was a 3.6 mm tunnel), spoke 11.5 wide. Plate 4 was printed before this - reprint the two bezels from `11_camera_bezel_x2.stl` |
 | 12 | pupil ring | **2** | `12_pupil_ring_x2.stl` | 4 | BLACK |
 | 13 | crown insert | **1** | `13_crown_insert_x1.stl` | 5 | support the lower step and the two hook fingers under it |
@@ -26,6 +26,7 @@
 | 20 | eye X insert OPTIONAL | **1** | `20_eye_x_insert_OPTIONAL_x1.stl` | - | optional; plug down, X up, no supports; for a two-colour X, swap filament at Z 8.0 (top of the flange) |
 | 21 | battery tray POWERBANK ALTERNATIVE | **1** | `21_battery_tray_POWERBANK_x1.stl` | 9 | only for the power bank setup, instead of 4; PETG; floor down, no supports |
 | 22 | battery deck POWERBANK ALTERNATIVE | **1** | `22_battery_deck_POWERBANK_x1.stl` | 9 | only for the power bank setup, instead of 5; PETG; plate down, no supports |
+| 24 | eye board cradle L + R | **1 + 1** | `24_eye_display_cradle_L_x1.stl`, `24_eye_display_cradle_R_x1.stl` | 11 | **New 2026-11-10**, replaces the retainer (10). Holds the LCD and its driver board as one rigid unit, and the flat HDMI / USB leads are zip-tied to its plate. **Handed**: L (one dimple under the plate) is for Gene's right eye, R (two dimples) for his left. **PETG, 4 walls**, 20-25% infill (the two snap fingers flex once at assembly). Front ring down, no supports (one 35 mm bridge under the tie plate) |
 | 23 | jaw pivot pin | **2** | `23_jaw_pin_x2.stl` | 2 | **New 2026-10-29.** **Tough filament: PETG at least, nylon (PA / PA-CF) or PC better, not PLA** (they carry the jaw's weight and the servo torque). Hex head down, no supports; **100% infill**. Plate 2 has them next to the jaw: print them on their own in the tough filament, or give them that filament in Creality Print. Same part both sides. Push in from outside through the arm and skull socket, lock with an M3x5 grub screw in the back edge of the arm |
 
 ## Every piece, one by one
@@ -48,8 +49,8 @@
 - [ ] 11. eye display carrier (2 of 2)
   - [ ] reprint: carrier v3 with wide slots and eased 56.60 seat (1 of 2) - `09_eye_display_carrier_x2.stl`
   - [ ] reprint: carrier v3 with wide slots and eased 56.60 seat (2 of 2) - `09_eye_display_carrier_x2.stl`
-- [ ] 12. eye display retainer (1 of 2)
-- [ ] 13. eye display retainer (2 of 2)
+- [ ] eye board cradle L - Plate 11 (replaces retainer 12)
+- [ ] eye board cradle R - Plate 11 (replaces retainer 13)
 - [ ] 14. camera bezel (1 of 2)
 - [ ] 15. camera bezel (2 of 2)
   - [ ] reprint: camera bezel v3 (1 of 2) - `11_camera_bezel_x2.stl`

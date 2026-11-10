@@ -33,7 +33,7 @@ not a part.
 | Servo bracket, right (v2, with battery pads) | 1 | `07_servo_bracket_R_x1.stl` | 7.0 cm3 | 4 |
 | Jaw drive hub (same part both sides) | 2 | `08_jaw_drive_hub_x2.stl` | 2.5 cm3 each | 4 |
 | Eye display carrier v3 (wide top + bottom slots, side walls only behind the front lip) | 2 | `09_eye_display_carrier_x2.stl` | 2.5 cm3 each | 4 |
-| Eye display retainer ring | 2 | `10_eye_display_retainer_x2.stl` | 2.4 cm3 each | 4 |
+| Eye board cradle L and R (handed; hold the LCD and its driver board rigidly, leads tied to the plate; replace the retainer ring) - **PETG, 4 walls** | 1 + 1 | `24_eye_display_cradle_L_x1.stl`, `24_eye_display_cradle_R_x1.stl` | 10.7 cm3 each | 11 |
 | Camera bezel v3 (same part both eyes, turned 180 deg; 8.6 x 12.4 pocket for the Arducam, 6.8 mm cable lane on the back) - **print in black** | 2 | `11_camera_bezel_x2.stl` | 5.2 cm3 each | 4 |
 | Pupil ring (glues round the camera lens) - **print in black** | 2 | `12_pupil_ring_x2.stl` | 0.3 cm3 each | 4 |
 
@@ -49,6 +49,7 @@ centred, press **Arrange**):
 | `Plate5_crown_insert_handle.3mf` | crown insert, bridge handle (skip the handle if you don't want it) | 58 x 225 mm | 29 mm |
 | `Plate6_neck.3mf` | neck, neck base, clamp collar | 153 x 149 mm | 86 mm |
 | `Plate7_gpio_flashlight_cover.3mf` | GPIO flashlight, GPIO cover (both optional) | 86 x 143 mm | 30 mm |
+| `Plate11_eye_cradles.3mf` | eye board cradles L and R (PETG) | 127 x 65 mm | 32 mm |
 
 Print notes:
 
@@ -103,7 +104,8 @@ Print notes:
 | M4 bolt (length to suit your body) | 4 | Neck base to the body/stand (76 x 45 mm rectangle) |
 | 6808-2RS bearing, 40 x 52 x 7 | 2 | Neck base |
 | Hook-and-loop strap, 20-22 mm wide, ~250 mm | 2 | Pack to tray |
-| CA glue (medium) | 1 | Display carriers, retainers, bezels, pupil rings, speakers |
+| CA glue (medium) | 1 | Display carriers, eye board cradles, bezels, pupil rings, speakers |
+| Zip ties, 2.5 mm wide, short | 4 | HDMI and USB leads to each eye board cradle's tie plate |
 
 M3 self-tapping totals: 4 x M3x10, 4 x M3x12 pan head,
 9 x M3x16 (plus 4 x M3x16 socket head only if you fit the handle, or 2 x M3x20 socket head for the flashlight), 3 x M3x8. The hubs are drilled 2.2 mm for
@@ -121,6 +123,7 @@ before final assembly.
 | DYNAMIXEL TTL interface (ROBOTIS U2D2, or a half-duplex buffer on the Pi UART) | 1 | On the two left shelf cubes, above the left wing (fit-checked at U2D2 size, 48 x 18 x 15), foam tape |
 | GPIO 1-to-2 splitter board (2x20) | 1 | On the Pi header: one header for the crown ribbon, one for the I2S amp |
 | TekGroAml 2.1" round 480 x 480 LCD + mini-HDMI driver board (Amazon B0DZ2ZKP7B) | 2 | Bought. LCD 56.18 x 59.71 x 2.3 mm (53.28 active) with a 26.9 mm, 40-pin flex off the bottom. Driver board is **round, 57 mm dia**, 4 x M2.5 holes (2.5 mm), mini-HDMI (11.5 wide) and **micro-USB** (8 wide) on the edge opposite the flex connector, each angled 15 deg - so they splay apart. Mount each LCD + board **turned 180 deg** (LCD flex at the top, plugs pointing down) and flip the picture on the Pi with a 180 deg display rotation: flex-down puts the outboard plug only 8-10 mm from the barrel skin. The barrels' inboard walls are open above the camera slot so the LCD ribbon can swing past while you turn it. 5 V 1 A+ |
+| Eye leads: chenyang CYFPV micro-HDMI to mini-HDMI FPC flat cable, 0.5 m (Amazon B01EWP9EA0) + chenyang micro-USB flat ribbon, USB-A to 90 deg UP-angled micro-USB (Amazon B096YDCSCW / B096YBZCKS) | 2 + 2 | Bought. Each board end is a 90 deg plug on a small flat PCB with a ZIF latch for the 0.1 mm ribbon. Both ribbons must run **back** into the head over the cradle's tie plate: the micro-USB end is UP-angled, but the chenyang HDMI end is DOWN-angled and sends that ribbon forward at the LCD, so swap it for the **NGFF CN-017-UP mini-HDMI UP-angled end** (Amazon B0GZJ41721, 5-pack, bought 2026-11-10; refit the same ribbon). The ribbons tear if creased or pulled: bend them round, never fold them, and zip-tie them to the cradle's plate |
 | Arducam B0066 mini camera, OV5647 5 MP (Amazon B012QRGUCQ) | 2 | Bought. 8.5 mm square head, ~12 mm long with the crystal behind it; 300 mm, 6 mm wide flex ending in a rigid 16 x 30 mm 15-pin (1 mm pitch) tail |
 | Pi 5 CSI cable, 22-pin to 15-pin | 2 | Bought: Wonrabai 200 mm and Waveshare 300 mm. The Arducam's own 300 mm flex passes through the 26.5 x 7.5 mm slot in each barrel. **Both the Arducam end and these cables' 15-pin end are bare flex tails, so joining them needs a 15-pin 1 mm FFC coupler (extension board) per camera - not on the order** |
 | Capsule slip ring, 22 mm body, max 30 mm tall, 44 mm flange with 3 holes on 35 mm PCD (e.g. 12-circuit, 2 A) | 1 | **(assumed)** Bolts to the neck base floor; rotating wires run up the 26 mm tube bore into the head, fixed wires leave through the base |
