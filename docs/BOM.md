@@ -85,7 +85,7 @@ Print notes:
 
 | Item | Qty | Where |
 |---|---|---|
-| M2 x 12 screw | 8 | Hubs to servo horns (4 per side) |
+| M2 x 12 screw | 8 | Couplers (hubs) to servo horns, 4 per side, fitted on the bench before the servos go in |
 | M2 x 8 screw | 8 | Servos to brackets (4 per side) |
 | M3 x 5 set screw (grub) | 4 | Hub to D-shaft (2), and one into the back edge of each jaw arm to lock its pivot pin (2) |
 | M3 x 16 self-tapping, pan head | 4 | Brackets to skull wall |

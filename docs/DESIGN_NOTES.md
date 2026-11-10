@@ -74,7 +74,8 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
 3. Battery unit on the bench: pack in the tray (2 straps), deck on (4 x M3x10),
    bucks, BMS and charger on the deck. Lift the whole unit straight up through the
    open bottom of the skull into the dome.
-4. Drive: servos onto the v2 brackets (4 x M2x8 each), brackets onto the skull
+4. Drive: on the bench, bolt a drive coupler (hub) onto each servo horn first (4 x M2x12 each), D-bore
+   flat at the top with the horn at its centre mark. Then servos, couplers on, onto the v2 brackets (4 x M2x8 each), brackets onto the skull
    walls (2 x M3x16 each, then 2 x M2x16 hex bolts each in from outside the skull,
    M2 nut in the foot's hex pocket). Lower the tray onto the bracket pads, 4 x M3x12 up
    through the pads.
@@ -86,11 +87,13 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
    top, 4 x M3x16 socket heads instead.
    Optional, after the crown: either press the GPIO cover into the opening (notch to the
    rear), or fit the GPIO flashlight (see *GPIO flashlight and GPIO cover* below).
-7. Jaw: slide the bare jaw up from below so the arm bores line up with the skull
-   sockets (no flexing the arms). Push each pin (printed in PETG or tougher) in from outside, D-shaft first,
-   through the arm and the socket until the hex head seats flush in the arm's hex
-   pocket. Hubs onto the D-shafts (grub screws), hubs bolted to the horns (4 x M2x12
-   each), then an M3x5 grub screw into the back edge of each arm to lock its pin.
+7. Jaw: **home the servos first** (cables in, both XL330s to home = jaw closed, torque on) and check
+   each coupler's D-bore flat is at the top. Slide the bare jaw up from below, closed, so the arm bores line up
+   with the skull sockets (no flexing the arms). Push each pin (printed in PETG or tougher) in from outside, D-shaft first,
+   through the arm and the socket into the coupler, flat to flat, until the hex head seats flush in the arm's hex
+   pocket. Grub screw each coupler onto its D-shaft, then an M3x5 grub screw into the back edge of each arm to lock its pin.
+   If a pin won't go in, don't force the jaw or the servo round: fix the coupler's angle with the servo's
+   Homing Offset, or re-turn the coupler on the horn (90 deg steps). The jaw must sit closed at home on both sides.
 8. Neck: yoke up under the rear rim, 5 x M3x16. Feed the slip ring's rotating
    wires up the tube bore. Bearings into the base, tube into the bearings, collar
    on underneath (M3 set screw), slip ring onto the base floor (3 x M3x8). Base to
