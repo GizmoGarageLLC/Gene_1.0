@@ -19,11 +19,13 @@ groups={
  "neck":[P["neck"]], "neckbase":[P["neck_base"]], "collar":[P["neck_collar"]], "bearings":[P["bearings"]], "slipring":[P["slip_ring"]],
  "splitter":[P["splitter"]], "ttl":[P["ttl"]], "amps":[P["amps"]]}
 # the sim switches between setups in place: the parts that differ go in as <id><suffix>.json next to the default ones
-# (power bank: tray, deck, battery, boards; AMOLED eyes: carrier = the harness, display = the board + USB-C plug)
+# (power bank: tray, deck, battery, boards; AMOLED eyes: its own skull (eyes 15 mm forward), carrier = the harness,
+# display = the board + USB-C plug, and the bezel, camera and pupil 15 mm further forward)
 PB=load_all(power="pack" if POWER=="powerbank" else "powerbank")
 AMO=load_all(eyes="lcd" if EYES=="amoled" else "amoled")
 for k in ("tray","deck","battery","boards"): groups[k+"_pb"]=[PB[k]]
-for k in ("carrier","display"): groups[k+"_am"]=[AMO[k+"_L"],AMO[k+"_R"]]
+for k in ("carrier","display","bezel","camera","pupil"): groups[k+"_am"]=[AMO[k+"_L"],AMO[k+"_R"]]
+groups["skull_am"]=[AMO["shell"]]
 for k,ms in groups.items():
     m=trimesh.util.concatenate(ms)
     json.dump({"b64":b64(m)},open(f"web/{k}.json","w"))

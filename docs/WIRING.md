@@ -1,6 +1,6 @@
 # Wiring
 
-Four diagrams: the audio chain (Pi 5 → I2S amp → speakers), the power stack (pack → BMS → switch → bucks, with USB-C charging), what hangs off the two bucks, and building the pack. Cable lengths to buy are in [`BOM.md`](BOM.md) section 5.
+Four diagrams: the audio chain (Pi 5 → I2S amp → speakers), the power stack (pack → BMS → switch → bucks, with USB-C charging), what hangs off the two bucks, and building the pack. Then the two option sections: the power bank instead of the pack, and the 1.75" AMOLED eyes instead of the LCDs. Cable lengths to buy are in [`BOM.md`](BOM.md) section 5.
 
 ## Audio: Pi 5, MAX98357A, speakers
 
@@ -51,7 +51,7 @@ The amp takes its 5 V from the Pi header, so the only cable it needs is the one 
 | From | To | Cable |
 |---|---|---|
 | Buck A VOUT / GND | Pi 5 USB-C | USB-C 90° pigtail 250 mm |
-| Pi USB-A × 2 | Right / left eye screen micro-USB (power) | micro-USB to USB-A cable. Needs `usb_max_current_enable=1`; checked on the head and it works |
+| Pi USB-A × 2 | Right / left eye screen micro-USB (power) — LCD eyes; for the AMOLED eyes see the last section | micro-USB to USB-A cable. Needs `usb_max_current_enable=1`; checked on the head and it works |
 | Pi micro-HDMI 0 / 1 | Right / left eye screen mini-HDMI | micro-HDMI to 90° mini-HDMI FPC, 500 mm |
 | Pi CAM/DISP 0 / 1 | Right / left eye camera | 22-to-15-pin Pi cable + 15-pin 1 mm FFC coupler + the Arducam's 300 mm flex |
 | Pi USB-A | U2D2 micro-USB | 100 mm |
@@ -88,5 +88,19 @@ A bought power bank can replace the pack, the BMS and the charger board. The ban
 - **Bench test, needed before this is final:** switch Gene off for a few minutes, then switch on again. If the bank has gone to sleep and gives no output, the switch has to open the USB-C link itself. In that case use an inline USB-C switch cable that breaks VBUS and CC between the bank and the trigger, so turning it on looks like a fresh plug-in.
 - Runtime is about 2 h talking: about 37 Wh in the bank, less its own conversion loss. The pack gives about 3 h.
 - The bank's button and display end up inside the head. To check its charge, read it on the bench, or let the Pi warn you when 5 V sags.
+
+## Eyes option: 1.75" AMOLED boards instead of the LCDs
+
+Each Waveshare ESP32-S3-Touch-AMOLED-1.75 board is a whole eye: panel, touch, ESP32-S3 and one USB-C socket on its back. One lead per eye does power and data, so the two micro-HDMI FPC ribbons, the two micro-USB power ribbons and both driver boards go.
+
+| From | To | Cable |
+|---|---|---|
+| Pi USB-A | Left eye board USB-C (on its back, plug pointing down) | USB-A to 90° USB-C, **150 mm** (routed 68 mm) |
+| Pi USB-A | Right eye board USB-C | USB-A to 90° USB-C, **200 mm** (routed 147 mm) |
+
+- The Pi 5 has 4 USB-A ports: two for the eyes, one for the U2D2, one spare. Keep `usb_max_current_enable=1`. The sim's power table estimates 1.6 W peak for the pair (not measured): meter one board at full white before relying on it.
+- Zip-tie each lead to the harness tongue under the board, so a tug stops at the harness and not at the board's socket.
+- Software: the Pi no longer drives the eye pictures. The boards show up as two USB serial ports; the eye drawing runs on each board's ESP32-S3, and the Pi sends it the expression, lids, gaze and tilt. Touches on the glass come back on the same lead. Tell the boards apart by their USB serial number or the port path (`/dev/serial/by-path/`), not by `ttyACM0`/`ttyACM1` order. This firmware isn't written yet.
+- Nothing else changes: the cameras, CAM/DISP ports and their cables are the same for both eye options.
 
 Not covered yet: the slip ring's fixed-side wires below the neck base, and where the power switch goes in the skull.

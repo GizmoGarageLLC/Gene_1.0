@@ -1,10 +1,22 @@
 # Gene head - print list
 
-27 pieces in total (23 without the optional parts: fit the bridge handle **or** the GPIO flashlight, the GPIO cover is for when neither is plugged in, and the eye X insert is a Halloween cap for one eye). Tick them off as they come off the bed.
+**Pick your options first.** The eyes and the battery each come in two versions, and each eye version has its own skull:
+
+| Option | Print | Instead of |
+|---|---|---|
+| **Eyes: 1.75" AMOLED** (current) | skull `01_skull_x1.stl` (eyes 15 mm forward) + 2 x AMOLED harness (25) | - |
+| **Eyes: 2.1" LCD** | skull `01_skull_LCD_EYES_x1.stl` (eyes in the old place) + 2 x display carrier (9) + eye board cradles L and R (24) | the AMOLED skull and harnesses |
+| **Battery: 2S2P pack** | battery tray (4) + deck (5) | - |
+| **Battery: power bank** | power bank tray (21) + deck (22) | 4 and 5 |
+
+The two skulls are the same outside; only the eye barrels differ inside. The AMOLED skull does **not** take the LCD cradles (they hit the barrel bottoms). The AMOLED harnesses would also fit the LCD skull (they were first checked in it), but the eyes then sit 15 mm further back, so use the AMOLED skull. Everything else is shared.
+
+That's 21 pieces with the AMOLED eyes or 23 with the LCD eyes, plus up to 4 optional ones: fit the bridge handle **or** the GPIO flashlight, the GPIO cover is for when neither is plugged in, and the eye X insert is a Halloween cap for one eye. Tick them off as they come off the bed.
 
 | # | Part | Qty | File (in `parts/`) | Plate | Notes |
 |---|---|---|---|---|---|
-| 1 | skull | **1** | `01_skull_x1.stl` | 1 | tree supports. **Updated 2026-10-04 (v7):** camera ribbon slots 26.5 x 7.5 (were 14 x 4) for the Arducam's rigid 16 mm cable end and 6 mm flex; top window in each eye barrel plus a pocket in the skull above it for the display board's HDMI and USB plugs. **Updated 2026-10-06:** the plug pocket above the right eye is now a mirror of the left one (it had a ragged edge). The small triangular holes at the outboard bottom corner of each eye barrel are sealed. The back end of each eye barrel now tapers smoothly into the skull side (closes a thin crack there). The inboard wall of each eye barrel is open from the camera slot up to the top window, so the display ribbon can swing past when the screen is turned. **Updated 2026-10-30:** the flat plate between the eye barrels is cut to a U (6 mm strips along both barrels and the face, open at the back), so there are far fewer supports under it. The inboard tabs of the eye barrels behind the camera slots are half as long (they end 13 mm behind the slot). The inside of each barrel's top is relieved for the LCD's flex ledge (1.1 mm of wall left under the skin), so the screens aren't pushed on. Plate 1 was printed as v6 - reprint Plate 1 |
+| 1 | skull, AMOLED eyes | **1** | `01_skull_x1.stl` | 1 | **AMOLED eyes only. Updated 2026-11-10:** the whole eye stack sits 15 mm further forward in the barrels (the ridge moved forward, the bore behind it opened to 60.6, the camera-ribbon slots run further forward); the outside is unchanged. For the LCD eyes print 1L instead. tree supports. **Updated 2026-10-04 (v7):** camera ribbon slots 26.5 x 7.5 (were 14 x 4) for the Arducam's rigid 16 mm cable end and 6 mm flex; top window in each eye barrel plus a pocket in the skull above it for the display board's HDMI and USB plugs. **Updated 2026-10-06:** the plug pocket above the right eye is now a mirror of the left one (it had a ragged edge). The small triangular holes at the outboard bottom corner of each eye barrel are sealed. The back end of each eye barrel now tapers smoothly into the skull side (closes a thin crack there). The inboard wall of each eye barrel is open from the camera slot up to the top window, so the display ribbon can swing past when the screen is turned. **Updated 2026-10-30:** the flat plate between the eye barrels is cut to a U (6 mm strips along both barrels and the face, open at the back), so there are far fewer supports under it. The inboard tabs of the eye barrels behind the camera slots are half as long (they end 13 mm behind the slot). The inside of each barrel's top is relieved for the LCD's flex ledge (1.1 mm of wall left under the skin), so the screens aren't pushed on. Plate 1 was printed as v6 - reprint Plate 1 |
+| 1L | skull, 2.1" LCD eyes | **1** | `01_skull_LCD_EYES_x1.stl` | 1 LCD | **LCD eyes only**, instead of 1: the skull as it was before the eyes came forward (everything in the notes on 1 up to 2026-10-30). tree supports |
 | 2 | jaw | **1** | `02_jaw_x1.stl` | 2 | tree supports; 4 walls, 20-25% infill. **Updated 2026-10-29 (v5):** the pivot pins are no longer part of the jaw (they snapped when the arms were sprung over the skull). Each arm now has a hex pocket in its outer face and a bore through it for the screw-in pin (23) - reprint the jaw |
 | 3 | pi shelf | **1** | `03_pi_shelf_x1.stl` | 3 | tree supports. **Updated 2026-10-16:** 4 cubes on the wings that slide into divots in the skull (replaces the skull's nut posts); the shelf now sits 13.35 mm lower, flush with the skull's bottom rim - reprint Plate 3 (or Plate 8, which has the skull, shelf and eye X insert together for a 350 mm bed) |
 | 4 | battery tray | **1** | `04_battery_tray_x1.stl` | 3 | PETG; tree supports |
@@ -12,7 +24,7 @@
 | 6 | servo bracket L | **1** | `06_servo_bracket_L_x1.stl` | 4 | PETG; 4 walls, 20-25% infill |
 | 7 | servo bracket R | **1** | `07_servo_bracket_R_x1.stl` | 4 | PETG; 4 walls, 20-25% infill |
 | 8 | jaw drive hub | **2** | `08_jaw_drive_hub_x2.stl` | 4 | 4 walls, 20-25% infill |
-| 9 | eye display carrier | **2** | `09_eye_display_carrier_x2.stl` | 4 | **Updated 2026-10-06 (v3):** top and bottom slots widened to +/-74.25 deg, so behind the front lip only a 31.5 deg wall is left on each side. **Updated 2026-10-30:** display seat 56.60 (was 56.00), and the top/bottom slots run up to the lip so the glass's flex ledge isn't pushed on: the screen isn't squeezed. Plate 4 was printed before this - reprint the two carriers from `09_eye_display_carrier_x2.stl`, or Plate 10 (just the two carriers, lip down, no supports) |
+| 9 | eye display carrier | **2** | `09_eye_display_carrier_x2.stl` | 4 | **LCD eyes only.** **Updated 2026-10-06 (v3):** top and bottom slots widened to +/-74.25 deg, so behind the front lip only a 31.5 deg wall is left on each side. **Updated 2026-10-30:** display seat 56.60 (was 56.00), and the top/bottom slots run up to the lip so the glass's flex ledge isn't pushed on: the screen isn't squeezed. Plate 4 was printed before this - reprint the two carriers from `09_eye_display_carrier_x2.stl`, or Plate 10 (just the two carriers, lip down, no supports) |
 | 10 | eye display retainer | **2** | `10_eye_display_retainer_x2.stl` | 4 | **Superseded 2026-11-10 by the eye board cradle (24)** - skip it |
 | 11 | camera bezel | **2** | `11_camera_bezel_x2.stl` | 4 | BLACK. **Updated 2026-10-04 (v3):** sized for the Arducam mini camera: pocket 12.4 mm long (was 8.6) for the crystal behind the lens, 6.8 mm cable lane level with the camera board (was a 3.6 mm tunnel), spoke 11.5 wide. Plate 4 was printed before this - reprint the two bezels from `11_camera_bezel_x2.stl` |
 | 12 | pupil ring | **2** | `12_pupil_ring_x2.stl` | 4 | BLACK |
@@ -26,31 +38,33 @@
 | 20 | eye X insert OPTIONAL | **1** | `20_eye_x_insert_OPTIONAL_x1.stl` | - | optional; plug down, X up, no supports; for a two-colour X, swap filament at Z 8.0 (top of the flange) |
 | 21 | battery tray POWERBANK ALTERNATIVE | **1** | `21_battery_tray_POWERBANK_x1.stl` | 9 | only for the power bank setup, instead of 4; PETG; floor down, no supports |
 | 22 | battery deck POWERBANK ALTERNATIVE | **1** | `22_battery_deck_POWERBANK_x1.stl` | 9 | only for the power bank setup, instead of 5; PETG; plate down, no supports |
-| 24 | eye board cradle L + R | **1 + 1** | `24_eye_display_cradle_L_x1.stl`, `24_eye_display_cradle_R_x1.stl` | 11 | **New 2026-11-10**, replaces the retainer (10). Holds the LCD and its driver board as one rigid unit, and the flat HDMI / USB leads are zip-tied to its plate. **Handed**: L (one dimple under the plate) is for Gene's right eye, R (two dimples) for his left. **PETG, 4 walls**, 20-25% infill (the two snap fingers flex once at assembly). Front ring down, no supports (one 35 mm bridge under the tie plate) |
+| 24 | eye board cradle L + R | **1 + 1** | `24_eye_display_cradle_L_x1.stl`, `24_eye_display_cradle_R_x1.stl` | 11 | **LCD eyes only. New 2026-11-10**, replaces the retainer (10). Holds the LCD and its driver board as one rigid unit, and the flat HDMI / USB leads are zip-tied to its plate. **Handed**: L (one dimple under the plate) is for Gene's right eye, R (two dimples) for his left. **PETG, 4 walls**, 20-25% infill (the two snap fingers flex once at assembly). Front ring down, no supports (one 35 mm bridge under the tie plate) |
+| 25 | AMOLED eye harness | **2** | `25_eye_amoled_harness_x2.stl` | 12 | **AMOLED eyes only. New 2026-11-10**, instead of the carrier (9) and cradle (24): holds a Waveshare ESP32-S3-Touch-AMOLED-1.75 board, glass on the lip, two snap fingers over its back, a tongue underneath to zip-tie the USB-C lead. Same part both eyes. **Black PETG, 4 walls**, lip down, no supports. The board size is assumed (48.96 dia x 10.4): check yours first |
 | 23 | jaw pivot pin | **2** | `23_jaw_pin_x2.stl` | 2 | **New 2026-10-29.** **Tough filament: PETG at least, nylon (PA / PA-CF) or PC better, not PLA** (they carry the jaw's weight and the servo torque). Hex head down, no supports; **100% infill**. Plate 2 has them next to the jaw: print them on their own in the tough filament, or give them that filament in Creality Print. Same part both sides. Push in from outside through the arm and skull socket, lock with an M3x5 grub screw in the back edge of the arm |
 
 ## Every piece, one by one
 
-- [ ] 1. skull
-  - [ ] reprint: skull v7 with shelf divots and bracket M3 pilots - Plate 1
+- [ ] 1. skull - AMOLED eyes: Plate 1 (eyes forward); LCD eyes: `Plate1_skull_LCD_eyes`
 - [ ] 2. jaw
   - [ ] reprint: jaw v5 for the screw-in pins - Plate 2
 - [ ] jaw pivot pin (1 of 2) - Plate 2
 - [ ] jaw pivot pin (2 of 2) - Plate 2
 - [ ] 3. pi shelf
   - [ ] reprint: shelf with cubes - Plate 3
-- [ ] 4. battery tray
-- [ ] 5. battery deck
+- [ ] 4. battery tray (pack) - or 21. power bank tray, Plate 9
+- [ ] 5. battery deck (pack) - or 22. power bank deck, Plate 9
 - [ ] 6. servo bracket L
 - [ ] 7. servo bracket R
 - [ ] 8. jaw drive hub (1 of 2)
 - [ ] 9. jaw drive hub (2 of 2)
-- [ ] 10. eye display carrier (1 of 2)
-- [ ] 11. eye display carrier (2 of 2)
+- [ ] 10. eye display carrier (1 of 2) - LCD eyes only
+- [ ] 11. eye display carrier (2 of 2) - LCD eyes only
   - [ ] reprint: carrier v3 with wide slots and eased 56.60 seat (1 of 2) - `09_eye_display_carrier_x2.stl`
   - [ ] reprint: carrier v3 with wide slots and eased 56.60 seat (2 of 2) - `09_eye_display_carrier_x2.stl`
-- [ ] eye board cradle L - Plate 11 (replaces retainer 12)
-- [ ] eye board cradle R - Plate 11 (replaces retainer 13)
+- [ ] eye board cradle L - Plate 11 (LCD eyes; replaces retainer 12)
+- [ ] eye board cradle R - Plate 11 (LCD eyes; replaces retainer 13)
+- [ ] AMOLED eye harness (1 of 2) - Plate 12 (AMOLED eyes, instead of the carriers and cradles)
+- [ ] AMOLED eye harness (2 of 2) - Plate 12
 - [ ] 14. camera bezel (1 of 2)
 - [ ] 15. camera bezel (2 of 2)
   - [ ] reprint: camera bezel v3 (1 of 2) - `11_camera_bezel_x2.stl`
@@ -68,12 +82,12 @@
 
 ## Settings
 
-- **Material:** the two jaw pivot pins in a tough filament: PETG at least, nylon (PA / PA-CF) or PC if your printer can do it, not PLA. PETG for the battery tray, deck, both servo brackets and the GPIO flashlight. PLA or PETG for everything else.
-- **Colour:** camera bezels and pupil rings in **black**.
+- **Material:** the two jaw pivot pins in a tough filament: PETG at least, nylon (PA / PA-CF) or PC if your printer can do it, not PLA. PETG for the battery tray, deck (either version), both servo brackets, the LCD eye cradles, the AMOLED harnesses and the GPIO flashlight. PLA or PETG for everything else.
+- **Colour:** camera bezels, pupil rings and the AMOLED harnesses in **black**.
 - **Strength:** 4 walls, 20-25 % infill for the jaw, hubs, brackets, handle and flashlight; 100 % infill for the two jaw pins. Defaults for the rest.
 - **Filament:** about 1.3 kg on hand.
 - **Tree supports, already set (optional):** `plates/tree_supports/` has copies of plates 1, 2, 3, 5, 7 and 8 with Creality Print's organic tree supports switched on for the parts that need them (skull, jaw, Pi shelf, battery tray and deck, crown insert, handle, flashlight) and off for the rest of each plate (the jaw pins, the GPIO cover, the eye X insert). Open one as a project; each supported object shows the support settings in its object list. They're tuned to come off easily at 0.2 mm layers: a one-layer (0.2 mm) gap above and below the supports, 0.6 mm from side walls, a sparse two-layer interface under the part and no interface where a branch lands on the part, so the branches snap off cleanly. The PETG parts get a sparser interface and 0.8 mm from walls, because PETG welds to itself. If a plate opens without them (older slicer), use the plain plate and set Support > Tree (auto), style Organic, with those values. Remake them with `cad/tools/support_plates.py`.
-- `plates/` has the same parts pre-laid-out on seven 250 x 250 plates (`.3mf`, Creality Print). Plate 7 is only the optional GPIO flashlight and cover. If parts don't land centred, press **Arrange**.
+- `plates/` has the same parts pre-laid-out on 250 x 250 plates (`.3mf`, Creality Print): Plate 1 the AMOLED skull, `Plate1_skull_LCD_eyes` the LCD skull, Plates 2-7 the shared parts (Plate 4 still has the LCD carriers: skip them for the AMOLED eyes; Plate 7 is only the optional GPIO flashlight and cover), Plate 8 the 2026-10-16 changes for a 350 mm bed (AMOLED skull), Plate 9 the power bank tray and deck, Plate 10 just the two LCD carriers, Plate 11 the LCD cradles, Plate 12 the two AMOLED harnesses. If parts don't land centred, press **Arrange**.
 - The two parts of each pair are identical: the right camera bezel is the left one turned 180 deg, both jaw hubs are the same, and so are both jaw pins.
 - **Camera bezel lane (v3):** the Arducam's 6 mm flex lies in a 6.8 mm wide, 2.2 mm deep lane cut into the back of the spoke, level with the camera board, so it leaves the module straight. From 16 mm out from the centre the lane narrows to a 5.6 mm mouth (0.6 mm lips): bow the flex slightly to press it past them. Print front face down (as on the plates) so the lane faces up and needs no supports. Seat the camera in its pocket from behind with the crystal end towards the spoke.
 - **Skull v7, threading the camera cable:** push the rigid 16 mm wide end down the eye barrel and out through the inboard slot with its width along the barrel (front to back), then let the flex settle at the front of the slot, level with the bezel spoke. 17.9 mm of the slot is still open with the display carrier glued in, but it's easier to thread the cameras before gluing the carriers.

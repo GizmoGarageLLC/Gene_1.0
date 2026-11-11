@@ -5,11 +5,15 @@ import manifold3d as mf
 OUT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 L=lambda n: trimesh.load(os.path.join(OUT,n))
 AXL,AXR,ZC = -60.96,60.95,-0.32
-EYE_DY = -15.0          # 2026-11-10: everything in the eye barrels 15 mm forward (skull_v7_eyes_forward.py). The eye STLs and
-                        # mocks stay in their old eye frame; this shift places them
-DISP_Y, RIDGE_FRONT = -94.10+EYE_DY, -99.60+EYE_DY
 POWER=os.environ.get("GENE_POWER","pack")   # "pack" (2S2P, default) or "powerbank"
-EYES=os.environ.get("GENE_EYES","lcd")      # "lcd" (2.1" LCD + driver board, default) or "amoled" (1.75" AMOLED board, eye_amoled.py)
+EYES=os.environ.get("GENE_EYES","lcd")      # "lcd" (2.1" LCD + driver board) or "amoled" (1.75" AMOLED board, eye_amoled.py)
+# Each eye setup has its own skull. AMOLED: skull.stl, eye stack 15 mm forward in the barrels (skull_v7_eyes_forward.py,
+# 2026-11-10). 2.1" LCD: skull_lcd.stl, the same skull from before that step, eyes in the old place (the LCD cradles and
+# driver boards hit the forward skull's barrel bottoms). The eye STLs and mocks stay in their old eye frame; eye_dy places them.
+SKULL={"amoled":"skull.stl","lcd":"skull_lcd.stl"}
+def eye_dy(eyes=None): return -15.0 if (eyes or EYES)=="amoled" else 0.0
+EYE_DY=eye_dy()
+DISP_Y0, RIDGE_FRONT0 = -94.10, -99.60      # LCD glass front / barrel ridge front face, old eye frame
 def suffix(power=None,eyes=None):
     # file-name suffix of a setup's results: "" (pack + LCD), "_pb", "_am", "_pb_am"
     return ("_pb" if (power or POWER)=="powerbank" else "")+("_am" if (eyes or EYES)=="amoled" else "")
@@ -31,7 +35,8 @@ RZ180=trimesh.transformations.rotation_matrix(np.pi,[0,0,1])
 def load_all(power=None,eyes=None):
     power=power or POWER; eyes=eyes or EYES
     P={}   # name -> (mesh, group, moves_with_jaw)
-    top=L("skull.stl"); top.apply_translation([-64.8,-61.4,-35.0])
+    dy=eye_dy(eyes)
+    top=L(SKULL[eyes]); top.apply_translation([-64.8,-61.4,-35.0])
     for b in top.split(only_watertight=False):
         v=b.volume/1000
         if v>400: P["shell"]=b
@@ -49,24 +54,24 @@ def load_all(power=None,eyes=None):
     P["bracket_L"]=L("servo_bracket_L.stl"); P["bracket_R"]=L("servo_bracket_R.stl")
     am=eyes=="amoled"
     if am:   # one harness per eye holds the whole 1.75" AMOLED board (eye_amoled.py); no cradle, no driver board
-        car=L("eye_amoled_harness.stl"); dsp=L("mocks/display_amoled175.stl"); disp_y=EYE_DY
+        car=L("eye_amoled_harness.stl"); dsp=L("mocks/display_amoled175.stl"); disp_y=dy
     else:
         car=L("eye_display_carrier.stl")   # the handed cradles (eye_cradle.py) replace the retainer ring
         db=L("mocks/display_driver_board.stl")
-        dsp=L("mocks/display.stl"); disp_y=DISP_Y
+        dsp=L("mocks/display.stl"); disp_y=DISP_Y0+dy
     bez=L("camera_bezel.stl"); cam=L("mocks/camera.stl")
     pup=L("pupil_ring.stl")
     for s,ax in (("L",AXL),("R",AXR)):
-        c=car.copy(); c.apply_translation([ax,EYE_DY,ZC]); P["carrier_"+s]=c
+        c=car.copy(); c.apply_translation([ax,dy,ZC]); P["carrier_"+s]=c
         d=dsp.copy(); d.apply_translation([ax,disp_y,ZC]); P["display_"+s]=d
         if not am:
-            r=L(f"eye_display_cradle_{s}.stl"); r.apply_translation([ax,EYE_DY,ZC]); P["cradle_"+s]=r   # behind the LCD, board snapped into its back
+            r=L(f"eye_display_cradle_{s}.stl"); r.apply_translation([ax,dy,ZC]); P["cradle_"+s]=r   # behind the LCD, board snapped into its back
             b=trimesh.util.concatenate([k for k in db.split(only_watertight=False) if (k.bounds.mean(0)[0]<0)==(s=="L")])
-            b.apply_translation([0,EYE_DY,0]); P["dboard_"+s]=b
+            b.apply_translation([0,dy,0]); P["dboard_"+s]=b
         for nm,m in (("bezel_",bez),("camera_",cam),("pupil_",pup)):
             k=m.copy()
             if s=="R": k.apply_transform(RY180)          # same part turned 180 deg about the barrel axis
-            k.apply_translation([ax,RIDGE_FRONT,ZC]); P[nm+s]=k
+            k.apply_translation([ax,RIDGE_FRONT0+dy,ZC]); P[nm+s]=k
     P["shelf"]=L("pi_shelf.stl"); P["pi5"]=L("mocks/pi5.stl")
     P["speakers"]=L("mocks/speakers.stl"); P["handle"]=L("bridge_handle.stl"); P["insert"]=L("crown_insert.stl"); P["gpio_plug"]=L("mocks/gpio_plug.stl")
     P["neck"]=L("neck.stl"); P["neck_base"]=L("neck_base.stl"); P["neck_collar"]=L("neck_collar.stl")

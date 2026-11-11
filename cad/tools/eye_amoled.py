@@ -85,9 +85,26 @@ def module_mock():
     # glass + board as one disc plus the USB-C plug, glass front at Y -94.10 (placed in parts.py at the axis with no Y shift)
     return to_tm(cone(MOD_D/2,MOD_D/2,Y_LIP,Y_MOD_BACK,128)+box(*PLUG))
 
+def write_print(h):
+    # print/parts/25 (lip on the bed, as the carrier in printprep.py) and Plate 12 with the two harnesses, 8 mm apart, centred
+    from threemf import write_3mf
+    from trimesh.transformations import rotation_matrix as rot
+    PR=os.path.join(os.path.dirname(OUT),"print")
+    p=h.copy(); p.apply_transform(rot(np.radians(90),[1,0,0])); p.apply_translation(-p.bounds[0])
+    assert abs(p.bounds[0][2])<1e-6 and p.is_watertight
+    p.export(os.path.join(PR,"parts","25_eye_amoled_harness_x2.stl"))
+    objs=[]
+    for i in range(2):
+        m=p.copy(); m.apply_translation([i*(p.extents[0]+8.0),0,0]); objs.append((f"amoled_harness_{i+1}",m))
+    W=2*p.extents[0]+8.0; H=p.extents[1]
+    for _,m in objs: m.apply_translation([-W/2,-H/2,0])
+    write_3mf(os.path.join(PR,"plates","Plate12_amoled_harnesses.3mf"),objs)
+    print(f"  print/parts/25_eye_amoled_harness_x2.stl and Plate12_amoled_harnesses.3mf ({W:.0f} x {H:.0f} mm, {p.extents[2]:.1f} tall) written")
+
 if __name__=="__main__":
     h=harness(); assert h.is_watertight
     h.export(os.path.join(OUT,"eye_amoled_harness.stl"))
     m=module_mock(); m.export(os.path.join(OUT,"mocks","display_amoled175.stl"))
     print(f"harness: {h.volume/1000:.2f} cm3, bounds {np.round(h.bounds,2).tolist()}")
     print(f"module mock: {np.round(m.bounds,2).tolist()}")
+    write_print(h)

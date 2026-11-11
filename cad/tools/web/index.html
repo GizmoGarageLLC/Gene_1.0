@@ -251,7 +251,7 @@
         <button type="button" id="sAmoled" aria-pressed="false">1.75&Prime; AMOLED</button>
       </div>
       <div class="readout"><span class="v-pack">2S2P 18650 pack in a strapped tray, with BMS and charger.</span><span class="v-pb">INIU P50 power bank clamped in its tray, with a 15&nbsp;V PD trigger.</span>
-        <span class="v-lcd">2.1&Prime; LCDs with separate driver boards in carriers and cradles, on HDMI.</span><span class="v-am">1.75&Prime; AMOLED ESP32-S3 boards, one printed harness and one USB-C lead per eye.</span>
+        <span class="v-lcd">2.1&Prime; LCDs with separate driver boards in carriers and cradles, on HDMI. Own skull (<span class="mono">skull_lcd.stl</span>), eyes 15&nbsp;mm further back.</span><span class="v-am">1.75&Prime; AMOLED ESP32-S3 boards, one printed harness and one USB-C lead per eye. The current skull, eyes 15&nbsp;mm forward.</span>
         Parts, cable routes, clearances, weights and build steps follow the setup.</div>
     </div>
 
@@ -587,7 +587,6 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 (function(){
-  var EYE_DY=-15;                                 // eyes 15 mm forward in their barrels (skull_v7_eyes_forward.py, EYE_DY in parts.py)
   var PARTS=[
     {id:"skull",   name:"Skull + eye barrels", col:"--skull",   note:"v7",       clip:true},
     {id:"jaw",     name:"Jaw, twin D-shaft",   col:"--jaw",     note:"moving",   clip:true},
@@ -700,19 +699,22 @@
   var head=new THREE.Group(); head.position.set(0,-20,0); headPivot.add(head);
   var STATIONARY={neckbase:1,bearings:1,slipring:1};      // fixed to the body; the rest spins with the head
   var moving=new THREE.Group(); head.add(moving);
+  // eye screens, camera lenses, FOV cones and beams, in the LCD skull's eye frame; the AMOLED setup moves the whole rig
+  // 15 mm forward with its eyes (skull_v7_eyes_forward.py, eye_dy in parts.py)
+  var eyeRig=new THREE.Group(); head.add(eyeRig);
 
   // ---------- eye-camera POV: the two lenses are the pupils, so their views come from there ----------
-  // IMX219-class module: 62.2 x 48.8 deg. Each lens sits 16.5 mm back inside its barrel (bore dia 59),
-  // so anything wider than ~120 deg horizontal would start to see the barrel wall.
-  var POV_VFOV=48.8, POV_ASPECT=4/3, LENS_Y=-106.3+EYE_DY, LENS_Z=-0.32;
+  // IMX219-class module: 62.2 x 48.8 deg. Each lens sits 31.5 mm back inside its barrel with the LCD eyes, 16.5 with the
+  // AMOLED eyes (bore dia 59), so anything wider than ~86 / ~120 deg horizontal would start to see the barrel wall.
+  var POV_VFOV=48.8, POV_ASPECT=4/3, LENS_Y=-106.3, LENS_Z=-0.32;
   var povCams=[-60.96,60.95].map(function(x){
     var c=new THREE.PerspectiveCamera(POV_VFOV,POV_ASPECT,5,6000);
     c.up.set(0,0,1); c.position.set(x,LENS_Y,LENS_Z); c.lookAt(x,LENS_Y-100,LENS_Z);
     c.layers.enable(1);                       // layer 1 = the room, only the eye cameras render it
-    head.add(c); return c;
+    eyeRig.add(c); return c;
   });
   // FOV cones for the main view, 300 mm long
-  var fovCones=new THREE.Group(); fovCones.visible=false; head.add(fovCones);   // extra, off by default
+  var fovCones=new THREE.Group(); fovCones.visible=false; eyeRig.add(fovCones);   // extra, off by default
   (function(){
     var L=300, hh=Math.tan(POV_VFOV/2*Math.PI/180)*L, hw=hh*POV_ASPECT;
     povCams.forEach(function(c){
@@ -907,9 +909,9 @@
     this.p=JSON.parse(JSON.stringify(EMOTES.neutral));
     var m=new THREE.Mesh(new THREE.CircleGeometry(26.67,96), new THREE.MeshBasicMaterial({map:this.tex, transparent:true}));
     m.rotation.x=Math.PI/2;                   // face -Y, texture up = +Z
-    m.position.set(x,-94.18+EYE_DY,-0.32);
+    m.position.set(x,-94.18,-0.32);
     m.renderOrder=2;
-    head.add(m); this.mesh=m;
+    eyeRig.add(m); this.mesh=m;
   }
   EyeScreen.prototype.ease=function(goal,k){
     var p=this.p;
@@ -1079,7 +1081,7 @@
   // A spotlight per eye (lights what the cameras see) plus a soft frustum for the main view that starts
   // at the screen's full 53.34 mm diameter. The spotlight sits on the screen face (not behind it, where it
   // would light the skull from inside); at room distances the 53 mm emitter reads the same as a point.
-  var BEAM_L=700, BEAM_HALF=14*Math.PI/180, SCR_R=26.67, SCR_Y=-94.18+EYE_DY;
+  var BEAM_L=700, BEAM_HALF=14*Math.PI/180, SCR_R=26.67, SCR_Y=-94.18;
   var beamMat=new THREE.ShaderMaterial({
     uniforms:{k:{value:0}, col:{value:new THREE.Color(0xfff1c8)}},
     vertexShader:"varying float d; void main(){ d=("+(BEAM_L/2).toFixed(1)+"-position.y)/"+BEAM_L.toFixed(1)+"; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
@@ -1089,10 +1091,10 @@
   var beams=[-60.96,60.95].map(function(x){
     var cone=new THREE.Mesh(new THREE.CylinderGeometry(SCR_R,SCR_R+Math.tan(BEAM_HALF)*BEAM_L,BEAM_L,48,1,true),beamMat);
     cone.position.set(x,SCR_Y-0.3-BEAM_L/2,-0.32);          // narrow end = screen face, opening forward (-Y)
-    cone.layers.set(2); cone.renderOrder=5; cone.visible=false; head.add(cone);
+    cone.layers.set(2); cone.renderOrder=5; cone.visible=false; eyeRig.add(cone);
     var sp=new THREE.SpotLight(0xfff1c8,0,5000,BEAM_HALF*1.3,0.5,1);
     sp.position.set(x,SCR_Y-0.5,-0.32); sp.target.position.set(x,-1000,-0.32);
-    head.add(sp); head.add(sp.target);
+    eyeRig.add(sp); eyeRig.add(sp.target);
     return {cone:cone, light:sp};
   });
   // forehead lamp on the GPIO flashlight attachment: 1 W-class LED behind a 30 deg optic, ~60 lm vs ~5 lm from both screens
@@ -1267,7 +1269,7 @@
     } else if(onTable){
       var g=tableGap(d);
       ro.textContent="Skull tipped back "+(d%1?d.toFixed(1):d)+"° about the jaw pivot. "+
-        (g.gap>0?"Its lowest point ("+g.name+") is "+g.gap.toFixed(1)+" mm above the table.":g.name+" hits the table ("+(-g.gap).toFixed(1)+" mm into it).")+
+        (!g.name?"Parts still loading.":g.gap>0?"Its lowest point ("+g.name+") is "+g.gap.toFixed(1)+" mm above the table.":g.name+" hits the table ("+(-g.gap).toFixed(1)+" mm into it).")+
         (d<=30?" Inside the speaking range.":(d<53?" Skull alone clears the jaw to 53°.":""));
       if(g.gap<=0){ stateEl.className="chip bad"; stateEl.textContent="Table"; }
     } else if(d===0){
@@ -1299,7 +1301,9 @@
   function tableGap(d){
     var key=(Math.round(d*2)/2).toFixed(1);
     if(gapCache[key]) return gapCache[key];
-    return (gapCache[key]=tableGapCalc(+key));
+    var g=tableGapCalc(+key);
+    if(g.name) gapCache[key]=g;                // nothing measured yet (parts still loading): don't keep it
+    return g;
   }
   function tableGapCalc(d){
     var t=-d*Math.PI/180, sn=Math.sin(t), cs=Math.cos(t), best={gap:1e9,name:""};
@@ -1967,7 +1971,7 @@
      txt:["Check the AMOLED board against the harness first. It is assumed &Oslash;48.96 &times; 10.4&nbsp;mm deep with the USB-C on its back. If yours differs, change the numbers at the top of <span class=\"mono\">eye_amoled.py</span> and reprint.",
           "On the bench, press the board into the back of its harness, glass forward, until the two side fingers click over its back edge. The glass rests on the lip, so only the lit area shows through the &Oslash;45.2 aperture. Both eyes use the same harness.",
           "Plug the 90&deg; USB-C lead into the board, pointing down. Lay the lead back over the tongue under the harness and zip-tie it through one pair of slots, so a pull stops at the harness and not at the board's socket.",
-          "From inside the skull, push each harness straight into its eye barrel until its front face sits on the ridge. That's 19.5&nbsp;mm of straight run, no turning. The outside is the old carrier's 60.5&nbsp;mm, a slip fit, so glue it with CA.",
+          "From inside the skull, push each harness straight into its eye barrel until its front face sits on the ridge. That's about 34.5&nbsp;mm of straight run, no turning. The outside is the old carrier's 60.5&nbsp;mm, a slip fit, so glue it with CA.",
           {tip:"No LCD flex, no driver board, no HDMI. The eye is drawn on the board's own ESP32-S3, so the Pi only sends the expression, lids, gaze and tilt over USB. Print the harnesses in black PETG, 4 walls, lip down, no supports."}],
      hw:["CA glue","2 small zip ties (2.5 mm)","2 &times; USB-C to USB-A lead, 90&deg; C end"]}};
   // seq: what moves, in order; "to" parks a part on another part's exploded spot (bench sub-assembly)
@@ -2349,7 +2353,7 @@
     getJSON(p.id+".json").then(function(j){
       build(p,j.b64); left--;
       if(bmode) applyBuild();
-      if(left===0){ var l=document.getElementById("load"); if(l) l.remove(); }
+      if(left===0){ var l=document.getElementById("load"); if(l) l.remove(); gapCache={}; setAngle(+ang.value); }
       resize(); draw();
     }).catch(function(err){
       left--; var l=document.getElementById("load"); if(l) l.textContent="Could not load "+p.id+".json"; console.error(err);
@@ -2359,7 +2363,7 @@
   // ---------- setup: battery (2S2P pack / power bank) and eye screens (2.1" LCD / 1.75" AMOLED), swapped in place ----------
   // Parts that differ load from <id>_pb.json / <id>_am.json; each setup has its own static, cables and mass file
   // (check.py, route.py and mass.py run with GENE_POWER / GENE_EYES set; export.py copies them in).
-  var SETUP={power:"pack",eyes:"lcd"}, VARIANT={tray:"power",deck:"power",battery:"power",boards:"power",carrier:"eyes",display:"eyes"};
+  var SETUP={power:"pack",eyes:"lcd"}, VARIANT={tray:"power",deck:"power",battery:"power",boards:"power",carrier:"eyes",display:"eyes",skull:"eyes",bezel:"eyes",camera:"eyes",pupil:"eyes"};
   function suf(){ return (SETUP.power==="pb"?"_pb":"")+(SETUP.eyes==="am"?"_am":""); }
   function meshFile(id){ var v=VARIANT[id]; return id+(v==="power"&&SETUP.power==="pb"?"_pb":v==="eyes"&&SETUP.eyes==="am"?"_am":""); }
   function swapGeo(p){
@@ -2367,7 +2371,7 @@
       var m=meshes[p.id]; if(!m) return;
       if(m.userData.right){ var h=splitX(geo(j.b64)); m.geometry.dispose(); m.geometry=h[0]; m.userData.right.geometry.dispose(); m.userData.right.geometry=h[1]; }
       else { m.geometry.dispose(); m.geometry=geo(j.b64); }
-      gapCache={}; draw();
+      gapCache={}; if(onTable) setAngle(+ang.value); else draw();
     });
   }
   var setupBtns={sPack:["power","pack"],sBank:["power","pb"],sLcd:["eyes","lcd"],sAmoled:["eyes","am"]};
@@ -2379,6 +2383,7 @@
     PARTS.forEach(function(p){ if(VARIANT[p.id] && (!changed || VARIANT[p.id]===changed)) swapGeo(p).catch(function(e){ console.error(e); }); });
     var am=SETUP.eyes==="am";
     ["cradle","dboard"].forEach(function(id){ var c=document.getElementById("chk-"+id); if(c && c.checked===am){ c.checked=!am; c.dispatchEvent(new Event("change")); } });
+    eyeRig.position.y=am?-15:0;                                  // AMOLED skull: eyes 15 mm forward
     var k=am?22.22/26.67:1;                                      // lit area 44.45 mm on the AMOLED, 53.34 on the LCD
     [eyeL,eyeR].forEach(function(e){ e.mesh.scale.set(k,k,1); });
     beams.forEach(function(b){ b.cone.scale.set(k,1,k); });
@@ -2399,7 +2404,8 @@
   });
   (function(){                                                    // reopen on the last setup viewed, once the default parts are in
     var saved=null; try{ saved=JSON.parse(localStorage.getItem("gene-setup")||"null"); }catch(e){}
-    if(!saved || (saved.power!=="pb" && saved.eyes!=="am")) return;
+    if(!saved) saved={power:"pack",eyes:"am"};                    // first visit: the AMOLED eyes (the current skull)
+    if(saved.power!=="pb" && saved.eyes!=="am") return;
     SETUP.power=saved.power==="pb"?"pb":"pack"; SETUP.eyes=saved.eyes==="am"?"am":"lcd";
     var t=setInterval(function(){ if(left>0) return; clearInterval(t); applySetup(); },100);
   })();

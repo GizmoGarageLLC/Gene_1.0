@@ -1,90 +1,129 @@
-Category,Item,Qty,Notes,File / location
-Printed,Skull v7 (shell + brow + eye barrels + thrust pads + crown ledge + neck pilots + 26.5x7.5 camera slots + display plug pockets + 4 shelf divots + bracket M3 pilots),1,Tree supports; PLA or PETG,print/skull_x1.stl (Plate1)
-Printed,Jaw v5 (hex pockets + bores for the screw-in pins),1,Tree supports; 4 walls,print/jaw_x1.stl (Plate2)
-Printed,Jaw pivot pin (hex head + bearing pin + D-shaft),2,Hex head down; 100% infill,print/jaw_pin_x2.stl (Plate2)
-Printed,Pi 5 shelf v6 (4 mm standoffs + 4 cubes on the wings),1,Supports under plate,print/pi_shelf_x1.stl (Plate3)
-Printed,Battery tray,1,PETG,print/battery_tray_x1.stl (Plate3)
-Printed,Electronics deck,1,PETG,print/battery_deck_x1.stl (Plate3)
-Printed,Crown insert (GPIO riser well),1,Print on its side,print/crown_insert_x1.stl (Plate5)
-Printed,Bridge handle (optional),1,Print on its side; 4 walls,print/bridge_handle_x1.stl (Plate5)
-Printed,GPIO flashlight (optional; instead of the handle),1,PETG; on its side with tree supports; 4 walls,print/gpio_flashlight_x1.stl (Plate7)
-Printed,GPIO cover (optional),1,Upright; no supports,print/gpio_cover_x1.stl (Plate7)
-Printed,Neck (yoke + tube),1,Yoke plate on the bed; 4 walls,print/neck_x1.stl (Plate6)
-Printed,Neck base (bearing housing),1,Flange down; 4 walls,print/neck_base_x1.stl (Plate6)
-Printed,Neck clamp collar,1,,print/neck_collar_x1.stl (Plate6)
-Printed,Servo bracket left v2,1,PETG; 4 walls,print/bracket_L_x1.stl (Plate4)
-Printed,Servo bracket right v2,1,PETG; 4 walls,print/bracket_R_x1.stl (Plate4)
-Printed,Jaw drive hub,2,4 walls,print/hub_x2.stl (Plate4)
-Printed,Eye display carrier v3 (wide top + bottom slots; side walls only),2,Glue in with CA,print/carrier_x2.stl (Plate4)
-Printed,Eye display retainer ring,2,Glue with CA,print/retainer_x2.stl (Plate4)
-Printed,Camera bezel v3 (Arducam pocket 8.6x12.4; 6.8 mm cable lane),2,Print black; second one turned 180 deg,print/bezel_x2.stl (Plate4)
-Printed,Pupil ring,2,Print black; glue round the lens,print/pupil_ring_x2.stl (Plate4)
-Printed,Eye X insert (optional Halloween cap),1,"Plug down, no supports; filament swap at Z 8 for a two-colour X",print/parts/20_eye_x_insert_OPTIONAL_x1.stl
-Hardware,M2 x 12 screw,8,Hubs to servo horns,
-Hardware,M2 x 8 screw,8,Servos to brackets,
-Hardware,M3 x 5 set screw,4,Hub to D-shaft (2) + jaw pin lock in each arm (2),
-Hardware,M3 x 16 self-tapping pan head,4,Brackets to skull,
-Hardware,M2 x 16 hex socket head bolt + M2 hex nut,4,"Brackets to skull, through-bolted from outside (nut in bracket foot)",
-Hardware,M3 screw supplied with USB-C extension,2,Charge port flange,
-Hardware,M3 x 10 self-tapping pan head,4,Deck to tray,
-Hardware,M2 x 12 hex socket head bolt + M2 hex nut,4,"Pi shelf cubes to skull, in from outside (nut in each cube)",
-Hardware,M3 x 12 self-tapping pan head,4,Tray up through bracket pads,
-Hardware,M2.5 x 12 screw + nut,4,Pi 5 to standoffs,
-Hardware,M2 x 12 hex bolt,4,Crown insert to skull ledge (no handle),
-Hardware,M3 x 16 socket head self-tapping,4,Bridge handle + insert to skull ledge (with handle),
-Hardware,M3 x 20 socket head self-tapping,2,GPIO flashlight + insert front pair (with flashlight),
-Hardware,M3 x 16 socket head self-tapping,5,Neck yoke into the skull rim,
-Hardware,M3 x 8 self-tapping,3,Slip-ring flange to neck base,
-Hardware,M3 x 10 set screw + nut,1,Clamp collar,
-Hardware,M4 bolt (to suit body),4,Neck base to body (76 x 45 rectangle),
-Hardware,6808-2RS bearing 40x52x7,2,Neck base,
-Hardware,Hook-and-loop strap 20-22 mm x ~250 mm,2,Pack to tray,
-Hardware,CA glue,1,Carriers; retainers; bezels; speakers,
-Electronics,Raspberry Pi 5 (4 or 8 GB),1,,
-Electronics,Pi 5 Active Cooler,1,,
-Electronics,microSD 32 GB+,1,,
-Electronics,ROBOTIS DYNAMIXEL XL330-M288-T,2,One reversed in software,
-Electronics,DYNAMIXEL TTL interface (U2D2 or half-duplex buffer),1,On the two left shelf cubes,
-Electronics,GPIO 1-to-2 splitter board (2x20),1,On the Pi header: crown ribbon + I2S amp,
-Electronics,TekGroAml 2.1 in round 480x480 LCD + mini-HDMI driver board (B0DZ2ZKP7B),2,Bought; LCD 56.18x59.71x2.3; board 57 dia round; mini-HDMI + micro-USB on the top edge,
-Electronics,Arducam B0066 mini OV5647 camera (B012QRGUCQ),2,Bought; 8.5 sq head ~12 long; 300 mm 6 mm flex; rigid 16x30 15-pin tail,
-Electronics,Pi 5 22-pin to 15-pin CSI cable,2,Bought 200 mm + 300 mm; needs a 15-pin 1 mm FFC coupler per camera to join the Arducam tail,
-Electronics,15-pin 1 mm FFC coupler / extension board,2,NOT ORDERED; joins Arducam tail to the Pi 5 cable,
-Electronics,Micro-USB to USB-A cable (right-angle) for display power,2,From the Pi 5 USB-A ports; needs usb_max_current_enable=1,
-Electronics,Capsule slip ring 22 mm body (<=30 mm) 44 mm flange 3 holes PCD 35,1,Assumed size; neck base floor,
-Electronics,UCTRONICS U6033 40-pin GPIO ribbon female-to-male 20 cm (B07D991KMR),1,Bought; shrouded male IDC plug 61.1 x 8.4 x 13.0 clicks into the crown insert from below,
-Electronics,Speaker 28 mm 8 ohm 1-2 W <=5 mm deep,2,Assumed size,
-Electronics,MAX98357A I2S amp breakout,1,Mono; both speakers in parallel; centred on the shelf between the speakers,
-Flashlight (optional),2x20 female header 2.54 mm 8.5 mm body,1,Upside down in the saddle onto the crown pins,
-Flashlight (optional),White LED on 20 mm star 1-3 W class,1,Run at ~200 mA,
-Flashlight (optional),20 mm LED optic 30 deg (<=12.5 mm tall),1,Glued into the pod,
-Flashlight (optional),AO3400A N-MOSFET SOT-23,1,Gate from GPIO 12,
-Flashlight (optional),10 ohm 1 W resistor,1,~200 mA from 5 V,
-Flashlight (optional),100 ohm + 10 kohm resistors,2,Gate series + pull-down,
-Flashlight (optional),Perfboard scrap,1,16 mm dia x 7 mm cavity behind the star,
-Flashlight (optional),26-28 AWG silicone wire 3 colours,600 mm,Channel under the strap,
-Power,18650 cell 3000-3500 mAh 10 A+ (Samsung 30Q / Molicel P28A),4,2S2P,
-Power,Nickel strip or pre-built 2S2P pack,1,Max 74.4 x 65 x 18.5 mm + wrap,
-Power,2S balancing BMS 20 A (HW-391) 48 x 20 x 3 mm,1,Deck BMS bay,
-Power,5 V 5 A buck converter Pololu D36V50F5 25.4 x 25.4 mm,2,Pi rail 5.1 V; servo+audio rail,
-Power,2S Li-ion USB-C charger board max 40 x 20 mm,1,Deck charger bay,
-Power,"Charge port: Poyiccot USB-C M/F panel-mount extension 30 cm, right-angle male (B086W2R8Z6)",1,"Lower back of skull, flange inside, 2 x M3 from outside",
-Power,Power switch,1,Location not chosen yet,
-Power,XT30 connector pair,1,,
-Power,18 AWG silicone wire,1 m,,
-Power,22-24 AWG silicone wire,1 m,,
+Category,Item,Qty,Notes,Other
+Printed parts,"Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot, 4 shelf divots, bracket M3 pilots, U-shaped plate between the eyes, shortened barrel tabs, LCD ledge relief) - AMOLED eyes: eye stack 15 mm forward in the barrels",1,01_skull_x1.stl,Solid vol: 567.4 cm3; On plate: 1
+Printed parts,"Skull v7 for the 2.1"" LCD eyes instead (the same skull before the eyes came forward)",1,01_skull_LCD_EYES_x1.stl,Solid vol: 574.0 cm3; On plate: 1 LCD
+Printed parts,Jaw v5 (hex pocket + bore in each arm for the screw-in pins),1,02_jaw_x1.stl,Solid vol: 396.5 cm3; On plate: 2
+Printed parts,"Jaw pivot pin (hex head + bearing pin + D-shaft; same part both sides) - 100 % infill, PETG or tougher (PA / PA-CF / PC), not PLA",2,23_jaw_pin_x2.stl,Solid vol: 5.5 cm3 each; On plate: 2
+Printed parts,"Pi 5 shelf v6 (4 mm standoffs, speaker cradles, 4 cubes on the wings; sits flush with the skull's bottom rim, speaker cradles poking out below)",1,03_pi_shelf_x1.stl,Solid vol: 48.8 cm3; On plate: 3
+Printed parts,Battery tray - 2S2P pack (power bank: see 4b),1,04_battery_tray_x1.stl,Solid vol: 23.4 cm3; On plate: 3
+Printed parts,Electronics deck - 2S2P pack (power bank: see 4b),1,05_battery_deck_x1.stl,Solid vol: 17.1 cm3; On plate: 3
+Printed parts,Crown insert (fills the top slot; the GPIO ribbon's plug clicks into it from below),1,13_crown_insert_x1.stl,Solid vol: 18.7 cm3; On plate: 5
+Printed parts,Bridge handle - optional,1,17_bridge_handle_OPTIONAL_x1.stl,Solid vol: 57.7 cm3; On plate: 5
+Printed parts,"GPIO flashlight - optional, instead of the handle (saddle + strap + forehead lamp pod)",1,18_gpio_flashlight_OPTIONAL_x1.stl,Solid vol: 29.1 cm3; On plate: 7
+Printed parts,"GPIO cover - optional, closes the crown's GPIO well when nothing is plugged in",1,19_gpio_cover_OPTIONAL_x1.stl,Solid vol: 2.6 cm3; On plate: 7
+Printed parts,"Eye X insert - optional, Halloween cap with a raised X for an eye barrel (either eye)",1,20_eye_x_insert_OPTIONAL_x1.stl,Solid vol: 25.2 cm3; On plate: -
+Printed parts,"Neck (yoke + tube, turns with the head)",1,14_neck_x1.stl,Solid vol: 99.5 cm3; On plate: 6
+Printed parts,"Neck base (bearing housing, bolts to the body)",1,15_neck_base_x1.stl,Solid vol: 96.7 cm3; On plate: 6
+Printed parts,Neck clamp collar,1,16_neck_collar_x1.stl,Solid vol: 1.9 cm3; On plate: 6
+Printed parts,"Servo bracket, left (v2, with battery pads)",1,06_servo_bracket_L_x1.stl,Solid vol: 7.0 cm3; On plate: 4
+Printed parts,"Servo bracket, right (v2, with battery pads)",1,07_servo_bracket_R_x1.stl,Solid vol: 7.0 cm3; On plate: 4
+Printed parts,Jaw drive hub (same part both sides),2,08_jaw_drive_hub_x2.stl,Solid vol: 2.5 cm3 each; On plate: 4
+Printed parts,"AMOLED eye harness (holds the whole board; same part both eyes) - AMOLED eyes, black PETG, 4 walls",2,25_eye_amoled_harness_x2.stl,Solid vol: 8.9 cm3 each; On plate: 12
+Printed parts,"Eye display carrier v3 (wide top + bottom slots, side walls only behind the front lip) - LCD eyes",2,09_eye_display_carrier_x2.stl,Solid vol: 2.5 cm3 each; On plate: 4
+Printed parts,"Eye board cradle L and R (handed; hold the LCD and its driver board rigidly, leads tied to the plate; replace the retainer ring) - LCD eyes, PETG, 4 walls",1 + 1,"24_eye_display_cradle_L_x1.stl, 24_eye_display_cradle_R_x1.stl",Solid vol: 10.7 cm3 each; On plate: 11
+Printed parts,"Camera bezel v3 (same part both eyes, turned 180 deg; 8.6 x 12.4 pocket for the Arducam, 6.8 mm cable lane on the back) - print in black",2,11_camera_bezel_x2.stl,Solid vol: 5.2 cm3 each; On plate: 4
+Printed parts,Pupil ring (glues round the camera lens) - print in black,2,12_pupil_ring_x2.stl,Solid vol: 0.3 cm3 each; On plate: 4
+Printed parts (plates),Plate1_skull.3mf,1,"Contents: skull, AMOLED eyes; Footprint: 191 x 183 mm; Height: 144 mm",
+Printed parts (plates),Plate1_skull_LCD_eyes.3mf,1,"Contents: skull, LCD eyes; Footprint: 191 x 183 mm; Height: 144 mm",
+Printed parts (plates),Plate2_jaw.3mf,1,"Contents: jaw, 2 jaw pins; Footprint: 198 x 186 mm; Height: 120 mm",
+Printed parts (plates),Plate3_shelf_battery.3mf,1,"Contents: shelf, battery tray, deck; Footprint: 187 x 194 mm; Height: 25 mm",
+Printed parts (plates),Plate4_small_parts.3mf,1,"Contents: 2 brackets, 2 hubs, 2 carriers (LCD eyes only), 2 bezels, 2 pupil rings; Footprint: 196 x 197 mm; Height: 28 mm",
+Printed parts (plates),Plate5_crown_insert_handle.3mf,1,"Contents: crown insert, bridge handle (skip the handle if you don't want it); Footprint: 58 x 225 mm; Height: 29 mm",
+Printed parts (plates),Plate6_neck.3mf,1,"Contents: neck, neck base, clamp collar; Footprint: 153 x 149 mm; Height: 86 mm",
+Printed parts (plates),Plate7_gpio_flashlight_cover.3mf,1,"Contents: GPIO flashlight, GPIO cover (both optional); Footprint: 86 x 143 mm; Height: 30 mm",
+Printed parts (plates),Plate8_changes_2026-10-16.3mf,1,"Contents: skull (AMOLED), shelf, eye X insert, for a 350 mm bed; Footprint: 267 x 301 mm; Height: 144 mm",
+Printed parts (plates),Plate9_powerbank_tray_deck.3mf,1,Contents: power bank tray and deck (PETG); Footprint: 197 x 81 mm; Height: 32 mm,
+Printed parts (plates),Plate10_display_carriers.3mf,1,Contents: the two LCD carriers; Footprint: 129 x 60 mm; Height: 12 mm,
+Printed parts (plates),Plate11_eye_cradles.3mf,1,"Contents: eye board cradles L and R, LCD eyes (PETG); Footprint: 127 x 65 mm; Height: 32 mm",
+Printed parts (plates),Plate12_amoled_harnesses.3mf,1,Contents: the two AMOLED harnesses (black PETG); Footprint: 129 x 60 mm; Height: 23 mm,
+Hardware,M2 x 12 screw,8,"Couplers (hubs) to servo horns, 4 per side, fitted on the bench before the servos go in",
+Hardware,M2 x 8 screw,8,Servos to brackets (4 per side),
+Hardware,M3 x 5 set screw (grub),4,"Hub to D-shaft (2), and one into the back edge of each jaw arm to lock its pivot pin (2)",
+Hardware,"M3 x 16 self-tapping, pan head",4,Brackets to skull wall,
+Hardware,M2 x 16 hex socket head bolt + M2 hex nut,4 + 4,"Brackets to skull, through-bolted: in from outside the skull (counterbored flush), nut in the hex pocket in each bracket foot (2 per side)",
+Hardware,M2 x 12 hex socket head bolt + M2 hex nut,4 + 4,"Pi shelf cubes to the skull: nut dropped into the slot in each cube's top, cube slid up into its divot, bolt in from outside the skull (counterbored flush) (2 per side)",
+Hardware,"M3 x 12 self-tapping, pan head",4,Battery tray up through the bracket pads,
+Hardware,"M3 x 10 self-tapping, pan head",4,Deck to battery tray,
+Hardware,M2.5 x 12 screw + M2.5 nut,4 + 4,Pi 5 to shelf standoffs (nut under the plate),
+Hardware,M2 x 12 hex bolt,4,Crown insert down into the skull ledge bosses (no handle),
+Hardware,"M3 x 16 socket head, self-tapping",4,Bridge handle + insert into the ledge bosses (only with the handle),
+Hardware,"M3 x 20 socket head, self-tapping",2,"GPIO flashlight + insert, front pair only (only with the flashlight; the rear pair stay M2 x 12 hex bolts)",
+Hardware,"M3 x 16 socket head, self-tapping",5,Neck yoke up into the skull's rear rim,
+Hardware,M3 x 8 self-tapping,3,Slip-ring flange to the neck base floor,
+Hardware,M3 x 10 set screw + M3 nut,1 + 1,Clamp collar onto the neck tube (nut in the collar's slot),
+Hardware,"M3 screw, supplied with the USB-C extension (11 mm)",2,Charge port: from outside the skull into the flange,
+Hardware,M4 bolt (length to suit your body),4,Neck base to the body/stand (76 x 45 mm rectangle),
+Hardware,"6808-2RS bearing, 40 x 52 x 7",2,Neck base,
+Hardware,"Hook-and-loop strap, 20-22 mm wide, ~250 mm",2,Pack to tray,
+Hardware,CA glue (medium),1,"Display carriers and eye board cradles (LCD) or harnesses (AMOLED), bezels, pupil rings, speakers",
+Hardware,"Zip ties, 2.5 mm wide, short",4 (LCD) / 2 (AMOLED),LCD: HDMI and USB leads to each cradle's tie plate. AMOLED: each USB-C lead to its harness tongue,
+Electronics,Raspberry Pi 5 (4 or 8 GB),1,"85 x 56 mm board. Mount it with the GPIO header along the front edge (towards the eyes), USB/Ethernet at the -X end",
+Electronics,Pi 5 Active Cooler,1,"Stack fit-checked at 14 mm, USB/Ethernet block at 16 mm",
+Electronics,"microSD card, 32 GB+",1,,
+Electronics,ROBOTIS DYNAMIXEL XL330-M288-T,2,"Horns included. Run in tandem, one reversed",
+Electronics,"DYNAMIXEL TTL interface (ROBOTIS U2D2, or a half-duplex buffer on the Pi UART)",1,"On the two left shelf cubes, above the left wing (fit-checked at U2D2 size, 48 x 18 x 15), foam tape",
+Electronics,GPIO 1-to-2 splitter board (2x20),1,"On the Pi header: one header for the crown ribbon, one for the I2S amp",
+Electronics,"LCD eyes: TekGroAml 2.1"" round 480 x 480 LCD + mini-HDMI driver board (Amazon B0DZ2ZKP7B)",2,"Bought. LCD 56.18 x 59.71 x 2.3 mm (53.28 active) with a 26.9 mm, 40-pin flex off the bottom. Driver board is round, 57 mm dia, 4 x M2.5 holes (2.5 mm), mini-HDMI (11.5 wide) and micro-USB (8 wide) on the edge opposite the flex connector, each angled 15 deg - so they splay apart. Mount each LCD + board turned 180 deg (LCD flex at the top, plugs pointing down) and flip the picture on the Pi with a 180 deg display rotation: flex-down puts the outboard plug only 8-10 mm from the barrel skin. The barrels' inboard walls are open above the camera slot so the LCD ribbon can swing past while you turn it. 5 V 1 A+",
+Electronics,"LCD eyes: eye leads, chenyang CYFPV micro-HDMI to mini-HDMI FPC flat cable, 0.5 m (Amazon B01EWP9EA0) + chenyang micro-USB flat ribbon, USB-A to 90 deg UP-angled micro-USB (Amazon B096YDCSCW / B096YBZCKS)",2 + 2,"Bought. Each board end is a 90 deg plug on a small flat PCB with a ZIF latch for the 0.1 mm ribbon. Both ribbons must run back into the head over the cradle's tie plate: the micro-USB end is UP-angled, but the chenyang HDMI end is DOWN-angled and sends that ribbon forward at the LCD, so swap it for the NGFF CN-017-UP mini-HDMI UP-angled end (Amazon B0GZJ41721, 5-pack, bought 2026-11-10; refit the same ribbon). The ribbons tear if creased or pulled: bend them round, never fold them, and zip-tie them to the cradle's plate",
+Electronics,"AMOLED eyes, instead of the two rows above: Waveshare ESP32-S3-Touch-AMOLED-1.75 (466 x 466 round AMOLED, capacitive touch, ESP32-S3, one USB-C)",2,Not bought. (assumed) 48.96 dia x 10.4 deep with the USB-C centred on the back (Core Electronics listing): check yours against eye_amoled.py before printing the harness. Needs eye firmware on the board (not written yet),
+Electronics,"AMOLED eyes: USB-A to 90 deg USB-C lead, the C end pointing down",1 x 150 mm + 1 x 200 mm,Left and right eye to the Pi's USB-A ports; power and data on one lead,
+Electronics,"Arducam B0066 mini camera, OV5647 5 MP (Amazon B012QRGUCQ)",2,"Bought. 8.5 mm square head, ~12 mm long with the crystal behind it; 300 mm, 6 mm wide flex ending in a rigid 16 x 30 mm 15-pin (1 mm pitch) tail",
+Electronics,"Pi 5 CSI cable, 22-pin to 15-pin",2,"Bought: Wonrabai 200 mm and Waveshare 300 mm. The Arducam's own 300 mm flex passes through the 26.5 x 7.5 mm slot in each barrel. Both the Arducam end and these cables' 15-pin end are bare flex tails, so joining them needs a 15-pin 1 mm FFC coupler (extension board) per camera - not on the order",
+Electronics,"Capsule slip ring, 22 mm body, max 30 mm tall, 44 mm flange with 3 holes on 35 mm PCD (e.g. 12-circuit, 2 A)",1,"(assumed) Bolts to the neck base floor; rotating wires run up the 26 mm tube bore into the head, fixed wires leave through the base",
+Electronics,"40-pin GPIO extension ribbon, female-to-male, 20 cm: UCTRONICS U6033 (Amazon B07D991KMR)",1,"Bought. Female end on the Pi header. The male end is a standard shrouded 2.54 mm male IDC plug, 61.1 x 8.4 x 13.0 mm (Wurth WR-BHD 612 040 258 21 outline; shroud cavity 56.1 x 6.3), the ribbon leaving one long side near the bottom. It clicks into the crown insert from below, no glue",
+Electronics,"Speaker, 28 mm round, 8 ohm, 1-2 W, 5 mm deep max",2,(assumed),
+Electronics,"I2S amplifier, MAX98357A breakout",1,"Mono: drives both speakers wired in parallel (4 ohm load). The Pi 5 has no analog audio. Flat on the shelf, centred between the speakers, foam tape. Leave SD open on an Adafruit board; on a clone with no SD pull-up add 1 Mohm SD to Vin",
+Electronics,"2x20 female pin header, 2.54 mm pitch, 8.5 mm body, standard tails",1,"Fitted upside down in the saddle, onto the crown pins",
+Electronics,"White LED on a 20 mm aluminium star, 1-3 W class (e.g. Cree XP-G / XP-E)",1,"Run at about 200 mA (~0.6 W, 60-70 lm), so it stays cool enough in a PETG pod",
+Electronics,"20 mm LED optic for star LEDs, 30 deg, up to 12.5 mm tall",1,Glued into the front of the pod,
+Electronics,"AO3400A logic-level N-MOSFET (SOT-23), on a small adapter or perfboard",1,"Low-side switch, gate from GPIO 12",
+Electronics,10 ohm 1 W resistor,1,Sets about 200 mA from 5 V,
+Electronics,100 ohm and 10 kohm resistors,1 each,Gate series and gate pull-down,
+Electronics,"Perfboard, cut to fit a 16 mm dia x 7 mm cavity",1,Behind the LED star,
+Electronics,"26-28 AWG silicone wire, 3 colours",~200 mm each,"Header tails to the pod, in the channel under the strap",
+Power,"18650 cell, 3000-3500 mAh, 10 A+ (Samsung 30Q, Molicel P28A)",4,"Built as 2S2P, 7.2 V, 43-50 Wh",
+Power,"Nickel strip + spot welding, or a pre-built 2S2P 18650 pack",1,Pack must fit 74.4 x 65 x 18.5 mm plus wrap,
+Power,"2S BMS with balancing, 20 A (HW-391, 48 x 20 x 3 mm)",1,Sits in the deck's BMS bay,
+Power,"5 V 5 A step-down converter, Pololu D36V50F5 (25.4 x 25.4 x 9.5 mm)",2,"One for the Pi (set 5.1 V), one for servos and audio",
+Power,"2S Li-ion USB-C charger board, 5 V in, board max 40 x 20 mm",1,Sits in the deck's charger bay,
+Power,"Charge port: Poyiccot USB-C male-to-female panel-mount extension, 30 cm, right-angle male (Amazon B086W2R8Z6)",1,"Bought. Female end mounts inside the lower back of the skull (X 0, Z -14), flange (25 x 8, long axis horizontal, M3 holes 16.6 apart side by side) on a flat seat, 2 x M3 from outside into the flange. Right-angle male end plugs into the charger board on the deck. The supplied screws are 11 mm (8 mm into the flange): if they bottom out, use M3 x 8",
+Power,Power switch (rocker or slide),1,Location not chosen yet,
+Power,XT30 connector pair,1,Pack to power boards,
+Power,18 AWG silicone wire (red/black),~1 m,"Pack, converters, servo rail",
+Power,22-24 AWG silicone wire,~1 m,"Pi power, signals",
 Power,Heat-shrink assortment,1,,
-Cable,Pack leads (XT30 + balance),1,Route 199 mm; envelope 6.0 mm; gap 0.25 mm,Buy 300 mm
-Cable,Slip-ring bundle to deck,1,Route 198 mm; envelope 6.0 mm; gap 1.11 mm,Buy 300 mm
-Cable,Pi buck -> Pi 5 USB-C,1,Route 151 mm; envelope 4.0 mm; gap 0.48 mm,Buy 250 mm
-Cable,Servo buck -> servo R,1,Route 136 mm; envelope 3.0 mm; gap 0.78 mm,Buy 200 mm
-Cable,USB: Pi 5 -> TTL interface,1,Route 59 mm; envelope 4.0 mm; gap 1.99 mm,Buy 100 mm
-Cable,DYNAMIXEL: interface -> servo L,1,Route 80 mm; envelope 3.0 mm; gap 1.26 mm,Buy 150 mm
-Cable,DYNAMIXEL: servo L -> servo R,1,Route 45 mm; envelope 3.0 mm; gap 1.27 mm,Buy 100 mm
-Cable,Camera L ribbon -> CAM/DISP 0,1,Route 136 mm; envelope 4.0 mm; gap 0.77 mm,Buy 200 mm
-Cable,Camera R ribbon -> CAM/DISP 1,1,Route 180 mm; envelope 4.0 mm; gap 1.45 mm,Buy 250 mm
-Cable,Display L -> micro-HDMI 1,1,Route 152 mm; envelope 6.0 mm; gap 0.19 mm,Buy 250 mm
-Cable,Display R -> micro-HDMI 0,1,Route 150 mm; envelope 6.0 mm; gap 2.31 mm,Buy 250 mm
-Cable,Speaker L -> amp,1,Route 28 mm; envelope 2.5 mm; gap 3.25 mm,Buy 75 mm
-Cable,Speaker R -> amp,1,Route 26 mm; envelope 2.5 mm; gap 3.08 mm,Buy 75 mm
-Cable,Amp (I2S) -> GPIO splitter,1,Route 27 mm; envelope 3.0 mm; gap 5.05 mm,Buy 75 mm
+Secondary setup: bought power bank instead of the pack,"INIU Pocket Rocket P50 power bank, 10000 mAh, 45 W (83.6 x 53.1 x 25.4 mm)",1,The tray bay is 84.6 x 54.1. Measure your unit: other banks fit if they are no bigger than that and have a USB-C port that gives 15 V 3 A on its own,
+Secondary setup: bought power bank instead of the pack,"USB-C PD trigger board, fixed or set to 15 V, max 32 x 14 x 5 mm",1,In the deck's trigger bay,
+Secondary setup: bought power bank instead of the pack,Printed: power bank tray 21_battery_tray_POWERBANK_x1.stl and deck 22_battery_deck_POWERBANK_x1.stl,1 each,"Instead of parts 04 and 05. PETG. Both print as installed with no supports: the tray floor down (102.8 x 80.6 x 32 mm), the deck plate down",
+Secondary setup: bought power bank instead of the pack,"M3 x 12 self-tapping, pan head",2,Tray up through the rear bracket pads,
+Secondary setup: bought power bank instead of the pack,"M3 x 10 self-tapping, pan head",2 + 4,"Tray up through the front bracket pads (the floor there is only 6 mm thick), and the deck down into the tray posts",
+Secondary setup: bought power bank instead of the pack,"Foam pad, 1 mm, ~80 x 50 mm",1,On top of the bank: the deck clamps the bank down through it,
+Cable,Pack leads (XT30 + balance),1,Setups pack; envelope 6 mm; route 189 mm; gap 0.25 mm,Buy 250 mm
+Cable,Slip-ring bundle to deck,1,Setups pack; envelope 6 mm; route 197 mm; gap 0.61 mm,Buy 300 mm
+Cable,Pi buck -> Pi 5 USB-C,1,Setups pack; envelope 4 mm; route 175 mm; gap 0.48 mm,Buy 250 mm
+Cable,Servo buck -> servo R,1,Setups pack; envelope 3 mm; route 133 mm; gap 0.78 mm,Buy 200 mm
+Cable,USB: Pi 5 -> TTL interface,1,Setups all; envelope 4 mm; route 65 mm; gap 0.85 mm,Buy 150 mm
+Cable,DYNAMIXEL: interface -> servo L,1,Setups pack; envelope 3 mm; route 77 mm; gap 1.41 mm,Buy 150 mm
+Cable,DYNAMIXEL: servo L -> servo R,1,Setups pack; envelope 3 mm; route 47 mm; gap 1.27 mm,Buy 100 mm
+Cable,Camera L ribbon -> CAM/DISP 0,1,Setups LCD eyes; envelope 4 mm; route 131 mm; gap 0.30 mm,Buy 200 mm
+Cable,Camera R ribbon -> CAM/DISP 1,1,Setups LCD eyes; envelope 4 mm; route 151 mm; gap 0.00 mm,Buy 250 mm
+Cable,Display L -> micro-HDMI 1,1,Setups LCD eyes; envelope 4 mm; route 111 mm; gap 0.30 mm,Buy 200 mm
+Cable,Display R -> micro-HDMI 0,1,Setups pack + LCD; envelope 4 mm; route 123 mm; gap 1.43 mm,Buy 200 mm
+Cable,Display L power -> Pi USB-A,1,Setups LCD eyes; envelope 4 mm; route 58 mm; gap 1.80 mm,Buy 100 mm
+Cable,Display R power -> Pi USB-A,1,Setups LCD eyes; envelope 4 mm; route 136 mm; gap 0.94 mm,Buy 200 mm
+Cable,Speaker L -> amp,1,Setups all; envelope 2.5 mm; route 27 mm; gap 2.20 mm,Buy 75 mm
+Cable,Speaker R -> amp,1,Setups all; envelope 2.5 mm; route 25 mm; gap 2.45 mm,Buy 75 mm
+Cable,Amp (I2S) -> GPIO splitter,1,Setups LCD eyes; envelope 3 mm; route 25 mm; gap 4.94 mm,Buy 75 mm
+Cable,Charge port -> bank USB-C (extension),1,Setups power bank; envelope 4 mm; route 108 mm; gap 0.43 mm,Buy 200 mm
+Cable,Bank USB-C -> PD trigger,1,Setups power bank; envelope 4 mm; route 72 mm; gap 0.55 mm,Buy 150 mm
+Cable,Slip-ring bundle to deck,1,Setups power bank; envelope 6 mm; route 108 mm; gap 1.96 mm,Buy 200 mm
+Cable,Pi buck -> Pi 5 USB-C,1,Setups power bank; envelope 4 mm; route 135 mm; gap 0.44 mm,Buy 200 mm
+Cable,Servo buck -> servo R,1,Setups power bank; envelope 3 mm; route 103 mm; gap 0.45 mm,Buy 150 mm
+Cable,DYNAMIXEL: interface -> servo L,1,Setups power bank; envelope 3 mm; route 79 mm; gap 1.27 mm,Buy 150 mm
+Cable,DYNAMIXEL: servo L -> servo R,1,Setups power bank; envelope 3 mm; route 48 mm; gap 1.27 mm,Buy 100 mm
+Cable,Display R -> micro-HDMI 0,1,Setups power bank + LCD; envelope 4 mm; route 103 mm; gap 0.30 mm,Buy 150 mm
+Cable,Camera L ribbon -> CAM/DISP 0,1,Setups AMOLED eyes; envelope 4 mm; route 144 mm; gap 0.30 mm,Buy 200 mm
+Cable,Camera R ribbon -> CAM/DISP 1,1,Setups AMOLED eyes; envelope 4 mm; route 163 mm; gap 0.00 mm,Buy 250 mm
+Cable,Eye L USB-C -> Pi USB-A,1,Setups AMOLED eyes; envelope 4 mm; route 68 mm; gap 2.72 mm,Buy 150 mm
+Cable,Eye R USB-C -> Pi USB-A,1,Setups AMOLED eyes; envelope 4 mm; route 147 mm; gap 4.16 mm,Buy 200 mm
+Cable,Amp (I2S) -> GPIO splitter,1,Setups AMOLED eyes; envelope 3 mm; route 27 mm; gap 4.94 mm,Buy 75 mm
+Cable,"GPIO ribbon, Pi to crown (female-to-male)",1,"Setups all; envelope flat, 51 wide mm; route ~110 mm; gap 0.3 mm",Buy 200 mm

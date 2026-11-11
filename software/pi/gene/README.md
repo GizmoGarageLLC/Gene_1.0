@@ -7,7 +7,7 @@ Everything that runs Gene on the Raspberry Pi 5 (`~/gene` on the Pi). It covers 
 | `gene_client.py` | The conversation loop: mic, speech-to-text, brain, Piper voice. Run by `gene.service`. |
 | `gene_brain.py` | The only place that talks to a language model: Claude first, the Jetson's Ollama model as the fallback. |
 | `gene_tts.py`, `piper/voices/gene.onnx` | Gene's own trained Piper voice, plus mouth shapes (visemes) for the jaw. |
-| `gene_eyes.py` | The two round eye screens: faces, lids, winks, rotation. Run by `gene-eyes.service`. |
+| `gene_eyes.py` | The two round eye screens: faces, lids, winks, rotation. Run by `gene-eyes.service`. Drives the **2.1" LCD eyes** over HDMI. The 1.75" AMOLED eye option (see the top-level README) needs this drawing ported to firmware on each board's ESP32-S3, with the Pi sending expression, lids, gaze and tilt over USB serial; that isn't written yet. |
 | `gene_cameras.py`, `gene_vision.py` | The eye cameras: object detection every few seconds, and real looks when asked. |
 | `gene_memory.py`, `gene_graph.py` | Long-term memory and a knowledge graph. |
 | `upgrade.py` | Self-upgrades. It runs Claude Code, restarts Gene and rolls back if he doesn't come back up. |

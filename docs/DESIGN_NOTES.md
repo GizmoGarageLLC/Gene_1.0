@@ -398,13 +398,33 @@ relief and the inboard camera-ribbon slot run 15 mm further forward. The outside
 points) and the sim page (screen, lens and beam positions) shift them by `EYE_DY`. Old skull kept as
 `tools/retired/GeneTop_v7_before_eyes_forward.stl`.
 
-**Decision: this skull is for the 1.75" AMOLED eyes only.** The 2.1" LCD eyes don't fit it: moved forward, the cradle's and driver boards' bottoms (plugs, r > 30 at
-Z -30) run into the bottom of the barrel wall: cradle R 203 mm3, driver boards 52 / 31 mm3 (all were 0.6-1.8 mm clear before), and
-the LCD flex ledge at the top of the glass overlaps 21.5 mm3 a side (10.7 before). The 1.75" AMOLED setups are clean. For LCD eyes,
-print `tools/retired/GeneTop_v7_before_eyes_forward.stl` instead (eyes in the old place). The sim keeps the LCD setup for comparison.
+**Decision: two skulls, one per eye option.** The 2.1" LCD eyes don't fit the forward skull. Moved forward, the bottoms of the cradle
+and driver boards (plugs at r > 30, Z -30) run into the bottom of the barrel wall: cradle R 203 mm3, driver boards 52 / 31 mm3. Before
+the move all three were 0.6-1.8 mm clear. The LCD flex ledge at the top of the glass would also overlap 21.5 mm3 a side, against
+10.7 before. So:
+- `skull.stl` (print `01_skull_x1.stl`, Plate 1): eyes 15 mm forward, for the **1.75" AMOLED** eyes.
+- `skull_lcd.stl` (print `01_skull_LCD_EYES_x1.stl`, Plate 1 LCD): the skull from before this change, eyes in the old place, for
+  the **2.1" LCD** eyes. It is a byte-for-byte copy of `tools/retired/GeneTop_v7_before_eyes_forward.stl`, 573.98 cm3.
 
-Cables (both eye setups): LCD power lead L now 67 mm (buy 150, was 100); camera ribbons 144 / 163 mm, same buy lengths.
-Mass, default sim build: pack + LCD 1326 g, power bank + LCD 1277 g, pack + AMOLED 1272 g, power bank + AMOLED 1224 g.
+`parts.py` loads the skull that matches `GENE_EYES` and sets the eye shift per option: -15 mm for AMOLED, 0 for LCD. `route.py` and
+the sim do the same. The sim moves the whole eye rig (lenses, screens, POV cameras and beams) by -15 mm when AMOLED is picked.
+`eye_cradle.py` cuts the cradles against `skull_lcd.stl`, so the LCD cradles, their print files and Plate 11 are unchanged from
+`3a57384`. The LCD setups' check, route and cable results are identical to the ones from before the move. The 10.7 mm3 LCD flex-ledge
+overlap is the mock's ledge being boxier than the real one; the ledge relief covers it. **Any later change to the shared parts of the
+skull (shell, crown, neck pilots, ports) has to be made to both skulls.**
+
+Cables:
+
+| Run | LCD eyes (old skull) | AMOLED eyes (forward skull) |
+|---|---|---|
+| Camera L ribbon | 131 mm, buy 200 | 144 mm, buy 200 |
+| Camera R ribbon | 151 mm, buy 250 | 163 mm, buy 250 |
+| Display L power / Eye L USB-C | 58 mm, buy 100 | 68 mm, buy 150 |
+| Display R power / Eye R USB-C | 136 mm, buy 200 | 147 mm, buy 200 |
+| Display L / R HDMI | 111 / 123 mm, buy 200 | none |
+
+Mass, default sim build (GPIO cover on, no flashlight, handle or neck): pack + LCD 1326 g, power bank + LCD 1275 g, pack + AMOLED 1272 g,
+power bank + AMOLED 1224 g.
 
 # Pi 5, speakers, and eye cameras
 
