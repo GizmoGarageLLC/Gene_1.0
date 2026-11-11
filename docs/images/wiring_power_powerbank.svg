@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1060" width="1100" height="1060" font-family="Helvetica, Arial, sans-serif" font-size="14">
+  <title>Gene 1.0 - power bank option: INIU P50, 15 V PD trigger and buck converters wiring</title>
+  <rect width="1100" height="1060" fill="#ffffff"/>
+  <text x="40" y="38" font-size="20" font-weight="bold" fill="#1a1a1a">Power, power bank option: INIU P50 → 15 V PD trigger → switch → 2 × 5 V buck</text>
+  <text x="40" y="60" font-size="13" fill="#555">Replaces the 2S2P pack, BMS and charger. Bank in its own tray, ports at Gene's left (+X). Red = positive, black = negative, green = USB-C.</text>
+
+  <!-- Power bank -->
+  <rect x="40" y="110" width="230" height="300" rx="10" fill="#e8f3ea" stroke="#2e7d32" stroke-width="2"/>
+  <text x="52" y="136" font-weight="bold" fill="#1b5e20">INIU Pocket Rocket P50</text>
+  <text x="52" y="156" font-size="12" fill="#2e7d32">10000 mAh · 45 W</text>
+  <text x="52" y="172" font-size="12" fill="#2e7d32">83.6 × 53.1 × 25.4 mm</text>
+  <text x="52" y="188" font-size="12" fill="#2e7d32">tray 21_battery_tray_POWERBANK</text>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end">
+    <text x="262" y="236">USB-C 1 (in / out)</text>
+    <text x="262" y="316">USB-C 2 (out)</text>
+    <text x="262" y="386" fill="#888">USB-A: don't use</text>
+  </g>
+  <g fill="#1a1a1a"><circle cx="270" cy="240" r="4"/><circle cx="270" cy="320" r="4"/></g>
+  <circle cx="270" cy="390" r="4" fill="#fff" stroke="#888" stroke-width="1.5"/>
+  <text x="52" y="400" font-size="11" fill="#555">~37 Wh usable · ~2 h talking</text>
+
+  <!-- Charge port -->
+  <rect x="380" y="200" width="230" height="74" rx="8" fill="#f3f3f3" stroke="#555" stroke-width="2"/>
+  <text x="392" y="224" font-weight="bold" fill="#1a1a1a">USB-C charge port</text>
+  <text x="392" y="242" font-size="12" fill="#555">panel-mount extension</text>
+  <text x="392" y="258" font-size="12" fill="#555">lower back of skull</text>
+  <path d="M274 240 H380" stroke="#2e9e5b" stroke-width="4" fill="none"/>
+  <text x="327" y="192" font-size="10" text-anchor="middle" fill="#2e9e5b">90° male end</text>
+  <text x="327" y="204" font-size="10" text-anchor="middle" fill="#2e9e5b">routed 108 mm</text>
+
+  <!-- PD trigger -->
+  <rect x="380" y="300" width="230" height="110" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="495" y="330" font-weight="bold" text-anchor="middle" fill="#e65100">USB-C PD trigger</text>
+  <text x="495" y="348" font-size="12" text-anchor="middle" fill="#ef6c00">set to 15 V</text>
+  <text x="495" y="364" font-size="12" text-anchor="middle" fill="#ef6c00">deck trigger bay (33 × 15)</text>
+  <g font-size="12" fill="#1a1a1a"><text x="386" y="318">USB-C</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="604" y="338">V+</text></g>
+  <text x="430" y="400" font-size="12" text-anchor="middle" fill="#1a1a1a">GND</text>
+  <path d="M274 320 H380" stroke="#2e9e5b" stroke-width="4" fill="none"/>
+  <text x="327" y="346" font-size="10" text-anchor="middle" fill="#2e9e5b">C-to-C, 150 mm</text>
+  <text x="327" y="358" font-size="10" text-anchor="middle" fill="#2e9e5b">routed 72 mm</text>
+
+  <!-- V+ line: switch, fuse, to the bucks -->
+  <g stroke-width="3" fill="none" stroke="#d32f2f">
+    <path d="M610 334 H760"/>
+    <path d="M830 334 H875 M935 334 H1070 V510 H450 V735 M450 585 H520 M450 735 H520"/>
+    <line x1="764" y1="332" x2="822" y2="310"/>
+  </g>
+  <circle cx="450" cy="585" r="5" fill="#d32f2f"/>
+  <circle cx="760" cy="334" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="830" cy="334" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="795" y="286" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">power switch</text>
+  <text x="795" y="302" font-size="11" text-anchor="middle" fill="#555">2-wire · location TBD</text>
+  <rect x="865" y="300" width="80" height="68" rx="6" fill="none" stroke="#888" stroke-dasharray="5 4"/>
+  <rect x="875" y="325" width="60" height="18" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="875" y1="334" x2="935" y2="334" stroke="#1a1a1a" stroke-width="1"/>
+  <text x="905" y="316" font-size="11" text-anchor="middle" fill="#1a1a1a">fuse 5 A</text>
+  <text x="905" y="362" font-size="10" text-anchor="middle" fill="#888">recommended</text>
+  <text x="640" y="326" font-size="12" fill="#d32f2f">15 V · 18 AWG</text>
+
+  <!-- GND: trigger to both bucks (hops over the V+ riser) -->
+  <g stroke-width="3" fill="none" stroke="#1a1a1a">
+    <path d="M430 410 V785 H520"/>
+    <path d="M430 635 H444 A6 6 0 0 1 456 635 H520"/>
+  </g>
+  <circle cx="430" cy="635" r="5" fill="#1a1a1a"/>
+  <text x="420" y="470" font-size="12" text-anchor="end" fill="#1a1a1a">trigger GND · 18 AWG</text>
+
+  <!-- Bucks -->
+  <rect x="520" y="560" width="180" height="100" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="610" y="602" font-weight="bold" text-anchor="middle" fill="#4a148c">Buck A: Pi rail</text>
+  <text x="610" y="620" font-size="12" text-anchor="middle" fill="#7b1fa2">Pololu D36V50F5, 5 V 5 A</text>
+  <g font-size="12" fill="#1a1a1a"><text x="526" y="580">VIN</text><text x="526" y="654">GND</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="694" y="580">VOUT</text><text x="694" y="654">GND</text></g>
+
+  <rect x="520" y="710" width="180" height="100" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="610" y="752" font-weight="bold" text-anchor="middle" fill="#4a148c">Buck B: servo rail</text>
+  <text x="610" y="770" font-size="12" text-anchor="middle" fill="#7b1fa2">Pololu D36V50F5, 5 V 5 A</text>
+  <g font-size="12" fill="#1a1a1a"><text x="526" y="730">VIN</text><text x="526" y="804">GND</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="694" y="730">VOUT</text><text x="694" y="804">GND</text></g>
+  <text x="610" y="836" font-size="11" text-anchor="middle" fill="#555">deck bays at X −21.2 and +14.2, share the middle zip-tie slot</text>
+
+  <!-- Buck outputs -->
+  <g stroke-width="3" fill="none">
+    <path d="M700 585 H760" stroke="#d32f2f"/><path d="M700 635 H760" stroke="#1a1a1a"/>
+    <path d="M700 735 H760" stroke="#d32f2f"/><path d="M700 785 H760" stroke="#1a1a1a"/>
+  </g>
+  <rect x="760" y="550" width="310" height="120" rx="8" fill="#fafafa" stroke="#999"/>
+  <text x="772" y="572" font-weight="bold" fill="#1a1a1a">5 V Pi rail (~3.5 A peak)</text>
+  <g font-size="12" fill="#1a1a1a">
+    <text x="772" y="594">→ Pi 5 USB-C (pigtail, 200 mm, 20–22 AWG)</text>
+    <text x="772" y="614">→ 2 × eyes, via the Pi's USB-A ports</text>
+    <text x="772" y="634">→ amp Vin, via Pi header pin 4 (audio diagram)</text>
+    <text x="772" y="654" fill="#555">→ crown flashlight, via the GPIO ribbon 5 V</text>
+  </g>
+  <rect x="760" y="700" width="310" height="120" rx="8" fill="#fafafa" stroke="#999"/>
+  <text x="772" y="722" font-weight="bold" fill="#1a1a1a">5 V servo rail (~3 A stall)</text>
+  <g font-size="12" fill="#1a1a1a">
+    <text x="772" y="744">→ XL330 VDD + GND, fed in at servo R</text>
+    <text x="772" y="762" fill="#555">   (150 mm, 18 AWG, into servo R's</text>
+    <text x="772" y="778" fill="#555">   free port)</text>
+    <text x="772" y="800">U2D2 → servo L carries DATA + GND only</text>
+  </g>
+
+  <!-- Notes -->
+  <rect x="40" y="860" width="1030" height="186" rx="8" fill="#fff8e1" stroke="#f9a825"/>
+  <g font-size="13" fill="#1a1a1a">
+    <text x="56" y="884">1. Use one USB-C output only, never the USB-A. With two outputs in use the P50 drops to 15 W in total. One USB-C gives 45 W (15 V 3 A); Gene's 36 W peak is 2.4 A.</text>
+    <text x="56" y="906">2. Before connecting the bucks, plug the trigger into the bank and meter V+ to GND: 15 V is right. 5 V means it didn't negotiate, so check its setting.</text>
+    <text x="56" y="928">3. Charge through the port with Gene switched off. The bank's output drops briefly when a charger goes in or out, which reboots the Pi.</text>
+    <text x="56" y="950">4. Bench test before this is final: off for a few minutes, then on. If the bank has gone to sleep, the switch must break the USB-C link (VBUS + CC) instead.</text>
+    <text x="56" y="972">5. All grounds meet at the trigger's GND; the Pi and servo grounds also join through the U2D2's USB. Set usb_max_current_enable=1 in config.txt.</text>
+    <text x="56" y="994">6. D36V50F5: leave EN and PG unconnected. First power-up: bucks with no loads, check 5.0 V and polarity, then plug in the Pi and the servos.</text>
+    <text x="56" y="1016">7. Not needed with the bank: 18650 cells, nickel strip, BMS, charger board, XT30s, balance lead and the pack straps.</text>
+    <text x="56" y="1036" fill="#555">   After the bucks, everything is as in the loads diagram (LCD eyes) or the AMOLED loads diagram.</text>
+  </g>
+</svg>

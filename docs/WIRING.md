@@ -1,6 +1,15 @@
 # Wiring
 
-Four diagrams: the audio chain (Pi 5 → I2S amp → speakers), the power stack (pack → BMS → switch → bucks, with USB-C charging), what hangs off the two bucks, and building the pack. Then the two option sections: the power bank instead of the pack, and the 1.75" AMOLED eyes instead of the LCDs. Cable lengths to buy are in [`BOM.md`](BOM.md) section 5.
+Six diagrams: the audio chain (Pi 5 → I2S amp → speakers), the power stack (pack → BMS → switch → bucks, with USB-C charging), what hangs off the two bucks, and building the pack. Then the two option sections, each with its own diagram: the power bank instead of the pack, and the 1.75" AMOLED eyes instead of the LCDs. Cable lengths to buy are in [`BOM.md`](BOM.md) section 5.
+
+Which diagrams to follow for your setup:
+
+| Setup | Audio | Power | After the bucks | Pack build |
+|---|---|---|---|---|
+| pack + LCD | [audio](images/wiring_audio.svg) | [power](images/wiring_power.svg) | [loads](images/wiring_loads.svg) | [pack](images/wiring_pack.svg) |
+| power bank + LCD | [audio](images/wiring_audio.svg) | [power bank](images/wiring_power_powerbank.svg) | [loads](images/wiring_loads.svg) | none |
+| pack + AMOLED | [audio](images/wiring_audio.svg) | [power](images/wiring_power.svg) | [AMOLED loads](images/wiring_loads_amoled.svg) | [pack](images/wiring_pack.svg) |
+| power bank + AMOLED | [audio](images/wiring_audio.svg) | [power bank](images/wiring_power_powerbank.svg) | [AMOLED loads](images/wiring_loads_amoled.svg) | none |
 
 ## Audio: Pi 5, MAX98357A, speakers
 
@@ -73,6 +82,8 @@ Four 18650s sit side by side in the tray. A and B face + forward and C and D fac
 
 A bought power bank can replace the pack, the BMS and the charger board. The bank fitted for is the **INIU Pocket Rocket P50** (10000 mAh, 45 W, 83.6 x 53.1 x 25.4 mm). It lies across the head in its own tray (`21_battery_tray_POWERBANK_x1.stl`), with its ports at Gene's left (+X) end. One USB-C output goes into a **15 V USB-C PD trigger board**. From the trigger's output onwards the wiring is the same as the pack's: switch, fuse, both D36V50F5 bucks, then everything in the loads diagram.
 
+![Power bank wiring](images/wiring_power_powerbank.svg)
+
 | From | To | Wire |
 |---|---|---|
 | USB-C charge port extension (right-angle male) | The bank's in/out USB-C (the port that charges the bank) | as supplied. Routed 108 mm, so the 30 cm lead has plenty of slack |
@@ -92,6 +103,8 @@ A bought power bank can replace the pack, the BMS and the charger board. The ban
 ## Eyes option: 1.75" AMOLED boards instead of the LCDs
 
 Each Waveshare ESP32-S3-Touch-AMOLED-1.75 board is a whole eye: panel, touch, ESP32-S3 and one USB-C socket on its back. One lead per eye does power and data, so the two micro-HDMI FPC ribbons, the two micro-USB power ribbons and both driver boards go.
+
+![AMOLED eyes loads wiring](images/wiring_loads_amoled.svg)
 
 | From | To | Cable |
 |---|---|---|
